@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Docker学习笔记(一)-什么是Docker?</title>
+      <link href="/2020/07/13/2020-07-2020-07-13-docker-xue-xi-bi-ji-yi-shi-me-shi-docker/"/>
+      <url>/2020/07/13/2020-07-2020-07-13-docker-xue-xi-bi-ji-yi-shi-me-shi-docker/</url>
+      
+        <content type="html"><![CDATA[<h1 id="docker简介"><a href="#docker简介" class="headerlink" title="docker简介"></a>docker简介</h1><h3 id="docker是什么"><a href="#docker是什么" class="headerlink" title="docker是什么?"></a>docker是什么?</h3><ul><li><p>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从Apache2.0协议开源。</p></li><li><p>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</p></li><li><p>容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p></li></ul><h3 id="为什么需要docker"><a href="#为什么需要docker" class="headerlink" title="为什么需要docker"></a>为什么需要docker</h3><ul><li>因为环境配置不同，很多人在开发中也会遇到这个情况，甚至开发的软件到了测试人员的机器上便不能运行。但这都不是重点。重点是，如果我们有一个可靠的、可分发的标准开发环境，那么我们的开发将不会像现在这么痛苦。Docker 便可以解决这个问题。Docker 镜像并不会因为环境的变化而不能运行，也不会在不同的电脑上有不同的运行结果。可以给测试人员提交含有应用的 Docker 镜像，这样便不再会发生“在我机器上是可以运行的”这种事情，很大程度上减轻了开发人员测试人员互相检查机器环境设置带来的时间成本。</li><li>作为一个程序员，新技术的迭代周期也十分短暂，因此快速学习一门新技术就很重要，其中如何快速的搭建新技术的开发环境就显得特别重要，当我们花费几周甚至一个月磕磕碰碰的搭建好一个不是很成熟但是能使用的开发环境的时候，使用docker搭建环境可能只需要一行命令，就能搭建起一个成熟的最佳配置的开发环境</li></ul><h3 id="docker的原理"><a href="#docker的原理" class="headerlink" title="docker的原理"></a>docker的原理</h3><h4 id="形象的说，docker就是集装箱原理"><a href="#形象的说，docker就是集装箱原理" class="headerlink" title="形象的说，docker就是集装箱原理"></a>形象的说，docker就是集装箱原理</h4><ul><li><p>Docker的思想来自于集装箱，集装箱解决了什么问题？在一艘大船上，可以把货物规整的摆放起来。并且各种各样的货物被集装箱标准化了，集装箱和集装箱之间不会互相影响。那么我就不需要专门运送水果的船和专门运送化学品的船了。只要这些货物在集装箱里封装的好好的，那我就可以用一艘大船把他们都运走。</p></li><li><p>docker就是类似的理念。现在都流行云计算了，云计算就好比大货轮。docker就是集装箱。</p></li></ul><h3 id="docker的优点"><a href="#docker的优点" class="headerlink" title="docker的优点"></a>docker的优点</h3><ol><li><p><strong>简化程序</strong>：<br>Docker 让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，便可以实现虚拟化。Docker改变了虚拟化的方式，使开发者可以直接将自己的成果放入Docker中进行管理。方便快捷已经是 Docker的最大优势，过去需要用数天乃至数周的    任务，在Docker容器的处理下，只需要数秒就能完成。</p></li><li><p><strong>避免选择恐惧症</strong>：<br>如果你有选择恐惧症，还是资深患者。Docker 帮你    打包你的纠结！比如 Docker 镜像；Docker 镜像中包含了运行环境和配置，所以 Docker 可以简化部署多种应用实例工作。比如 Web 应用、后台应用、数据库应用、大数据应用比如 Hadoop 集群、消息队列等等都可以打包成一个镜像部署。</p></li><li><p><strong>节省开支</strong>：<br>一方面，云计算时代到来，使开发者不必为了追求效果而配置高额的硬件，Docker 改变了高性能必然高价格的思维定势。Docker 与云的结合，让云空间得到更充分的利用。不仅解决了硬件管理的问题，也改变了虚拟化的方式。</p><h3 id="docker的应用场景"><a href="#docker的应用场景" class="headerlink" title="docker的应用场景"></a>docker的应用场景</h3></li></ol><ul><li>使应用的打包与部署自动化</li><li>创建轻量、私密的PAAS环境</li><li>实现自动化测试和持续的集成/部署</li><li>部署与扩展webapp、数据库和后台服务<h3 id="docker的局限"><a href="#docker的局限" class="headerlink" title="docker的局限"></a>docker的局限</h3></li><li>Docker是基于Linux 64bit的，无法在32bit的linux/Windows/unix环境下使用</li><li>LXC是基于cgroup等linux kernel功能的，因此container的guest系统只能是linux base的</li><li>隔离性相比KVM之类的虚拟化方案还是有些欠缺，所有container公用一部分的运行库</li><li>网络管理相对简单，主要是基于namespace隔离</li><li>cgroup的cpu和cpuset提供的cpu功能相比KVM的等虚拟化方案相比难以度量(所以dotcloud主要是按内存收费)</li><li>Docker对disk的管理比较有限</li><li>container随着用户进程的停止而销毁，container中的log等用户数据不便收集</li></ul><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> Docker </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Docker </tag>
+            
+            <tag> 微服务 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Laravel核心 - 门面Facades</title>
+      <link href="/2020/07/12/2020-07-2020-07-12-larave-he-xin-men-mian-facades/"/>
+      <url>/2020/07/12/2020-07-2020-07-12-larave-he-xin-men-mian-facades/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Laravel的门面Facades是什么"><a href="#Laravel的门面Facades是什么" class="headerlink" title="Laravel的门面Facades是什么"></a>Laravel的门面Facades是什么</h1><p>门面为应用服务容器的绑定类提供了一个静态接口。Laravel内置了很多门面，你可能在不知道的情况下正在使用它们。laravel的门面作为服务容器中低层类的静态代理，相比于传统静态方法，在维护时能够提供易于测试、更加灵活、简明优雅的语法。</p><h1 id="何时使用门面Facades"><a href="#何时使用门面Facades" class="headerlink" title="何时使用门面Facades"></a>何时使用门面Facades</h1><p>门面有许多优点，其提供了简单易记的语法，让我妈无需记住长长的类名即可使用laravel提供的功能特性，此外，由于他们对php动态方法的独到用法，使得他们很容易测试。</p><p>但是使用门面也有需要注意的地方,一个最主要的危险就是类范围蠕变。由于门面如此好用并且不需要注入，在单个类中使用过多门面，会让类很容易变得越来越大。使用依赖注入则会让此类问题缓解，因为一个巨大的构造函数会让我们很容易判断类在变大。因此，使用门面的时候尤其注意类的大小，一遍控制其有限职责</p><h1 id="门面的工作原理"><a href="#门面的工作原理" class="headerlink" title="门面的工作原理"></a>门面的工作原理</h1><p>门面工作原理分为两步,</p><ol><li><p>第一步是编写门面类</p><pre><code>class Cache extends Facade{ /**  * 获取组件注册名称  *  * @return string  */ protected static function getFacadeAccessor() {      return 'cache';  }}</code></pre><p>他会通过服务容器绑定的接口名获取对应类的实例</p></li><li><p>他会调用魔术方法__callStatic，通过这个魔术方法实现调用静态方法去调用实例的动态方法</p><pre><code> /**  * Handle dynamic, static calls to the object.  *  * @param  string  $method  * @param  array   $args  * @return mixed  *  * @throws \RuntimeException  */ public static function __callStatic($method, $args) {     //通过第一步获取到的服务容器实例     $instance = static::getFacadeRoot();     if (! $instance) {         throw new RuntimeException('A facade root has not been set.');     }     //调用实例的动态方法     return $instance-&gt;$method(...$args); }</code></pre></li></ol><p><strong>总的来说</strong>:在laravel应用阿忠，门面就是一个为容器中对象提供访问方式的类。该机制原理由Facade类实现。laravel自带的门面，以及我们创建的自定义门面，都会继承自<code>Illuminate\Support\Facades\Facade</code> 基类.</p><p>门面类只需要实现一个方法:<code>getFacadeAccessor</code>。正是这个方法定义了从容器中解析什么，然后Facade基类使用魔术方法__callStatic从你的门面调用解析对象.</p><h1 id="实时门面-不需要自己编写相对应的门面类，有laravel自己去动态解析获取对应的类"><a href="#实时门面-不需要自己编写相对应的门面类，有laravel自己去动态解析获取对应的类" class="headerlink" title="实时门面(不需要自己编写相对应的门面类，有laravel自己去动态解析获取对应的类"></a>实时门面(不需要自己编写相对应的门面类，有laravel自己去动态解析获取对应的类</h1><blockquote><p>个人理解:相当于省去了第一个步骤，我们创建门面类告诉laravel应用应该从服务容器解析什么，直接通过命名空间自动的解析对应类的实例</p></blockquote><pre><code>&lt;?phpnamespace Tests\Feature;use App\Podcast;use Tests\TestCase;use Facades\App\Contracts\Publisher;use Illuminate\Foundation\Testing\RefreshDatabase;class PodcastTest extends TestCase{    use RefreshDatabase;    /**     * A test example.     *     * @return void     */    public function test_podcast_can_be_published()    {        $podcast = factory(Podcast::class)-&gt;create();        Publisher::shouldReceive('publish')-&gt;once()-&gt;with($podcast);        $podcast-&gt;publish();    }}</code></pre><p>上面例子，我们通过命名空间<code>use Facades\App\Contracts\Publisher;</code>告诉应用我们要使用实时的门面类，通过字符串处理,将App\Contracts\Publisher通过服务容器解析，然后交由门面.</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP - Laravel </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> PHP </tag>
+            
+            <tag> Laravel </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Laravel核心 - 服务容器</title>
+      <link href="/2020/07/11/2020-07-2020-07-11-larave-he-xin-fu-wu-rong-qi/"/>
+      <url>/2020/07/11/2020-07-2020-07-11-larave-he-xin-fu-wu-rong-qi/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Laravel的服务容器是什么"><a href="#Laravel的服务容器是什么" class="headerlink" title="Laravel的服务容器是什么"></a>Laravel的服务容器是什么</h1><p>laravel的服务容器是用于管理类的依赖和执行依赖注入的工具。依赖注入实质上是指：类的依赖项通过构造函数或者某些情况下通过setter方法注入到类中</p><blockquote><p>setter就是类似魔术方法__set的方法，也可以自定义</p></blockquote><blockquote><p>服务容器的核心功能是IoC容器用以解决依赖注入，控制反转 IoC模式又称依赖注入模式</p></blockquote><blockquote><p>依赖注入是指组件的依赖通过外部以参数或其他形式注入</p></blockquote><h1 id="为什么使用服务容器"><a href="#为什么使用服务容器" class="headerlink" title="为什么使用服务容器"></a>为什么使用服务容器</h1><p>使用这种方式，一方面降低了代码之间的耦合，另一方面也提高了代码的可维护性与拓展性</p><h1 id="服务容器的应用场景"><a href="#服务容器的应用场景" class="headerlink" title="服务容器的应用场景"></a>服务容器的应用场景</h1><h3 id="类似发邮件服务的全局服务"><a href="#类似发邮件服务的全局服务" class="headerlink" title="类似发邮件服务的全局服务"></a>类似发邮件服务的全局服务</h3><p>我们把发送邮件的功能封装成一个类，需要使用的时候，实例化并调用发送方法<br>下面是php代码的简单实现</p><pre><code>/** *发送邮件服务类 */class EmailService{    public function send(){        //todo 发送邮件方法    }}//如果任何地方要发邮件我们就复制下面这两行代码$emailService = new EmailService();$emailService-&gt;send();</code></pre><p>但是使用了laravel的服务容器之后</p><pre><code>$this-&gt;app-&gt;bind('emailService', function ($app) {    return new EmailService();});//如果任何地方要发邮件我们就复制下面这两行代码$emailService = app('emailService');$emailService-&gt;send();</code></pre><p>这就使我们的代码更加简洁了，由于有了中间层，灵活性提高了，那么无论测试或者优化我们的服务类都会变得更方便</p><pre><code>//只需要改这一个地方$this-&gt;app-&gt;bind('emailService', function ($app) {    return new SupperEmailService();});</code></pre><p>其他调用的地方我们完全不用动，如果我们没有这个绑定操作(中间层),那么我们不得不在每个使用服务的地方进行修改，这样就会很繁琐.</p><h3 id="实现单例模式"><a href="#实现单例模式" class="headerlink" title="实现单例模式"></a>实现单例模式</h3><p>还是使用上面的邮件服务例子，可能处于性能的考虑，需要这个服务实现单例模式,于是在不适用laravel服务容器的情况下，做出如下更改</p><pre><code>class SupperEamilService{      //创建静态私有的变量保存该类对象     static private $instance;      //防止直接创建对象      private function __construct(){     }         //防止克隆对象     private function __clone(){     }     static public function getInstance(){                 //判断$instance是否是Uni的对象                 //没有则创建         if (!self::$instance instanceof self) {             self::$instance = new self();         }         return self::$instance;     }     //发送邮件方法     public function send(){     } }</code></pre><p>除此之外，由于服务类的构造函数为私有，无法通过new关键字来实例化对象，所以在每个实例化的地方调用都需要改成这样</p><pre><code>$emailService=SupperEmailService::getInstance();$emailService-&gt;send();</code></pre><p>但是laravel的服务容器天生支持单例</p><pre><code>//只需要把bind改成singleton $this-&gt;app-&gt;singleton('emailService', function ($app) {    return new SupperEmailService();});</code></pre><p>我们只需要把原来的bind方法改成singleton,通过容器取出来的就是单例了</p><h3 id="旅行者去旅行"><a href="#旅行者去旅行" class="headerlink" title="旅行者去旅行"></a>旅行者去旅行</h3><p>这个例子就是讲旅行和旅行工具之间的服务解耦.</p><p>假设一个旅行者去西藏旅行，可以坐火车或者走路去</p><p>不使用laravel服务容器:</p><pre><code>&lt;?phpinterface TrafficTool{  public function go();}class Train implements TrafficTool{  public function go()  {  echo "train....";  }}class Leg implements TrafficTool{  public function go()  {  echo "leg..";  }}class Traveller{  /**  * @var Leg|null|Train  * 旅行工具  */  protected $_trafficTool;  public function __construct(TrafficTool $trafficTool)  {  $this-&gt;_trafficTool = $trafficTool;  }  public function visitTibet()  {  $this-&gt;_trafficTool-&gt;go();  }}</code></pre><p>当旅行者要坐或者去旅行，通常我们这样写</p><pre><code>&lt;?php $train = new Train();$tra = new Traveller($train);$tra-&gt;visitTibet();</code></pre><p>事实上这种写法非常不错了，因为对于旅行工具的依赖已经通过接口的方式转移到外部了。但是使用new来实例化的时候还是会产生依赖。也就是说Train和Traveller之间产生了耦合</p><p>那么laravel服务容器怎么实现的?</p><pre><code>&lt;?phpnamespace App\Providers;use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;class RepositoryServiceProvider extends ServiceProvider{  public function register()  {     //在服务容器中绑定类     $this-&gt;app-&gt;bind( 'TrafficTool', 'Train');     $this-&gt;app-&gt;bind('Traveller', 'Traveller');  }}</code></pre><p>实例化对象</p><pre><code>&lt;?php// 实例化对象$tra = app()-&gt;make('Traveller');$tra-&gt;visitTibet(); </code></pre><p>当我们使用服务容器获取旅行类的对象时，容器会自动注入对象所需要的参数，而在此之前我只需要绑定特定的类就可以了，这样才体现了真正的自动化，是的旅行和旅行工具完全解耦了，当我们需要更改旅行方式的时候，只需要更改绑定就好了</p><p>参考资料:<br><a href="https://xiaoxingping.top/blog/3/shi-yong-laravel-fu-wu-rong-qi-de-you-shi" target="_blank" rel="noopener">使用laravel服务容器的优势</a></p><h3 id="应用场景的总结"><a href="#应用场景的总结" class="headerlink" title="应用场景的总结"></a>应用场景的总结</h3><p>1,应用于服务之间的解耦<br>2,方便的实现单例模式</p><h1 id="服务容器原理"><a href="#服务容器原理" class="headerlink" title="服务容器原理"></a>服务容器原理</h1><h3 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h3><p>laravel服务容器的一个强大的特性就是能通过反射自动解析依赖。反射具有检测类及其方法的能力,比如PHP中的ReflectionClass类允许你检测一些方法在给定的类中是否可用.</p><p>通过PHP的这种特性，laravel可以实现一些有趣的功能!</p><pre><code>class UserController extends BaseController {    public function __construct(StripeBiller $biller)    {        $this-&gt;biller = $biller;    }}</code></pre><p>如上控制器初始化时需要传入StripeBiller类型的对象，我们可以通过反射进行类型检测。当laravel容器没有绑定相应的解析器，他就会通过反射尝试解析该类.流程大致如下</p><ol><li>服务容器有无StripeBiiler解析器？（就是是否在服务容器绑定过）</li><li>没有解析器？映射类StripeBiller判断其依赖</li><li>递归的解析StripeBiller类的所有依赖</li><li>通过ReflectionClass-&gt;newInstanceArgs()实例化一个新的StripeBiller<br>可以看到服务容器为我们做了许多繁重的工作，使你能释放更多时间用于编码各种逻辑的代码类。<blockquote><p>掌握容器，先查看下容器的源码IlluminateContainerContainer这个类文件</p></blockquote></li></ol><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+          <category> Laravel </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Laravel </tag>
+            
+            <tag> IOC </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Nginx配置反向代理</title>
+      <link href="/2020/07/08/2020-07-2020-07-08-nginx-pei-zhi-fan-xiang-dai-li/"/>
+      <url>/2020/07/08/2020-07-2020-07-08-nginx-pei-zhi-fan-xiang-dai-li/</url>
+      
+        <content type="html"><![CDATA[<h1 id="简单的lnamp的nginx反向代理转发"><a href="#简单的lnamp的nginx反向代理转发" class="headerlink" title="简单的lnamp的nginx反向代理转发"></a>简单的lnamp的nginx反向代理转发</h1><p>访问站点由nginx服务器接受请求并转发给局域网里的某台lamp的服务器。</p><h3 id="部署过程"><a href="#部署过程" class="headerlink" title="部署过程"></a>部署过程</h3><p>1，正常的部署一台nginx服务器以及一台lamp服务器，他们在一个局域网里面，然后再nginx服务器里面的nginx的配置文件里面修改</p><pre><code>location / {    proxy set header X-Real-IP $remote_addr;    proxy set header Host $http_host;    proxy_pass https://ws:1000;    client_max_body_size 35m;    proxy_http_version 1.1;}</code></pre><blockquote><p>记得将location里面的index等默认访问文件给注释掉,不然还是会正常访问默认文件</p></blockquote><ol><li>如果你的nginx服务器配置了https证书，那么你的客户端到服务器端之间的连接是加密的，虽然你nginx转发了请求，但是客户在浏览器看到的还是https证书</li><li>通常情况下服务器与服务器之间是在一个私有云的局域网内，所以在性能吃紧的情况下，服务器和服务器之间是不需要配置https的。</li><li>如果想转发长连接也就是websocket，还需要在配置文件里加几行代码</li></ol><p><code>proxy set header Upgrade $http_upgrade</code></p><p><code>proxy set header Connection "upgrade"</code></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 服务器 </category>
+          
+          <category> Nginx </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Nginx </tag>
+            
+            <tag> 负载均衡 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Git Flow 工作流规范的使用</title>
+      <link href="/2020/07/07/2020-07-2020-07-07-gitflow-gong-zuo-liu-gui-fan-de-shi-yong/"/>
+      <url>/2020/07/07/2020-07-2020-07-07-gitflow-gong-zuo-liu-gui-fan-de-shi-yong/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Git-Flow工作流规范的使用"><a href="#Git-Flow工作流规范的使用" class="headerlink" title="Git Flow工作流规范的使用"></a>Git Flow工作流规范的使用</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>通常在我们的项目开发过程中，在版本控制流程里没有一个规范去约束，往往会导致git的分支混乱，以及难以管理的问题发生，因此为了规避这些问题的产生，我们也会去定义一系列的git规范。在网上现在比较流行的则是Git Flow工作流。</p><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>博主在使用 <code>Git Flow</code> 的过程中发现，不是所有的团队都适用于 <code>Git Flow</code> 这个规范。</p><p>比如你的项目组成员在10人以下，这个时候因为项目组规模较小，使用 <code>Git Flow</code> 工作流往往会增加不必要的操作，从而导致时间成本的增加。</p><p>例如博主本人所管理的项目组是根据 <code>Git Flow</code> 做了一些删减，保留必要的发布流程以外，针对功能的开发并没有使用更多的分支去规范化的管理。而且在这个删减的规范中，还能使用 <code>rebase</code> 去美化我们的分支。</p><p>但如果您所管理的团队人数较多，那您一定要试试 <code>Git FLow</code> 工作流的规范了。</p><h2 id="工作流模型介绍"><a href="#工作流模型介绍" class="headerlink" title="工作流模型介绍"></a>工作流模型介绍</h2><p><img src="http://qcu6ny56e.bkt.clouddn.com/e850352ac65c10384ddd401e94faf115b27e89b8.png" alt="Git FLow工作流模型图片"></p><p>上图是工作流模型的图片，那么下面博主大致介绍下每个分支的介绍</p><h3 id="分支介绍"><a href="#分支介绍" class="headerlink" title="分支介绍"></a>分支介绍</h3><ul><li><p><strong>Master分支</strong>: 每个项目有且仅有一个 <code>master</code> 分支，作为主分支。主要用来存储正式发布的产品，该分支上的代码要随时处于可部署的状态。master分支只能通过合并其他分支来更新内容，禁止直接在master分支上进行修改.</p></li><li><p><strong>Develop分支</strong>: 该分支是开发分支，允许确实功能模块，但已有的功能模块一定是开发完成的。该分支同样也是只能通过合并其他分支进行内容的更新。</p></li><li><p><strong>Feature分支</strong>: 该分支是功能分支，当要开发新功能或者试验新功能时，从 <code>develop</code> 分支创建一个新的 <code>feature</code> 分支，并在 <code>feature</code> 分支上进行开发。开发完成后，需要将该分支合并到 <code>develop</code> 分支，然后删除该分支。</p></li><li><p><strong>Release分支</strong>: 当 <code>develop</code> 分支上的项目准备发布时，从 <code>develop</code> 分支上创建一个新的 <code>release</code> 分支。新建的 <code>release</code> 分支只能进行质量测试，bug修复，文档生成等任务。不能再添加新的功能。这一系列任务完成后需要将 <code>release</code> 分支合并到 <code>master</code> 分支上，并根据版本号为 <code>master</code> 分支添加tag，然后将 <code>release</code> 分支合并到 <code>develop</code> 分支，最后删除该分支。</p></li><li><p><strong>Hotfix分支</strong>: 当 <code>master</code> 分支中的产品出现需要立即修复的bug时，从 <code>master</code> 分支上创建一个新的 <code>hotfix</code> 分支，并在该分支进行bug修复。修复完成后需要将该分支合并到 <code>master</code> 分支和 <code>develop</code> 分支，并为 <code>master</code>打上新的版本号tag，最后删除该分支。</p></li></ul><p>在使用以上工作流时，有一点要万分注意，如果你是一个开发人员，那么 <code>develop</code> 分支和 <code>master</code> 分支你是没有权限操作的，也就是说你只能操作 <code>feature</code> 分支和 <code>hotfix</code> 分支。</p><h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>我们通常知道这个规范后自己使用git的命令去实现这个规范就好了，但同时我们也可以通过可视化工具来完成以下步骤，比如现在使用比较多的 <code>SourceTree</code></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> Git </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Git </tag>
+            
+            <tag> 团队协作 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>TomCat安装及部署</title>
+      <link href="/2020/07/04/2020-07-2020-07-04-tomcat-an-zhuang-ji-bu-shu/"/>
+      <url>/2020/07/04/2020-07-2020-07-04-tomcat-an-zhuang-ji-bu-shu/</url>
+      
+        <content type="html"><![CDATA[<h1 id="tomcat简介"><a href="#tomcat简介" class="headerlink" title="tomcat简介"></a>tomcat简介</h1><p>   Tomcat 服务器是一个免费的开放源代码的Web应用服务器，属于轻量级应用服务器，在中小型系统和并发访问用户不是很多的场合下被普遍使用，是开发和调试JSP 程序的首选。对于一个初学者来说，可以这样认为，当在一台机器上配置好Apache 服务器，可利用它响应HTML（标准通用标记语言下的一个应用）页面的访问请求。实际上Tomcat是Apache 服务器的扩展，但运行时它是独立运行的，所以当你运行tomcat 时，它实际上作为一个与Apache 独立的进程单独运行的。</p><p>   诀窍是，当配置正确时，Apache 为HTML页面服务，而Tomcat 实际上运行JSP 页面和Servlet。另外，Tomcat和IIS等Web服务器一样，具有处理HTML页面的功能，另外它还是一个Servlet和JSP容器，独立的Servlet容器是Tomcat的默认模式。不过，Tomcat处理静态HTML的能力不如Apache服务器</p><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>进入官网复制连接后</p><pre><code>wget url</code></pre><p>然后解压</p><pre><code>unzip apache-tomcat-9.0.0.M22.zip</code></pre><p>然后将解压出来的文件夹移动到/opt下</p><pre><code>mkdir /opt/servermv  apache-tomcat-9.0.0.M22 /opt/server</code></pre><p>这个时候去文件夹下的bin目录，可以看到startup.sh和shutdown.sh，但是用ls -l可以看到都没有执行权限,所以我们得手动赋予执行权限</p><pre><code>chmod +x *.sh   ./startup.sh    </code></pre><blockquote><p>这个时候可能在网络上访问不了tomcat，有可能的原因是因为JAVA_HOME的环境变量并没有配置，需要手动配置一下</p></blockquote><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 服务器 </category>
+          
+          <category> TomCat </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> TomCat </tag>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>React-Native IOS打包及发布</title>
+      <link href="/2020/07/02/2020-07-2020-07-02-react-native-ios-da-bao-ji-fa-bu/"/>
+      <url>/2020/07/02/2020-07-2020-07-02-react-native-ios-da-bao-ji-fa-bu/</url>
+      
+        <content type="html"><![CDATA[<h1 id="iOS打包"><a href="#iOS打包" class="headerlink" title="iOS打包"></a>iOS打包</h1><h2 id="打包命令介绍"><a href="#打包命令介绍" class="headerlink" title="打包命令介绍"></a>打包命令介绍</h2><ul><li>通过<code>React Native</code>的<code>react-native bundle</code>命令来进行打包的。</li></ul><blockquote><p><a href="https://github.com/facebook/react-native/blob/master/local-cli/bundle/bundleCommandLineArgs.js" target="_blank" rel="noopener">react-native bundle的详细命令选项</a>。</p></blockquote><p>其中常用命令选项：</p><p><strong>–entry-file</strong> ,ios或者android入口的js名称，比如index.ios.js<br><strong>–platform</strong> ,平台名称(ios或者android)<br><strong>–dev</strong> ,设置为false的时候将会对JavaScript代码进行优化处理。<br><strong>–bundle-output</strong>, 生成的jsbundle文件的名称，比如release_ios/main.jsbundle<br><strong>–assets-dest</strong> 图片以及其他资源存放的目录,比如release_ios/</p><ul><li>导出<code>js bundle</code>的命令</li></ul><pre><code>react-native bundle --entry-file index.ios.js --platform ios --dev false --bundle-output release_ios/main.jsbundle --assets-dest release_ios/</code></pre><ul><li>方便使用，可以把打包命令写到<code>npm script</code>中</li></ul><pre><code>"scripts": {    "start": "node node_modules/react-native/local-cli/cli.js start",    "bundle-ios":"node node_modules/react-native/local-cli/cli.js bundle --entry-file index.ios.js --platform ios --dev false --bundle-output release_ios/main.jsbundle --assets-dest release_ios/"  },</code></pre><ul><li>运行命令直接打包:</li></ul><pre><code>npm run bundle-ios</code></pre><h2 id="开始打包"><a href="#开始打包" class="headerlink" title="开始打包"></a>开始打包</h2><h3 id="第一步：导出js-bundle包和图片资源"><a href="#第一步：导出js-bundle包和图片资源" class="headerlink" title="第一步：导出js bundle包和图片资源"></a>第一步：导出js bundle包和图片资源</h3><ul><li>在React Native项目的<strong>根目录</strong>下执行打包命令：</li></ul><pre><code>react-native bundle --entry-file index.ios.js --platform ios --dev false --bundle-output release_ios/main.jsbundle --assets-dest release_ios/</code></pre><p>或者 执行:</p><pre><code>npm run bundle-ios</code></pre><p>通过上述命令，将JS部分的代码和图片资源等打包导出到release_ios目录下.</p><blockquote><p>在执行打包命令之前，先确保在项目的根目录有<code>release_ios</code>文件夹，没有的话创建一个。</p></blockquote><h3 id="第二步：将js-bundle包和图片资源导入到iOS项目中"><a href="#第二步：将js-bundle包和图片资源导入到iOS项目中" class="headerlink" title="第二步：将js bundle包和图片资源导入到iOS项目中"></a>第二步：将js bundle包和图片资源导入到iOS项目中</h3><ul><li><p>这一步需要用到XCode，选择<code>assets文件夹</code>与<code>main.jsbundle文件</code>将其拖拽到XCode的项目导航面板中即可。</p><p>  <strong>必须使用Create folder references的方式添加文件夹.</strong></p></li></ul><ul><li>修改AppDelegate.m文件，添加如下代码：</li></ul><pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{  NSURL *jsCodeLocation; //jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil]; +jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];#endif...  return YES;}</code></pre><p>让xcode使用刚才导入的jsbundle摆脱对本地nodejs服务器的依赖。</p><h3 id="第三步：发布iOS应用"><a href="#第三步：发布iOS应用" class="headerlink" title="第三步：发布iOS应用"></a>第三步：发布iOS应用</h3><p>发布还是比较麻烦的，从创建苹果账号到认证到最后的发布，期间还是有一系列问题需要填的。</p><blockquote><p>参考<br><a href="https://www.jianshu.com/p/ce71b4a8a246" target="_blank" rel="noopener">https://www.jianshu.com/p/ce71b4a8a246</a><br><a href="http://www.cocoachina.com/ios/20170511/19250.html" target="_blank" rel="noopener">http://www.cocoachina.com/ios/20170511/19250.html</a></p></blockquote><h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><p>在我们应用打包完后面临着测试等环节，我们可以使用蒲公英等平台来帮助测试包的派发与测试。</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端技术栈 </category>
+          
+          <category> React </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> React </tag>
+            
+            <tag> React-Native </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>React-Native IOS打包及发布</title>
+      <link href="/2020/07/01/2020-07-2020-07-01-react-native-android-da-bao-ji-fa-bu/"/>
+      <url>/2020/07/01/2020-07-2020-07-01-react-native-android-da-bao-ji-fa-bu/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Android打包"><a href="#Android打包" class="headerlink" title="Android打包"></a>Android打包</h1><h2 id="生成签名密钥"><a href="#生成签名密钥" class="headerlink" title="生成签名密钥"></a>生成签名密钥</h2><ul><li><p>打开终端</p></li><li><p>查看java 根目录路径</p></li></ul><pre><code>/usr/libexec/java_home -V</code></pre><pre><code>Matching Java Virtual Machines (1):    1.8.0_121, x86_64:    "Java SE 8"    /Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home</code></pre><ul><li>去到java安装的根目录，即输入</li></ul><pre><code>cd /Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home</code></pre><ul><li>当前用户没有最高权限，在Library文件夹下不能生成任何文件，可以到当前指定目录下生成文件,比如目录:<code>/Users/hanjin/Desktop/key/android.keystore</code></li></ul><pre><code>keytool -genkey -v -alias android -keyalg RSA -validity 20000 -keystore /Users/hanjin/Desktop/key/android.keystore</code></pre><p><strong><code>Alias</code> 是别名，填写APP名称即可，别的名称也行</strong></p><ul><li>按照提示输入信息</li></ul><h2 id="设置-gradle-变量"><a href="#设置-gradle-变量" class="headerlink" title="设置 gradle 变量"></a>设置 gradle 变量</h2><ul><li><p>把 <code>my-release-key.keystore</code>密钥库文件放到工程中的<code>android/app</code>文件夹下</p></li><li><p>编辑 <code>项目目录/android/gradle.properties</code>,<strong>添加如下的代码（注意把其中的**</strong>替换为相应密码）**</p></li></ul><pre><code>MYAPP_RELEASE_STORE_FILE=my-release-key.keystoreMYAPP_RELEASE_KEY_ALIAS=my-key-aliasMYAPP_RELEASE_STORE_PASSWORD=*****MYAPP_RELEASE_KEY_PASSWORD=*****</code></pre><blockquote><p><strong>my-release-key.keystore</strong> 为密钥库文件名，在<code>android/app</code>文件夹下。<br><strong>my-key-alias</strong> 为生成秘钥的时候设置的别名。</p></blockquote><h2 id="把签名配置加入到项目的-gradle-配置中"><a href="#把签名配置加入到项目的-gradle-配置中" class="headerlink" title="把签名配置加入到项目的 gradle 配置中"></a>把签名配置加入到项目的 gradle 配置中</h2><p>编辑项目目录下的<code>android/app/build.gradle</code>，添加如下的签名配置</p><pre><code>...android {    ...    defaultConfig { ... }    signingConfigs {        release {            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {                storeFile file(MYAPP_RELEASE_STORE_FILE)                storePassword MYAPP_RELEASE_STORE_PASSWORD                keyAlias MYAPP_RELEASE_KEY_ALIAS                keyPassword MYAPP_RELEASE_KEY_PASSWORD            }        }    }    buildTypes {        release {            ...            signingConfig signingConfigs.release        }    }}...</code></pre><h2 id="测试应用的发行版本"><a href="#测试应用的发行版本" class="headerlink" title="测试应用的发行版本"></a>测试应用的发行版本</h2><blockquote><p>注意：在 debug 和 release 版本间来回切换安装时可能会报错签名不匹配，此时需要先卸载前一个版本再尝试安装。</p></blockquote><pre><code>react-native run-android --variant=release</code></pre><h2 id="安卓手动打包js"><a href="#安卓手动打包js" class="headerlink" title="安卓手动打包js"></a>安卓手动打包js</h2><pre><code>react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/</code></pre><h2 id="生成发行-APK-包"><a href="#生成发行-APK-包" class="headerlink" title="生成发行 APK 包"></a>生成发行 APK 包</h2><pre><code>$ cd android$ ./gradlew assembleRelease</code></pre><p><code>Gradle</code> 的 <strong>assembleRelease</strong> 参数会把所有用到的 JavaScript 代码都打包到一起，然后内置到 APK 包中。</p><blockquote><p>注意：请确保 gradle.properties 中没有包含_org.gradle.configureondemand=true_，否则会跳过 js 打包的步骤，导致最终生成的 apk 是一个无法运行的空壳。</p></blockquote><p>生成的 APK 文件位于<strong>android/app/build/outputs/apk/app-release.apk</strong>，它已经可以用来发布了。</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端技术栈 </category>
+          
+          <category> React </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> React </tag>
+            
+            <tag> React-Native </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>事务的特性以及隔离级别</title>
+      <link href="/2020/06/24/2020-06-2020-06-24-shi-wu-de-te-xing-yi-ji-ge-chi-ji-bie/"/>
+      <url>/2020/06/24/2020-06-2020-06-24-shi-wu-de-te-xing-yi-ji-ge-chi-ji-bie/</url>
+      
+        <content type="html"><![CDATA[<h1 id="事务的特性以及隔离级别"><a href="#事务的特性以及隔离级别" class="headerlink" title="事务的特性以及隔离级别"></a>事务的特性以及隔离级别</h1><h2 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务"></a>什么是事务</h2><p>个人理解，事务就是一连串的sql语句或者说一个独立的工作单元。如果数据库能成功的对该工作单元中所有的sql语句执行成功那么该工作单元就完成。如果其中任何一个sql语句因为奔溃或者其他原因无法执行，那么所有的语句都不会执行。</p><p>换句话说，宏观来看，事务就是一个整体单位，每个单位包含一条以上的sql语句，一旦事务执行了，就意味着所有sql语句都得成功，否则的话，就不执行。</p><p>在理解事务之后，需要知道事务的目的就是为了<strong>保证数据的正确性和一致性</strong>,那么为此诞生了四个特性ACID。而为了实现这四个特性有需要许多具体的实现，其中就包括为了隔离性而产生的四个隔离级别。这四种隔离级别又产生了三个问题(脏读，不可重复读和幻读)</p><h2 id="四种特性-ACID"><a href="#四种特性-ACID" class="headerlink" title="四种特性(ACID)"></a>四种特性(ACID)</h2><h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p>意思是说 一个事务应当作为一个不可分割的最小单位，整个事务的操作要么全部执行成功，要么全部不执行，像原子一样不可分割。</p><h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><p>意思是说 事务总是从一个一致性的状态跳到另一个一致性的状态。</p><p>我个人理解为，涉及到的数据范围内是守恒的，也就是数据整体不变，打个比方，A给B转了200块，那么整体的钱数是没有发生变化的，A少了200，B多了200，整体变化是0;</p><h3 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h3><p>通常来说，一个事务的操作对于其他的事务是不可见的，也就是说一般而言事务都是独立的。但是这跟数据库的隔离级别有关</p><h3 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h3><p>事务一旦完成，那么该事务引起的数据变化将永久生效，不会改变（除非被另外一个事务改动）</p><h2 id="数据库的隔离级别"><a href="#数据库的隔离级别" class="headerlink" title="数据库的隔离级别"></a>数据库的隔离级别</h2><h3 id="1-未提交读"><a href="#1-未提交读" class="headerlink" title="1. 未提交读"></a>1. 未提交读</h3><p>在这个隔离级别中，在一个事务执行的操作就算不提交也能被其他事务看到。</p><p>在这个级别中一个事务可能读到其他事务还没提交的脏数据，即可能出现<strong>脏读</strong></p><h3 id="2-提交读"><a href="#2-提交读" class="headerlink" title="2. 提交读"></a>2. 提交读</h3><p>在一个事务提交之后，其他事务才可以看到事务的修改。此隔离级别可能会出现同一个事务执行相同的查询读到不同的数据，即<strong>不可重复读</strong>，在未提交读级别也可能出现不可重复读的情况。</p><h3 id="3-可重复读"><a href="#3-可重复读" class="headerlink" title="3. 可重复读"></a>3. 可重复读</h3><p>这是MySQL默认的隔离级别，在事务开始的时候会保存此刻的一个快照，然后接下来这个事务的所有数据读取都是从这个快照读，所以不会出现不可重复读的情况，但是还是有可能出现幻读。</p><p>意思是读取的是快照表数据不会变化，但是进行写操作如更新的时候，更新的数量可能和预期的不同。</p><h3 id="4-可串行化"><a href="#4-可串行化" class="headerlink" title="4. 可串行化"></a>4. 可串行化</h3><p>意思是说，事务要一个一个来，如果在一个事务中进行读操作，那么其他事务在该事务完成前只能进行读操作，如果进行写操作，那么其他事务的操作都进入等待（知道当前事务的提交）。这种级别就可以防范目前出现的脏读、不可重复读，幻读等现象</p><h2 id="在执行不同隔离级别保证隔离性的情况下，产生的几个问题"><a href="#在执行不同隔离级别保证隔离性的情况下，产生的几个问题" class="headerlink" title="在执行不同隔离级别保证隔离性的情况下，产生的几个问题"></a>在执行不同隔离级别保证隔离性的情况下，产生的几个问题</h2><h3 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h3><p>即在当前事务中可能读取到其他事务还未提交的脏数据</p><h3 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h3><p>在同一个事务中执行相同的查询语句，可能出现不同的数据，通常发生在未提交读、提交读这两个级别</p><h3 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h3><p>在一个事务中进行写操作时修改的数量和预期不同</p><p>参考资料:<a href="https://www.cnblogs.com/zhangweicheng/p/12273797.html" target="_blank" rel="noopener">粗谈MySQL事务的特性和隔离级别</a></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据库 </category>
+          
+          <category> MySQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> 事务 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SQL 优化之 Explain 命令</title>
+      <link href="/2020/06/20/2020-06-2020-06-20-sql-you-hua-zhi-explain-ming-ling/"/>
+      <url>/2020/06/20/2020-06-2020-06-20-sql-you-hua-zhi-explain-ming-ling/</url>
+      
+        <content type="html"><![CDATA[<h1 id="SQL-优化之-Explain-命令"><a href="#SQL-优化之-Explain-命令" class="headerlink" title="SQL 优化之 Explain 命令"></a>SQL 优化之 Explain 命令</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在SQL优化的时候我们都会使用Explain命令去查看该条SQL的执行计划信息。</p><p>使用 Explain 关键字可以模拟优化器执行SQL语句，分析查询语句或是结构的性能瓶颈。在select语句之前增加Explain关键字，MySQL会在查询上设置一个标记，执行查询会返回执行计划的信息。因此我们可以根据这个信息去判断该条SQL是否按照我们的预期执行，他的效率和性能是不是良好的</p><h2 id="Explain-信息结构详解"><a href="#Explain-信息结构详解" class="headerlink" title="Explain 信息结构详解"></a>Explain 信息结构详解</h2><p>执行Explain命令后会返回如下信息:</p><p><img src="https://img2018.cnblogs.com/blog/1771943/201908/1771943-20190824115601131-1871572364.jpg" alt="Image Text"></p><p>根据上面的信息，我们讲解下各列的作用。</p><h3 id="id列"><a href="#id列" class="headerlink" title="id列"></a>id列</h3><p>id列的编号是select的序列号，有几个select就有几个id，并且id的顺序是按select出现的顺序增长的。id越大执行优先级越高，id相同则从上往下执行，id为NULL最后执行</p><blockquote><p>出现多个id的情况通常适用于关联子查询，即查询的表是select查询后的虚拟表(临时表)</p></blockquote><h3 id="select-type列"><a href="#select-type列" class="headerlink" title="select_type列"></a>select_type列</h3><p>他表示对应行是简单还是复杂的查询,有以下几个值</p><ul><li><strong>simple</strong>: 简单查询。查询不包含子查询和union</li><li><strong>primary</strong>: 查询中若包含任何复杂的子查询，最外层查询则标记为primary，也就是最后加载的那个select</li><li><strong>subquery</strong>:包含在select或者where子句中的子查询(不在from子句中)</li><li><strong>derived</strong>: 包含在from子句中的子查询。MySQL会将结果存放在一个临时表中，也称为派生表<blockquote><p>derived只会在子查询作为临时表时出现</p></blockquote></li><li><strong>union</strong>:在union关键字随后的select</li></ul><p>该列的例子sql语句</p><pre><code>explain select (select 1 from actor where id = 1) from (select * from filmwhere id = 1) der;explain select 1 union all select 1;</code></pre><h3 id="table列"><a href="#table列" class="headerlink" title="table列"></a>table列</h3><p>这一列标识Explain的一行正在访问哪个表</p><p>当from子句中有子查询时，table列是格式,表示当前依赖id=N的查询，于是先执行id=N的查询。</p><p>当有union时，union result 的table列的值为 <code>&lt;union 1,2&gt;</code> 1和2标识参与union的select行id值</p><h3 id="type列"><a href="#type列" class="headerlink" title="type列"></a>type列</h3><p>这一列表示关联类型或访问类型，即MySQL决定如何查找表中的行，查找数据行对应的大概范围。</p><p>依次从最优到最差分别为: <strong>system &gt; const &gt; eq_ref &gt; ref &gt; range &gt; index &gt; All</strong></p><p>一般来说，除了All都会使用到索引，得保证查询能达到range级别，最好是ref。</p><p>NULL: MySQL能够在优化阶段分解查询语句，在执行阶段用不着访问表或者索引。例如：在索引列中取最小值，可以单独查询索引来完成，不需要执行时访问表。</p><p>下面依次说下各值的含义:</p><ul><li><strong>const 、 system</strong>: mysql能对查询的某部分进行优化并将其转换成一个常量(可以看做是show warnings的结果)。 用于primary key或者unique key的所有列与常数比较时，所以表最多有一个匹配行，读取依次，读速较快。system是const的特例，表中只有一行元素匹配时为system。</li><li><strong>eq_ref</strong>: primary key或者unique key索引的所有部分被连接使用，最多返回一条符合条件的记录。这可能是const之外最好的联接类型，简单的select查询不会出现这种type。</li><li><strong>ref</strong>: 相比eq_ref，不适用唯一索引(unique key)，而是使用普通索引或者唯一索引的部分前缀，索引要和某个值比较，可能会找到多个符合条件的行</li><li><strong>range</strong>: 范围扫描通常出现在in(),between,&gt;,&lt;,&gt;=等操作中。使用一个索引来检索给定范围的行</li><li><strong>index</strong>:扫描全表索引，通常比ALl快一些</li><li><strong>All</strong>:全表扫描，意味着MySQL需要从头到尾去查找所有行。这种情况下需要增加索引来进行优化。</li></ul><h3 id="possible-keys列"><a href="#possible-keys列" class="headerlink" title="possible_keys列"></a>possible_keys列</h3><p>这一列显示select可能会使用那些查询来查找(通常展示会用到的所有索引名称，以,连接)</p><h3 id="key列"><a href="#key列" class="headerlink" title="key列"></a>key列</h3><p>这一列显示MySQL实际采用哪个索引对该表的访问。</p><p>如果没有使用索引，则该列为NULL。</p><h3 id="key-len列"><a href="#key-len列" class="headerlink" title="key_len列"></a>key_len列</h3><p>这一列显示了mysql在索引里使用的字节数，通过这个值可以估算出具体使用了索引中的那些列</p><blockquote><p>例如复合索引中，没有使用全部字段，只使用了部分，可以通过该列推断出具体情况</p></blockquote><p>计算规则:</p><ol><li>字符串<ul><li>char(n):n字节长度</li><li>varchar(n):n字节存储字符串长度,如果是ntf-8，则长度为3n+2</li></ul></li><li>数值类型:<ul><li>tinyint:1字节</li><li>smallint:2字节</li><li>int:4字节</li><li>bigint:8字节</li></ul></li><li>时间类型<ul><li>date:3字节</li><li>timestamp:4字节</li><li>datetime:8字节</li></ul></li></ol><h3 id="ref列"><a href="#ref列" class="headerlink" title="ref列"></a>ref列</h3><p>这一列显示了在key列记录的索引中，表查找值所用到的列或常量，常见的有: const(常量)，字段名等。一般是查询条件或关联条件中等号右边的值，如果是常量，那么ref列是const，非常量的话就是字段名</p><h3 id="row列"><a href="#row列" class="headerlink" title="row列"></a>row列</h3><p>这一列是mysql估计要读取并检测的行数，注意这个不是结果集的行数。</p><h3 id="filtered列"><a href="#filtered列" class="headerlink" title="filtered列"></a>filtered列</h3><p>5.7版本后默认出现这个列，标识存储引擎返回的数据在server层过滤后，剩下多少满足查询的记录数量比例(是百分比不是具体记录数)。</p><h3 id="Extra列"><a href="#Extra列" class="headerlink" title="Extra列"></a>Extra列</h3><p>这一列是额外信息。</p><ul><li>Using index： 使用覆盖索引(结果集的字段是索引，即select后的字段是film_id)</li><li>Using index condition: 查询的列不完全被索引覆盖，where条件是一个前导的范围</li><li>Using where:使用where语句来处理结果，查询的列未被索引覆盖</li><li>Using temporary: mysql需要创建一张临时表来处理查询。出现这种情况一般要进行优化，首先就是索引优化</li></ul><p>参考资料:<a href="https://www.cnblogs.com/xiaoqiang-code/p/11404149.html" target="_blank" rel="noopener">Mysql Explain详解</a></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据库 </category>
+          
+          <category> MySQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> 索引 </tag>
+            
+            <tag> SQL优化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Redis五种数据类型以及其应用场景</title>
+      <link href="/2020/06/16/2020-06-2020-06-16-redis-wu-chong-shu-ju-lei-xing-yi-ji-qi-ying-yong-chang-jing/"/>
+      <url>/2020/06/16/2020-06-2020-06-16-redis-wu-chong-shu-ju-lei-xing-yi-ji-qi-ying-yong-chang-jing/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Redis五种数据类型以及其应用场景"><a href="#Redis五种数据类型以及其应用场景" class="headerlink" title="Redis五种数据类型以及其应用场景"></a>Redis五种数据类型以及其应用场景</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Redis是nosql数据库中的一种，也是目前市面上广泛被使用的数据库之一，因为Redis也是内存型数据库，数据存储在内存里，因此它的IO非常之高，我们也常常利用他做缓存的设计来解决并发的问题。</p><p>在使用Redis进行缓存设计时，很有必要了解下它支持的五种数据类型以及其应用场景。</p><h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="字符串类型-string"><a href="#字符串类型-string" class="headerlink" title="字符串类型(string)"></a>字符串类型(string)</h3><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><ol><li>简单的key-value类型，value可以为字符串和数字,实际存储时按照字符串类型存储</li><li>Redis中的字符串是一个字节序列。Redis中一个字符串最多能存储高达512MB的内容</li></ol><h4 id="常见操作"><a href="#常见操作" class="headerlink" title="常见操作"></a>常见操作</h4><ol><li><code>set key value</code> 设置key对应的值</li><li><code>get key</code>       获取key的值</li><li><code>incr key 1</code>    自增操作，1为可设置的值，代表自增的值</li><li><code>decrby key 1</code>  自减操作，1为可设置的值，代表自减的值</li></ol><h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><ol><li>常规的key-value缓存应用。常规计数：微博数，粉丝数，点赞数，访问量，库存数量等</li></ol><h3 id="哈希类型-hash"><a href="#哈希类型-hash" class="headerlink" title="哈希类型(hash)"></a>哈希类型(hash)</h3><h4 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h4><ol><li>是一个string类型的field和value的映射表，hash特别适合用于存储对象</li></ol><h4 id="常见操作-1"><a href="#常见操作-1" class="headerlink" title="常见操作"></a>常见操作</h4><ol><li><code>hmset key field1 value1 field2 value2</code> 设置hash某对象的字段及其映射的值</li><li><code>hset key field value</code> 设置单个字段的值</li><li><code>hgetall key</code> 获取key对象的所有field及其映射的值</li><li><code>hget key field</code> 获取key对象指定field的value</li><li><code>hvals key</code> 获取hash中所有的值</li><li><code>hdel key field</code> 删除指定field</li><li><code>hexists key field</code> 判断指定field是否存在</li><li><code>hkeys key</code> 获取hash表对应所有field</li></ol><h4 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h4><ol><li>存储部分可能需要变更的数据,比如用户信息、文章信息。这部分通过redis做个缓存。</li></ol><h3 id="列表类型-list"><a href="#列表类型-list" class="headerlink" title="列表类型(list)"></a>列表类型(list)</h3><h4 id="概念-2"><a href="#概念-2" class="headerlink" title="概念"></a>概念</h4><ol><li>有序可重复列表</li><li>列表本质是是双向链表，可以通过Push或者Pop操作从头部或者尾部增加或删除元素，按照一定的策略可以当做栈或者队列使用</li></ol><h4 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h4><ol><li><code>llen key</code> 获取列表的长度</li><li><code>lpop key</code> 移除并获取列表的第一个元素</li><li>‘lpush key value1 value2…’ 将一个值或多个值插入到列表头部</li><li><code>lrange key start stop</code> 获取列表指定范围内的元素</li><li><code>rpop key</code> 移除列表最后一个元素，并返回其值</li><li><code>rpush key value1 value2</code> 在列表尾部添加一个或多个值</li><li><code>lindex key index</code> 通过索引获取列表指定元素</li></ol><h4 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a>应用场景</h4><ol><li>关注列表,粉丝列表等可以使用列表实现。</li><li>Redis列表也通常用于消息队列的服务，假如一个应用程序正在执行lpush操作向列表中添加新的元素，我们将这个程序称为“生产者”，与之对应的另外一个程序执行rpop从列表中取出元素，我们称之为“消费者”</li></ol><h3 id="集合-set"><a href="#集合-set" class="headerlink" title="集合(set)"></a>集合(set)</h3><h4 id="概念-3"><a href="#概念-3" class="headerlink" title="概念"></a>概念</h4><ol><li>无序不可重复列表</li><li>集合成员是唯一的，意味着集合中不能出现重复的数据</li><li>可以使用集合的交并差等方法进行集合间的计算</li><li>集合是通过哈希表实现的，所以添加、删除、查找的时间复杂度都是O(1)</li></ol><h4 id="常用操作-1"><a href="#常用操作-1" class="headerlink" title="常用操作"></a>常用操作</h4><ol><li><code>sadd key value</code> 插入数据</li><li><code>smembers key</code> 获取集合的数据</li><li><code>scard key</code> 获取集合的成员数</li><li><code>sdiff key1 key2</code> 返回给定所有集合的差集</li><li><code>sinter key1 key2</code> 返回给定所有集合的交集</li><li><code>sunion key1 key2</code> 返回给定所有集合的并集</li></ol><h4 id="应用场景-3"><a href="#应用场景-3" class="headerlink" title="应用场景"></a>应用场景</h4><ol><li>存储并计算关系(例如关注人，粉丝等数据通过交集可实现共同关注，共同喜好等功能)</li><li>利用唯一性，可以对数据进行去重</li></ol><h3 id="有序集合-sorted-set"><a href="#有序集合-sorted-set" class="headerlink" title="有序集合(sorted set)"></a>有序集合(sorted set)</h3><h4 id="概念-4"><a href="#概念-4" class="headerlink" title="概念"></a>概念</h4><ol><li>每个元素带有分值的集合</li><li>虽然成员是唯一的，但是分值可以重复</li></ol><h4 id="常用操作-2"><a href="#常用操作-2" class="headerlink" title="常用操作"></a>常用操作</h4><ol><li><code>zadd key score1 value1</code> 向有序集合添加一个或多个成员，或者更新已存在成员分数</li><li><code>zcard key</code> 获取有序集合的成员数</li><li><code>zrange key start end</code> 通过索引区间返回有序集合指定区间内的成员</li></ol><h4 id="应用场景-4"><a href="#应用场景-4" class="headerlink" title="应用场景"></a>应用场景</h4><ol><li>可应用到排行榜中，再利用分数进行排序，然后可以通过方法获取top10等</li><li>如果需要一个有序不重复的集合列表，可以使用，例如将文章发表的时间作为分数，可以实现文章发布时间线等功能</li></ol><h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ol><li>在设置key的时候需要注意命名空间的规范，以<code>:</code>为间隔符，按照项目:模块:id等格式设置key，这样可以在团队协作中起很大作用</li></ol><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据库 </category>
+          
+          <category> Redis </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Redis </tag>
+            
+            <tag> 缓存 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Mysql 多列字段索引 最左匹配原则理解</title>
+      <link href="/2020/06/15/2020-06-2020-06-15-mysql-duo-lie-zi-duan-suo-yin-zui-zuo-pi-pei-yuan-ze-li-jie/"/>
+      <url>/2020/06/15/2020-06-2020-06-15-mysql-duo-lie-zi-duan-suo-yin-zui-zuo-pi-pei-yuan-ze-li-jie/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Mysql-多列字段索引-最左匹配原则理解"><a href="#Mysql-多列字段索引-最左匹配原则理解" class="headerlink" title="Mysql 多列字段索引 最左匹配原则理解"></a>Mysql 多列字段索引 最左匹配原则理解</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在理解Mysql 索引的时候，有看到一篇关于 最左匹配原则的博客，感觉写的挺有意思的，因此做下记录</p><h2 id="多列字段索引他数据结构是什么样的"><a href="#多列字段索引他数据结构是什么样的" class="headerlink" title="多列字段索引他数据结构是什么样的?"></a>多列字段索引他数据结构是什么样的?</h2><p>索引的底层数据就是一颗BTree，那么联合索引（多列字段索引）也是一颗BTree，只不过联合索引的键值数量不是一个而是多个。构建一颗BTree只能根据一个值来构建，因此数据库依据联合索引最左的字段构建BTree。</p><p><img src="https://img-blog.csdnimg.cn/20190401113210176.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzQxOTE3MTA5,size_16,color_FFFFFF,t_70" alt="联合索引图"></p><p>我们可以看到最左列，a的值是有顺序的，而b的值是没有顺序的。所以b=2这种查询条件没办法利用索引，因为联合索引首先按照a排序的，b是无序的。</p><p>同时我们还发现在a值相等的情况下，b值又是按照顺序排序的，但是这种顺序是相对的。所以最左匹配原则遇上范围查询就会停止，剩下的字段都无法使用索引。打个比方: <code>a=1 and b=2</code>中a，b字段都可以使用索引，因为在a值确定的情况下b是相对有序的，而<code>a&gt;1 and b=2</code>中a字段可以匹配上索引，但b值不可以，因为a的值是一个范围，在这个范围中b是无序的。</p><h2 id="最左匹配原则是什么？"><a href="#最左匹配原则是什么？" class="headerlink" title="最左匹配原则是什么？"></a>最左匹配原则是什么？</h2><p><strong>最左匹配原则</strong>: 最左优先，以最左边的为起点任何连续的索引都能匹配上。同时遇到范围查询(&lt;,&gt;,between,like）就会停止匹配。</p><h3 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h3><p>假如建立联合索引(a,b,c)</p><ul><li><strong>全值匹配查询时</strong></li></ul><pre><code>select * from table_name where a = '1' and b = '2' and c = '3' select * from table_name where b = '2' and a = '1' and c = '3' select * from table_name where c = '3' and b = '2' and a = '1' .........</code></pre><p>上面的sql用到了索引。</p><p>where子句几个搜索条件顺序调换不影响查询结果，因为Mysql中有查询优化器，会自动优化查询顺序。</p><ul><li><strong>匹配左边的列时</strong></li></ul><pre><code>select * from table_name where a = '1' select * from table_name where a = '1' and b = '2'  select * from table_name where a = '1' and b = '2' and c = '3'</code></pre><p>都是从最左边开始连续匹配的，都用到了索引</p><pre><code>select * from table_name where  b = '2' select * from table_name where  c = '3'select * from table_name where  b = '1' and c = '3' </code></pre><p>这些没有从最左边开始，最后查询没有用到索引，用的是全表扫描.</p><pre><code>select * from table_name where a = '1' and c = '3' </code></pre><p>如果不连续时，只用到了a列的索引，b,c列索引都没用到</p><ul><li><strong>匹配列前缀</strong></li></ul><p>如果列时字符型的话，它的比较规则是先比较字符串的第一个字符，第一个字符小的哪个字符串就比较小，如果两个字符串第一个字符想通，那就再比较第二个字符，第二个字符比较小的那个字符串就比较小，以此类推比较字符串</p><p>如果a是字符类型，那么前缀匹配用的是索引，后缀和中缀只能全表扫描了</p><pre><code>select * from table_name where a like 'As%'; //前缀都是排好序的，走索引查询select * from table_name where  a like '%As'//全表查询select * from table_name where  a like '%As%'//全表查询</code></pre><ul><li><strong>匹配范围值</strong></li></ul><pre><code>select * from table_name where  a &gt; 1 and a &lt; 3</code></pre><p>可以对最左边的列进行范围查询</p><pre><code>select * from table_name where  a &gt; 1 and a &lt; 3 and b &gt; 1;</code></pre><p>多个列同时进行范围查找时，只有对索引最左边的那个列进行范围查找才用索引，也就是只有a用到索引，在1&lt;a&lt;3范围内b是无序的，不能使用索引,找到1&lt;a&lt;3的记录后，只能根据条件b&gt;1继续逐条过滤</p><ul><li><strong>精确匹配某一列并范围匹配另外一列</strong></li></ul><p>如果左边的列时精确查找的，右边的列可以进行范围查找</p><pre><code>select * from table_name where  a = 1 and b &gt; 3;</code></pre><p>a=1的情况下b是有序的，进行范围查找时走的是联合索引</p><ul><li><strong>排序</strong></li></ul><p>一版情况下，我们只能把记录加载到内存中，再用一些排序算法，比如快速排序,归并排序等在内存中对这些记录进行排序，有时候查询的结果集太大不能再内存中进行排序的话，还能暂时借助磁盘空间存放中间结果，排序操作完成后再把排好序的结果返回客户端。MYSQL中把这种在内存中或者磁盘上进行排序的方式统称为文件排序。文件排序非常慢，但如果order子句用到了索引，就有可能省去文件排序的步骤</p><pre><code>select * from table_name order by a,b,c limit 10;</code></pre><p>因为BTree本身就按照上述规则排序的，所以可以直接从索引中提取数据，然后进行回表操作取出该索引不包含的列就好了</p><p>order by的子句后面的顺序也必须按照索引列的顺序给出，比如：</p><pre><code>select * from table_name order by b,c,a limit 10;</code></pre><p>这种顺序颠倒的没用到索引</p><pre><code>select * from table_name order by a limit 10;select * from table_name order by a,b limit 10;</code></pre><p>这种用到部分索引</p><pre><code>select * from table_name where a =1 order by b,c limit 10;</code></pre><p>联合索引左边列为常量，后边的列排序可以用到索引</p><p>参考资料:<a href="https://blog.csdn.net/sinat_41917109/article/details/88944290" target="_blank" rel="noopener">Mysql最左匹配原则</a></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据库 </category>
+          
+          <category> MySQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> 索引 </tag>
+            
+            <tag> SQL优化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Mysql 索引方法 BTree 和 Hash</title>
+      <link href="/2020/06/14/2020-06-2020-06-14-mysql-suo-yin-fang-fa-btree-he-hash/"/>
+      <url>/2020/06/14/2020-06-2020-06-14-mysql-suo-yin-fang-fa-btree-he-hash/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Mysql-索引方法-BTree-和-Hash"><a href="#Mysql-索引方法-BTree-和-Hash" class="headerlink" title="Mysql 索引方法 BTree 和 Hash"></a>Mysql 索引方法 BTree 和 Hash</h1><h2 id="BTree-和-Hash-在-MySQL-里是什么"><a href="#BTree-和-Hash-在-MySQL-里是什么" class="headerlink" title="BTree 和 Hash 在 MySQL 里是什么"></a>BTree 和 Hash 在 MySQL 里是什么</h2><p>在 MySQL 里的 BTree 和 Hash 指的是数据在存储时所使用的数据结构。</p><p>主流的关系型数据库都是使用BTree作为表默认的索引数据结构</p><h3 id="什么是BTree"><a href="#什么是BTree" class="headerlink" title="什么是BTree"></a>什么是BTree</h3><p>BTree 也就是平衡树;</p><p>BTree有以下特点:</p><ol><li>所有非叶子节点只存储键值信息。</li><li>所有叶子节点之间有一个链指针</li><li>数据记录都在叶子节点中</li></ol><p><img src="https://img-blog.csdn.net/20160202205105560" alt="Image Text"></p><p>通常在 BTree 上有两种头指针，一个指向根节点，一个指向关键字最小的叶子节点，而且所有叶子节点之间通过链指针连接起来形成一个链式环结构。</p><p>因此可以对BTree进行两种查询：</p><ol><li>对于主键范围查找</li><li>从根节点开始进行查找</li></ol><p>参考资料:<a href="https://blog.csdn.net/hao65103940/article/details/89032538" target="_blank" rel="noopener">BTree和B+Tree详解</a></p><h3 id="什么是Hash"><a href="#什么是Hash" class="headerlink" title="什么是Hash"></a>什么是Hash</h3><p>哈希表，是根据关键码值(Key Value)而直接进行访问的数据结构。 也就是说他通过把关键码值映射到一个位置来访问记录,以加快查找速度。这个映射函数叫做散列函数,这个映射表也叫做散列表。</p><p>那么Hash索引就是采用一定的哈希算法，把键值转换成新的哈希值，检索时不需要类似BTree那样从根节点到叶子节点逐级查找，只需要一次哈希算法即可定位到相应的位置，速度非常快</p><p>怎么通过hash去查找呢</p><p>理想情况下使用Hash函数将被查找的键转为数组的索引。最后根据数组的索引直接取到数据的内存地址。</p><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWFnZXMyMDE1LmNuYmxvZ3MuY29tL2Jsb2cvOTk5NDEvMjAxNjA3Lzk5OTQxLTIwMTYwNzA2MTYyMzU5ODc0LTExMzI3NzMyMTIuanBn?x-oss-process=image/format,png" alt="Image Text"></p><p>参考资料:<a href="https://blog.csdn.net/bocai_xiaodaidai/article/details/101672832" target="_blank" rel="noopener">哈希表、哈希索引详解</a></p><h2 id="BTree和Hash的区别是什么呢"><a href="#BTree和Hash的区别是什么呢" class="headerlink" title="BTree和Hash的区别是什么呢"></a>BTree和Hash的区别是什么呢</h2><ul><li><strong>如果是等值查询，那么Hash索引有着明显的优势</strong>，在键值唯一的情况下，Hash索引只需要一次算法就能找到对应的值，而BTree需要从根节点逐级往叶子节点搜索。</li><li><strong>如果是范围查询的话，BTree就有明显优势</strong>,就算是有序的键值通过Hash后都可能变成不连续的，因此Hash索引在范围查询上毫无优势。</li><li><strong>Hash无法完成排序以及like “xx%”这样的模糊查询(这个其实也是范围查询)</strong></li><li><strong>Hash索引不支持符合索引的最左匹配原则</strong></li><li><strong>在有大量键值重复的情况，Hash索引的效率也是非常低的</strong></li></ul><h2 id="MySQL各表引擎支持哪些索引呢"><a href="#MySQL各表引擎支持哪些索引呢" class="headerlink" title="MySQL各表引擎支持哪些索引呢"></a>MySQL各表引擎支持哪些索引呢</h2><ul><li><strong>MyISAM</strong>:BTree</li><li><strong>InnoDB</strong>:BTree</li><li><strong>Memory/Heap</strong>:Hash,BTree</li></ul><p>参考资料:<a href="https://www.cnblogs.com/baizhanshi/p/9869782.html" target="_blank" rel="noopener">mysql 存储引擎对索引的支持</a></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据库 </category>
+          
+          <category> MySQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> 索引 </tag>
+            
+            <tag> SQL优化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>MySQL BTree深入了解</title>
+      <link href="/2020/06/13/2020-06-2020-06-13-mysql-btree-shen-ru-liao-jie/"/>
+      <url>/2020/06/13/2020-06-2020-06-13-mysql-btree-shen-ru-liao-jie/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Mysql-BTree深入了解"><a href="#Mysql-BTree深入了解" class="headerlink" title="Mysql BTree深入了解"></a>Mysql BTree深入了解</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在了解完数据库的BTree后，在看某篇博客的时候被里面的几个问题吸引了，博客里也有问题的解答，感觉挺有意思的，因此做下记录以及自己个人的理解</p><p>参考资料:<a href="https://www.cnblogs.com/guangxiang/p/11547039.html" target="_blank" rel="noopener">数据库索引类型及其原理</a></p><h2 id="数据表为什么会使用主键"><a href="#数据表为什么会使用主键" class="headerlink" title="数据表为什么会使用主键?"></a>数据表为什么会使用主键?</h2><p>事实上在Mysql中每个表都会有主键，如果你不设置，则会有隐藏的自增主键Rowid，那么主键的作用是为了让表生成聚集索引,该索引以BTree的结构存放</p><h3 id="那么什么是聚集索引呢"><a href="#那么什么是聚集索引呢" class="headerlink" title="那么什么是聚集索引呢?"></a>那么什么是聚集索引呢?</h3><p>其实就是正常的BTree结构，而他的叶子节点存放的都是实际的data。</p><p>有了聚集索引也会有非聚集索引,那非聚集索引则是叶子节点存放的不是data而是指向对应data的指针。而非聚集索引通常是由一版索引、唯一索引、全文索引创建的</p><p>非聚集索引有以下特点:</p><ol><li>一个表可以有多个非聚集索引(最多249个)</li><li>非聚集索引必须在聚集索引创建之后创建</li><li>在叶子节点存储的是指向对应data的指针</li></ol><h2 id="为什么使用索引后查询效率会变快"><a href="#为什么使用索引后查询效率会变快" class="headerlink" title="为什么使用索引后查询效率会变快?"></a>为什么使用索引后查询效率会变快?</h2><p>假如我们表有100w条数据,如果不使用索引的话，需要全表扫描，会检索100w次，那么就会花费大量时间。</p><p>如果使用索引，打个比方，<code>select id from table_name where id = 234；</code>这个sql会使用主键索引,在根节点上会判断234在那个区间里，然后持续深入去查找，直到对应数据，那么这个查找的次数等于BTree的深度,因此他查找的次数可能就几次，那么所花费的时间当然就少了。因此利用索引在查询的效率上有质的提升</p><h2 id="使用索引后会使插入、修改、删除变慢"><a href="#使用索引后会使插入、修改、删除变慢" class="headerlink" title="使用索引后会使插入、修改、删除变慢?"></a>使用索引后会使插入、修改、删除变慢?</h2><p>每使用一个索引，都会将数据整体复制一遍形成非聚集索引而存储下来，每次删除，修改，新增的时候都需要对所有索引结构进行梳理来确保他的正确性，者会带来不小的开销，这也是变慢的原因</p><h2 id="什么时候需要在两个字段上加索引？"><a href="#什么时候需要在两个字段上加索引？" class="headerlink" title="什么时候需要在两个字段上加索引？"></a>什么时候需要在两个字段上加索引？</h2><p>首先，给表中多个字段加上索引，那么就会出现多个独立的索引结构，每个索引互相之间不存在关联.</p><p>每次给字段建立新索引时，字段中的数据就会被复制一份出来，用于生成索引。因此，给表添加索引，会增加表的体积，占用磁盘存储空间。</p><p>非聚集索引和聚集索引的区别在于，通过聚集索引可以查到需要的数据，而通过非聚集索引可以查到记录对应的主键值，再使用主键值通过聚集索引查到需要的数据。</p><p>因此不管以何种方式查询表，最终都会利用主键通过聚集索引来定位数据，也就是说<strong>聚集索引(主键)是通往真实数据所在的唯一路径</strong></p><p>但有一种列外不需要使用聚集索引就能查询出所需要的数据，这种称为【覆盖索引】查询，也就是所说的复合索引或者多列字段索引查询。</p><p>如果一个索引指定两个字段，那么这两个数字段的内容都会被同步至索引之中。</p><p>因此在查询时找到对应的非聚集索引里的叶节点内容会出现两个字段的值，因此通过这种方式查找，可以省略后面的两个步骤(找到对应数据的主键、通过主键查询聚集索引中的数据),大大的提高了查询性能。</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据库 </category>
+          
+          <category> MySQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> 索引 </tag>
+            
+            <tag> SQL优化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>索引失效的场景以及原因</title>
+      <link href="/2020/06/10/2020-06-2020-06-10-suo-yin-shi-xiao-de-chang-jing-yi-ji-yuan-yin/"/>
+      <url>/2020/06/10/2020-06-2020-06-10-suo-yin-shi-xiao-de-chang-jing-yi-ji-yuan-yin/</url>
+      
+        <content type="html"><![CDATA[<h1 id="索引失效的场景以及原因"><a href="#索引失效的场景以及原因" class="headerlink" title="索引失效的场景以及原因"></a>索引失效的场景以及原因</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在日常sql优化的过程中，往往会发现一些索引失效的问题，例如预期中该sql应该使用索引，但使用Explain命令后发现并未使用，因此做下记录，记录下索引失效的场景以及原因</p><h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><h3 id="数据量小的时候，索引可能会失效"><a href="#数据量小的时候，索引可能会失效" class="headerlink" title="数据量小的时候，索引可能会失效"></a>数据量小的时候，索引可能会失效</h3><p>在数据量小的时候，如果MySQL优化器觉得使用索引耗费的时间比全表扫描慢，就会不使用索引而走全表扫描，此时索引失效了。</p><h3 id="在复合索引的情况下，不满足最左匹配原则，索引会失效"><a href="#在复合索引的情况下，不满足最左匹配原则，索引会失效" class="headerlink" title="在复合索引的情况下，不满足最左匹配原则，索引会失效"></a>在复合索引的情况下，不满足最左匹配原则，索引会失效</h3><p>复合索引的情况下，非聚集索引的结构是以最左字段为基础构建的，因此在不满足最左匹配的原则下，mysql不会去使用该索引而会使用全表扫描的方式查找，此时索引失效了</p><h3 id="在复合索引的情况下，满足最左匹配原则，但是使用了范围匹配，会导致索引部分失效"><a href="#在复合索引的情况下，满足最左匹配原则，但是使用了范围匹配，会导致索引部分失效" class="headerlink" title="在复合索引的情况下，满足最左匹配原则，但是使用了范围匹配，会导致索引部分失效"></a>在复合索引的情况下，满足最左匹配原则，但是使用了范围匹配，会导致索引部分失效</h3><p>例如创建了index(a,b,c)复合索引，如果在满足最左匹配的情况下，使用该where子句 <code>where a = 1 and b&gt;3 and c = 2</code>,该情况下，a,b字段都使用了索引，但是c并未使用索引，因为复合索引是基于a字段构建的(a,b,c)为每个节点记录的值，该值在a相等的情况下,b是有序的,因此在b使用范围查询时还是查询的索引，但是之后的C就是无序的了，因此索引会失效,这也是为什么在复合索引创建时，我们要把范围匹配的字段往后放的原因</p><h3 id="对索引使用内置函数-索引会失效"><a href="#对索引使用内置函数-索引会失效" class="headerlink" title="对索引使用内置函数,索引会失效"></a>对索引使用内置函数,索引会失效</h3><p>在对索引使用内置函数后，会导致mysql不会使用索引，因为索引是基于函数处理前的值构建。</p><h3 id="在使用like的时候，索引可能会失效"><a href="#在使用like的时候，索引可能会失效" class="headerlink" title="在使用like的时候，索引可能会失效"></a>在使用like的时候，索引可能会失效</h3><p>字符串类型的字段构建索引时也是类似的顺序，以第一个字符开始构建,类似复合索引的构建顺序。</p><p>在这种情况下，<code>Like "str%"</code> 是会使用索引的，因为按照前缀去匹配。</p><p>但是 <code>like '%str'</code>这种情况就会导致索引失效</p><h3 id="在使用or时，-索引可能会失效"><a href="#在使用or时，-索引可能会失效" class="headerlink" title="在使用or时， 索引可能会失效"></a>在使用or时， 索引可能会失效</h3><p>出于mysql优化器的优化策略。在使用or的情况下可能导致查询的成本高于一次全表扫描，就会导致索引失效。此时可以针对or使用的所有字段建立索引来优化</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据库 </category>
+          
+          <category> MySQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> 索引 </tag>
+            
+            <tag> SQL优化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>实现Postgresql10基于wal日志的数据恢复</title>
+      <link href="/2020/05/22/2020-05-2020-05-21-shi-xian-postgresql-ji-yu-wal-ri-zhi-de-shu-ju-hui-fu/"/>
+      <url>/2020/05/22/2020-05-2020-05-21-shi-xian-postgresql-ji-yu-wal-ri-zhi-de-shu-ju-hui-fu/</url>
+      
+        <content type="html"><![CDATA[<h1 id="实现Postgresql10基于wal日志的数据恢复"><a href="#实现Postgresql10基于wal日志的数据恢复" class="headerlink" title="实现Postgresql10基于wal日志的数据恢复"></a>实现Postgresql10基于wal日志的数据恢复</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>之前讲过百度里的一些帖子和资源是比较古老的，在后面的发展一些流程或者函数发生变化，因此在使用过程中会有一些问题。而在之前的业务中有用到基于postgresql的wal日志恢复，但百度上的帖子都是基于postgresql10以下的。而postgresql10则针对内部函数有进行优化，部分函数名发生了改变，因此记录下。</p><h2 id="wal日志"><a href="#wal日志" class="headerlink" title="wal日志"></a>wal日志</h2><p>wal日志就是预写式日志，是日志的标准实现方式，简单而言就是将对数据库的变动记录到日志 中，而后在将具体的新数据刷新到磁盘。PostgreSQL将该日志维护在数据文件夹下的子文件夹pg_xlog中。当数据库崩溃后，可以通过“重放”日志中的“动作”，将数据库恢复。也就是说，只要拥有一个基础备份和完整的日志文件，理论上可以将数据库库恢复到任意基础备份以来的任意时刻点。不仅如此，如果在另一个实例上将这些日志不停的“重放”，那么就拥有了一个完整的在线备份，也就是“复制”。</p><p>pg_xlog下日志文件不会无限制增多，也就是说并不用担心日志的增多使得磁盘空间捉襟见肘。默认每个日志文件为16M大小，即当增长到16M时，就会切换到别的文件，并复用之前的文件 。因此，为了保证有个完整的日志链，必须将写满的文件复制保存到一个特定的文件 夹。对于最后一个还未满16M的日志文件，可以手动触发一次切换。</p><h2 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h2><p>修改配置文件开启wal日志</p><pre><code>vim /etc/postgresql/10/main/postgresql.confwal_level = replicaarchive_mode = onarchive_command = ' test ! -f /var/lib/postgresql/archive/%f &amp;&amp; cp %p /var/lib/postgresql/archive/%f'`</code></pre><blockquote><p>archive_command是归档命令</p></blockquote><p>然后创建归档目录</p><pre><code>cd /usr/lib/postgressu postgresmkdir archive</code></pre><blockquote><p>切记，是切换到postgres用户再去创建，因为pgsql是以postgres用户去操控的</p></blockquote><p>然后重启服务</p><pre><code>/usr/lib/postgresql/10/bin/pg_ctl restart -D /var/lib/postgresql/10/main/ -o "-c config_file=/etc/postgresql/10/main/postgresql.conf"</code></pre><p>然后创建数据库，数据表啥的填充数据啥的，<br>接着创建基础备份</p><pre><code>psql -c "SELECT pg_start_backup('base', true)"cd /var/lib/postgresql/10/tar -cvf main.tar mainpsql -c "SELECT pg_stop_backup()"</code></pre><blockquote><p>正常情况下，main文件夹以及wal日志文件夹archive都要备份，因为wal日志会记录你后面的操作</p></blockquote><p>这时候创建几张新表，关闭数据库，模拟数据库宕机，此时，数据库test中应该有3张表，其中1张表在基础备份前，也就是恢复完数据文件即可找回，而另2张表则需恢复相应的日志文件。模拟恢复到testPITR2创建时刻点。</p><blockquote><p>notice:在postgresql10版本开始手动触发归档命令由pg_switch_xlog()变为pg_switch_wal(),<br>最好手动设置下环境变量PGDATA</p></blockquote><p>然后<strong>关闭服务器，删除main文件夹，然后重新解压main.tar</strong></p><p>进入main文件夹，生成recovery.conf文件，该文件生成目录在PGDATA目录里，目录地址可以在postgresql.conf文件里找到</p><pre><code>vim recovery.conf</code></pre><p>写入以下参数</p><pre><code>restore_command = 'cp /var/lib/postgresql/archive/%f %p'recovery_target_time = '2016-01-18 10:02:15'</code></pre><blockquote><p>wal日志可以基于时间点回复，或者事务id，但是事务id查询起来特别麻烦，所以最好基于时间点回复，</p></blockquote><p>可以参考的网站:<a href="https://www.cnblogs.com/cxy486/p/5140262.html" target="_blank" rel="noopener">https://www.cnblogs.com/cxy486/p/5140262.html</a> </p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据库 </category>
+          
+          <category> Postgresql </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Postgresql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>实现PHP和JavaScript的TripleDES加密解密(三)</title>
+      <link href="/2020/05/20/2020-05-2020-05-20-shi-xian-php-he-javascript-de-tripledes-jia-mi-jie-mi-er/"/>
+      <url>/2020/05/20/2020-05-2020-05-20-shi-xian-php-he-javascript-de-tripledes-jia-mi-jie-mi-er/</url>
+      
+        <content type="html"><![CDATA[<h1 id="实现PHP和JavaScript的TripleDES加密解密-三"><a href="#实现PHP和JavaScript的TripleDES加密解密-三" class="headerlink" title="实现PHP和JavaScript的TripleDES加密解密(三)"></a>实现PHP和JavaScript的TripleDES加密解密(三)</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>这章节讲下在加密过程中遇到的一些坑。</p><h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>因为前端页面请求的时候会将一个32位16进制字符串转为 CryptoJs 类库里独有的数据结构 WordArray 去参与加密，因此需要在PHP里实现 WordArray 的相同数据结构</p><p>因为只用到了16进制转 WordArray，所以下面着重讲下该过程。</p><pre class=" language-$xslt"><code class="language-$xslt">//解析16进制字符串parse: function (hexStr) {    // Shortcut    var hexStrLength = hexStr.length;    // Convert    var words = [];    for (var i = 0; i < hexStrLength; i += 2) {        words[i >>> 3] |= parseInt(hexStr.substr(i, 2), 16) << (24 - (i % 8) * 4);    }    return new WordArray.init(words, hexStrLength / 2);}</code></pre><pre class=" language-$xslt"><code class="language-$xslt">//wordarray类构造函数init: function (words, sigBytes) {    words = this.words = words || [];    if (sigBytes != undefined) {        this.sigBytes = sigBytes;    } else {        this.sigBytes = words.length * 4;    }},</code></pre><p>看上面代码会发现解析字符串的过程中会涉及到位运算(包括无符号右移、有符号左移),然后再测试过程中发现，JS的位运算和PHP的不一样，因此需要在PHP去实现和JS效果一致的位运算</p><pre class=" language-$xslt"><code class="language-$xslt">//有符号左移function ll($v, $n){  $t = ($v & 0xFFFFFFFF) << ($n & 0x1F);  return $t & 0x80000000 ? $t | 0xFFFFFFFF00000000 : $t & 0xFFFFFFFF;}//无符号右移function uright($a, $n){    $c = 2147483647 >> ($n - 1);    return $c & ($a >> $n);}</code></pre><p>在实现上面位运算后就能成功在PHP去实现 WordArray 这个数据结构</p><pre class=" language-$xslt"><code class="language-$xslt">//创建WordArrayfunction createWordArray($hexString){    $hexStrLength = strlen($hexString);    $words = [];    for ($i = 0; $i < $hexStrLength; $i += 2) {        $words[uright($i,3)] |= ll(hexdec(substr($hexString,$i, 2)),(24 - ($i % 8) * 4));    }    return [        'words'=>$words,        'sigBytes'=>$hexStrLength/2    ];}</code></pre><p>上面则是将16进制字符串转为 WordArray 数据结构的过程</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>感觉在实现PHP进行 TripleDES 的加密解密实现时，更能体会到语言只是工具，不变的是思想。只要思想懂了，不管在哪个语言里都能实现。</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 对称加密 </tag>
+            
+            <tag> PHP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>实现PHP和JavaScript的TripleDES加密解密(二)</title>
+      <link href="/2020/05/20/2020-05-2020-05-20-shi-xian-php-he-javascript-de-tripledes-jia-mi-jie-mi-san/"/>
+      <url>/2020/05/20/2020-05-2020-05-20-shi-xian-php-he-javascript-de-tripledes-jia-mi-jie-mi-san/</url>
+      
+        <content type="html"><![CDATA[<h1 id="实现PHP和JavaScript的TripleDES加密解密-二"><a href="#实现PHP和JavaScript的TripleDES加密解密-二" class="headerlink" title="实现PHP和JavaScript的TripleDES加密解密(二)"></a>实现PHP和JavaScript的TripleDES加密解密(二)</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>接着上一章开始讲，上章讲了TripleDES的大致原理以及在JS中的使用方法。因此这章节讲下PHP里去实现TripleDES。</p><h2 id="PHP-里实现TripleDES加密解密"><a href="#PHP-里实现TripleDES加密解密" class="headerlink" title="PHP 里实现TripleDES加密解密"></a>PHP 里实现TripleDES加密解密</h2><pre class=" language-$xslt"><code class="language-$xslt"> function encryptBodyTP($data,$vk,$iv) {         //Pad for PKCS7     $blockSize = mcrypt_get_block_size('tripledes', 'cbc');     $len = strlen($data);     var_dump($len);     $pad = $blockSize - ($len % $blockSize);     var_dump($pad);     $data .= str_repeat(chr($pad), $pad);     $key = $vk;     //Encrypt data     $encData = mcrypt_encrypt('tripledes', $key, $data, 'cbc',$iv);      return base64_encode($encData); }</code></pre><p>上面的代码实现了在PHP下使用cbc工作模式、PKCS7Padding补位模式的加密算法。 而有一点需要注意的是要实现以上加密是需要下载一个php拓展.</p><p>mcrypt拓展。该拓展下载时会有些注意的地方:</p><ol><li>php version &lt; 7.3（不包括7.3）请下载1.0.1版本</li><li>php version &gt;= 7.3 请下载1.0.2版本</li><li>下载完成后需要手动在php.ini里引入一下，如果你使用的是apache的话还需要在apache2里的php.ini里引入</li></ol><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>准确来说在PHP里实现TripleDES加密不算特别难，就是百度上的许多资料比较老，因此才会产生一系列问题。当然这个加密的过程中还会有一些因为业务而产生的坑，这块下节再讲。</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 对称加密 </tag>
+            
+            <tag> PHP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>实现PHP和JavaScript的TripleDES加密解密(一)</title>
+      <link href="/2020/05/18/2020-05-2020-05-18-shi-xian-php-he-javascript-de-tripledes-jia-mi-jie-mi-yi/"/>
+      <url>/2020/05/18/2020-05-2020-05-18-shi-xian-php-he-javascript-de-tripledes-jia-mi-jie-mi-yi/</url>
+      
+        <content type="html"><![CDATA[<h1 id="实现PHP和JavaScript的TripleDES加密解密-一"><a href="#实现PHP和JavaScript的TripleDES加密解密-一" class="headerlink" title="实现PHP和JavaScript的TripleDES加密解密(一)"></a>实现PHP和JavaScript的TripleDES加密解密(一)</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>因为第三方PaaS服务商的接口调用是使用TripleDES加密参数的，因此需要在PHP实现与js效果一样的加密和解密，因此在花费了一周的时间解决这个问题后，记录过程，因为内容比较多，大致拆分了三部分。<br>    1. 阐述TripleDES算法原理以及JS中的应用<br>    2. 在PHP中模拟TripleDES加密<br>    3. 业务过程中遇到的一些问题及其解决办法</p><h2 id="什么是TriplesDES"><a href="#什么是TriplesDES" class="headerlink" title="什么是TriplesDES"></a>什么是TriplesDES</h2><p>TriplesDES是对称加密中的一种加密方式,而对称加密，是一种比较传统的加密方式，其加密运算、解密运算使用的是同样的密钥，信息的发送者和信息的接收者在进行信息的传输与处理时，必须共同持有该密码（称为对称密码）。因此，通信双方都必须获得这把钥匙，并保持钥匙的秘密</p><p>TripleDES算法提供的key位数更多，加密可靠性更高。使用24字节的key，初始向量IV也是8字节。而算法都是以8字节为一个块进行加密，一个数据块一个数据块的加密，一个8字节的明文加密后的密文也是8字节。如果明文长度不为8字节的整数倍，添加值为0的字节凑满8字节整数倍。所以加密后的密文长度一定为8字节的整数倍。</p><h2 id="js里的TripleDES是什么样的"><a href="#js里的TripleDES是什么样的" class="headerlink" title="js里的TripleDES是什么样的"></a>js里的TripleDES是什么样的</h2><p>在了解TriplesDES加密算法其实就是对称加密算法中的一种后，JavaScript中有提供类似的加密库也就是cryptoJs。因此我们需要在PHP去实现和cryptoJs加密一样的效果,而我们则主要使用cryptoJs中的TriplesDES加密方式</p><pre><code>var iv = CryptoJs.enc.Hex.parse('0000000000000001');var key = CryptoJs.enc.Utf8.parse(sk.substr(0, 24));var msg = CryptoJs.enc.Utf8.parse(JSON.stringify(bodyDict));var encrypted = CryptoJs.TripleDES.encrypt(msg, key, {  iv: iv,  mode: CryptoJs.mode.CBC,  padding: CryptoJs.pad.Pkcs7}).ciphertext;var based = CryptoJs.enc.Base64.stringify(encrypted).toString()</code></pre><p>上面则是在JS中使用 CryptoJs.TripleDES 加密的整个过程。而加密中会使用一些参数，我接下来讲讲这些参数的意思和原理</p><ul><li><strong>msg</strong>: 这个就是加密中的明文，也就是我们需要加密的数据，在加密之前需要转成字符串才能参与加密。</li></ul><ul><li><strong>key</strong>: 这个则是加密使用的key,因为TripleDES使用的是24位key，因此需要截取24位字串</li></ul><ul><li><p><strong>mode</strong>: 工作模式，这个也就是加密算法中的加密方式了，目前常用两种</p><ul><li><strong>ecb</strong>: 一般先将明文分成等长大小的块，通常为8个字节。然后用相同的密钥对每个明文块加密</li><li><strong>cbc</strong>: 先对当前的明文组和上一个密文组做异或，然后将异或的结果用密钥加密</li></ul></li></ul><ul><li><p><strong>iv</strong>: 初始向量,在cbc模式中主要跟第一组明文组做异或操作后再和密钥加密的，因此也称始向量。</p></li><li><p><strong>padding</strong>: 则是补位模式，因为加密方式的原因，通常会每8个字节拆为一个明文组进行加密。因此会遇到一个问题，如果明文不是8的倍数怎么办？数据补位实际是在数据不满8字节的倍数，才补充到8字节的倍数的填充过程</p><ul><li><p>NoPadding: 算法本身不填充，比如.NET的padding提供了有None，Zeros方式，分别为不填充和填充0的方式。</p></li><li><p>PKCS7Padding（PKCS5Padding）填充方式：为.NET和JAVA的默认填充方式，对加密数据字节长度对8取余为r，如r大于0，则补8-r个字节，字节为8-r的值；如果r等于0，则补8个字节8。</p><blockquote><p>比如：加密字符串为为AAA，则补位为AAA55555;加密字符串为BBBBBB，则补位为BBBBBB22；加密字符串为CCCCCCCC，则补位为CCCCCCCC88888888。 </p></blockquote></li></ul></li></ul><p>因此在了解上面所有参数后，大概就知道这个加密算法的运作方式了，接下来只需要在PHP中去模拟TripleDES加密了。</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 对称加密 </tag>
+            
+            <tag> PHP </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Laravel Passport中使用JSON API形式的code授权模式小结</title>
+      <link href="/2020/05/18/2020-05-2020-05-18-laravel-passport-json-api-de-shi-yong-xiao-jie/"/>
+      <url>/2020/05/18/2020-05-2020-05-18-laravel-passport-json-api-de-shi-yong-xiao-jie/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Laravel-Passport中使用JSON-API形式的code授权模式小结"><a href="#Laravel-Passport中使用JSON-API形式的code授权模式小结" class="headerlink" title="Laravel Passport中使用JSON API形式的code授权模式小结"></a>Laravel Passport中使用JSON API形式的code授权模式小结</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>业务需要开发账号系统，所以在Laravel中使用passport。使用密码授权模式进行前台用户的登录时合格的，但是在开发Oauth的第三方服务的时候，发现授权码模式有一些坑，最后通宵解决了，因此做如下记录</p><h2 id="授权码模式的配置"><a href="#授权码模式的配置" class="headerlink" title="授权码模式的配置"></a>授权码模式的配置</h2><h3 id="1-在config-auth-php文件中，将web的验证驱动修改为passport"><a href="#1-在config-auth-php文件中，将web的验证驱动修改为passport" class="headerlink" title="1.在config/auth.php文件中，将web的验证驱动修改为passport"></a>1.<strong>在<code>config/auth.php</code>文件中，将web的验证驱动修改为passport</strong></h3><p>第一个坑：虽然文档上说可以直接将地址重定向，但是在跳转时还是会有验证，因为之前使用密码授权模式并且使用token。所以驱动改为passport后，授权码模式的相关接口将会使用和账号密码一样的验证方式</p><pre><code>    'guards' =&gt; [            'web' =&gt; [            'driver' =&gt; 'passport',            'provider' =&gt; 'users',        ],</code></pre><h3 id="2-在使用passort驱动后，需要编写一个路由中间件，在Kernel-php文件中在所有请求前使用。"><a href="#2-在使用passort驱动后，需要编写一个路由中间件，在Kernel-php文件中在所有请求前使用。" class="headerlink" title="2.在使用passort驱动后，需要编写一个路由中间件，在Kernel.php文件中在所有请求前使用。"></a>2.<strong>在使用passort驱动后，需要编写一个路由中间件，在Kernel.php文件中在所有请求前使用。</strong></h3><p>因为之前使用的json api的验证方式，token需卸载header里面才能通过验证，但是在页面重定向时无法设置hader头信息。</p><p>因为passport的验证也是通过中间件来进行的，并且他们的读取也是通过Laravel的Request类来读取header信息，因此写一个中间件去读取query string里面的tokn信息并设置到header里面，并放在所有中间件之前运行即可像之前密码授权方式一样通过验证。</p><pre><code>class DealToken{    /**     * Handle an incoming request.     *     * @param  \Illuminate\Http\Request  $request     * @param  \Closure  $next     * @param  string|null  $guard     * @return mixed     */    public function handle($request, Closure $next, $guard = null)    {        $request = app(Request::class);        if ($request-&gt;has('access_token')) {            $request-&gt;headers-&gt;set('Authorization','Bearer '.$request-&gt;get('access_token'));        }        return $next($request);    }} </code></pre><h3 id="3-创建Client模型-设置为passport使用的客户端模型，并重写方法skipsAuthorization恒定返回true来跳过授权确认页面"><a href="#3-创建Client模型-设置为passport使用的客户端模型，并重写方法skipsAuthorization恒定返回true来跳过授权确认页面" class="headerlink" title="3.创建Client模型,设置为passport使用的客户端模型，并重写方法skipsAuthorization恒定返回true来跳过授权确认页面"></a>3.<strong>创建Client模型,设置为passport使用的客户端模型，并重写方法<code>skipsAuthorization</code>恒定返回true来跳过授权确认页面</strong></h3><p>按照文档中的流程，是先重定向到一个页面后点击授权。那么会遇到两个问题</p><ol><li>整个过程会经历两个接口：<code>GET /oauth/authorize</code>和<code>POST /oauth/authorize</code>。但是在这个过程中，上面一步的token在两个接口调用的过程中是不会被传递的。</li><li>不能直接使用<code>POST /oauth/authorize</code>方法，因为passport在第一个接口中会在session中存入authrequest的数据，并且在第二个接口去验证</li></ol><p>因此重写该方法跳过授权页面，在<code>GET /oauth/authorize</code>时不会显示授权页面而是直接执行<code>POST /oauth/authorize</code>并进行跳转</p><p>在<code>AuthServiceProvider</code>设置客户端模型</p><pre><code>Passport::useClientModel(ClientsModel::class);</code></pre><p>创建Client模型，重写<code>skipsAuthorization</code>方法</p><pre><code>&lt;?phpnamespace App\Models\Passport;use Laravel\Passport\Client as BaseClient;class Client extends BaseClient{    /**     * 确定客户端是否应跳过授权提示。     *     * @return bool     */    public function skipsAuthorization()    {        return $this-&gt;firstParty();    }}</code></pre><h3 id="4-最后再开发授权登录页面以及通过code换取token的接口就完成了"><a href="#4-最后再开发授权登录页面以及通过code换取token的接口就完成了" class="headerlink" title="4.最后再开发授权登录页面以及通过code换取token的接口就完成了"></a>4.最后再开发授权登录页面以及通过code换取token的接口就完成了</h3><h2 id="code模式认证流程"><a href="#code模式认证流程" class="headerlink" title="code模式认证流程"></a>code模式认证流程</h2><p>1.重定向到授权登录页面让用户登录</p><p>2.登录成功就重定向到<code>GET /oauth/authorize</code>，除了携带指定参数外，还需使用get方式传递第一步登录获取的token</p><p>3.页面会重定向到Client中的redirect的地址并携带code</p><p>3.第三方会在redirect页面接受code并处理，携带code调用对应接口换取token,该接口也会返回用户唯一标识guid</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前国内的网上有很多文档因为版本的更新或者没关注这个地方，从而导致文档的正确性出现问题，因此遇到和文档不符的时候可以大胆尝试，如解决不了可以去通过google或者stack overflow寻求帮助。</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+          <category> Laravel </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Laravel </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JWT流程详解</title>
+      <link href="/2019/11/18/2019-11-2019-11-18-jwt-liu-cheng-xiang-jie/"/>
+      <url>/2019/11/18/2019-11-2019-11-18-jwt-liu-cheng-xiang-jie/</url>
+      
+        <content type="html"><![CDATA[<h1 id="JWT的流程详解"><a href="#JWT的流程详解" class="headerlink" title="JWT的流程详解"></a>JWT的流程详解</h1><h2 id="JWT流程总览"><a href="#JWT流程总览" class="headerlink" title="JWT流程总览"></a>JWT流程总览</h2><ul><li>用户端发送登录请求携带账号以及密码</li></ul><blockquote><p>或者其他登录方式都可以</p></blockquote><ul><li><p>服务端验证并通过请求后开始生成token，并返回到客户端</p></li><li><p>客户端接收到token后需要存在本地，以做后续请求的验证</p></li><li><p>此后的每一次客户端发送的请求都会携带token</p></li><li><p>服务端会在中间件进行拦截，过滤非法的请求</p></li></ul><blockquote><p>token可以设置有效时间，通常情况下最好设置一个有效时间</p></blockquote><ul><li>服务端可以通过token解密出一开始就存储的对象信息</li></ul><p><img src="https://images2018.cnblogs.com/blog/1401949/201806/1401949-20180606164320683-1736251056.png" alt="image"></p><h3 id="服务端验证通过登录请求后生成token"><a href="#服务端验证通过登录请求后生成token" class="headerlink" title="服务端验证通过登录请求后生成token"></a>服务端验证通过登录请求后生成token</h3><p>用户端发送登录请求就不在多说了，直接开始正文部分</p><ol><li>服务端首先会定义token的header头信息，里面包括了加密算法和token的类型</li></ol><pre><code>{  "typ": "JWT",  "alg": "HS256"}</code></pre><ol start="2"><li>然后会在payload(负载)里存入对象数据</li></ol><pre><code>{  "sub": "1234567890",  "name": "John Doe",  "admin": true}</code></pre><blockquote><p>此处负载官网有推荐的信息，除此之外还能添加额外的信息，但是有一点要注意，token的加密方法是对称加密，意味着这些信息可以被解密，所以都是明文</p></blockquote><ol start="3"><li>最后生成签名，利用base64加密后的前部分信息，通过header指定的加密算法，组合秘钥加盐最后生成的</li></ol><pre><code>var encodedString = base64UrlEncode(header) + "." + base64UrlEncode(payload); HMACSHA256(encodedString, 'secret');</code></pre><ol start="4"><li>最后三者通过<code>.</code>连接，然后返回给客户端</li></ol><h3 id="客户端发送请求的时候如何携带token"><a href="#客户端发送请求的时候如何携带token" class="headerlink" title="客户端发送请求的时候如何携带token"></a>客户端发送请求的时候如何携带token</h3><p>客户端接收token后会通过本地缓存的方式存储token</p><p>然后会在之后的每次请求的请求头里面加入Authorization并加上Bearer标注</p><pre><code>fetch('api/user/1', {  headers: {    'Authorization': 'Bearer ' + token  }})</code></pre><h3 id="服务端中间件接收后如何拦截"><a href="#服务端中间件接收后如何拦截" class="headerlink" title="服务端中间件接收后如何拦截"></a>服务端中间件接收后如何拦截</h3><p>首先服务端接收token会将header以及payload再次base64编码，然后按照header指定的加密方式，再次进行加密，然后和签名校验下，如果不同，则说明此次请求有被篡改，因此会被过滤掉，并返回错误信息</p><p>那么只要保证秘钥存放在服务端，不会泄露，那么token基本上是安全的</p><p>本文借鉴于<a href="https://www.cnblogs.com/anny0404/p/5318692.html" target="_blank" rel="noopener">基于jwt的token验证</a></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> Web开发知识帖子 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JWT </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ORM模型里的渴求式加载与懒惰式加载</title>
+      <link href="/2019/11/01/2019-11-2019-11-01-orm-mo-xing-li-de-ke-qiu-shi-jia-zai-yu-lan-duo-shi-jia-zai/"/>
+      <url>/2019/11/01/2019-11-2019-11-01-orm-mo-xing-li-de-ke-qiu-shi-jia-zai-yu-lan-duo-shi-jia-zai/</url>
+      
+        <content type="html"><![CDATA[<h1 id="懒惰式加载"><a href="#懒惰式加载" class="headerlink" title="懒惰式加载"></a>懒惰式加载</h1><pre class=" language-php"><code class="language-php">    <span class="token comment" spellcheck="true">// 获取 ID 为 10 的帖子</span>    <span class="token variable">$post</span><span class="token operator">=</span>Post<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">findByPk</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">// 获取帖子的作者(author): 此处将执行一个关联查询。</span>    <span class="token variable">$author</span><span class="token operator">=</span><span class="token variable">$post</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">author</span><span class="token punctuation">;</span></code></pre><p>用模型的属性的方式加载关联属性数据，则为懒惰式加载，仅当第一次访问关联属性时，才进行查询加载。</p><p>加入一次性要访问的数据比较多，比如一个表格中，若干干行的数据都是此关联属性。那么懒惰式加载将非常影响效率。</p><p>因为每个关联属性，都会单独的去查询一次数据库。</p><blockquote><p>懒惰式加载本质是N+1查询,假设查询25个帖子及其作者的时候，可能就会查询26次数据库,第一次是查询所有帖子，然后25次是查询每个帖子的作者</p><p>大致顺序是先请求数据库获取帖子模型实例，然后再去拿帖子的关联属性去查询作者模型实例,这样的话在关联的数据较大时候会浪费数据库的性能.</p></blockquote><h1 id="渴求式加载"><a href="#渴求式加载" class="headerlink" title="渴求式加载"></a>渴求式加载</h1><pre class=" language-php"><code class="language-php">    <span class="token variable">$posts</span><span class="token operator">=</span>Post<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">with</span><span class="token punctuation">(</span><span class="token string">'author'</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">findAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><p>上述代码将返回一个 Post 实例的数组。与懒惰式加载方式不同，在我们访问每个 Post 实例中的 author 属性之前，它就已经被关联的 User 实例填充了。 渴求式加载通过 一个 关联查询返回所有帖子及其作者，而不是对每个帖子执行一次关联查询。</p><blockquote><p>渴求式加载的顺序大概是，在查询帖子模型实例之后就把作者模型实例给查询出来了，总共就查询了<strong>两次</strong>，后续的关联查询就不会在数据库里查询，因此在关联数据较大的情况下使用渴求式加载节约性能</p></blockquote><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> PHP </category>
+          
+          <category> Laravel </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Laravel </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>docker的Kubernetes学习笔记</title>
+      <link href="/2019/11/01/2019-11-2019-11-01-docker-de-kubernetes-xue-xi-bi-ji/"/>
+      <url>/2019/11/01/2019-11-2019-11-01-docker-de-kubernetes-xue-xi-bi-ji/</url>
+      
+        <content type="html"><![CDATA[<h2 id="kubernetes-简称：k8s"><a href="#kubernetes-简称：k8s" class="headerlink" title="kubernetes(简称：k8s)"></a>kubernetes(简称：k8s)</h2><p>k8s是一个集群编排工具(集群调度程序)</p><h2 id="使用所需要注意的地方"><a href="#使用所需要注意的地方" class="headerlink" title="使用所需要注意的地方"></a>使用所需要注意的地方</h2><ol><li>使用k8s需要连接外网，所以可以使用vpn或者使用大厂的解决工具k8s-for-docker-desktop(github仓库里搜索)</li><li>验证k8s成功则使用<code>kubectl version</code>来查看信息</li><li>目前docker只有windows以及mac版，所以ubuntu这样的环境最好使用minikube(单服务器集群)</li><li>docker的容器是必须以前台形式存活的，一个容器里最好只有一个进程，这样当进程被终止掉后，容器也会被关闭，这样k8s工具可以监听到容器的关闭然后重启他</li></ol><h2 id="k8s的使用"><a href="#k8s的使用" class="headerlink" title="k8s的使用"></a>k8s的使用</h2><ol><li>k8s的使用方式分为两种，命令式以及声明式<ul><li>命令式，顾名思义就是在终端里敲对应的命令，例如<code>kubectl run</code>这样的，但是这样是只适合在本地开发测试使用，在生产环境中最好不要这样使用</li><li>声明式,即使用服务编排文件,文件后缀为.yml,这样利于在不同节点之间服务的统一性，因此在生产环境中最好使用这种方式</li></ul></li><li>k8s的命名规则是不适用驼峰法，单词与单词之间用.或者-连接.</li></ol><h2 id="k8s概念"><a href="#k8s概念" class="headerlink" title="k8s概念"></a>k8s概念</h2><h3 id="pod"><a href="#pod" class="headerlink" title="pod"></a>pod</h3><p>k8s是以pod为最小单位来调度并管理docker容器,其中一个pod可含多个容器，且相同pod里的容器共享本地网络，容器间可通过localhost地址互访，即容器如同部署在相同的主机上，而以pod为最小单元来调度则表明：pod内的容器被调度到相同的docker节点上</p><h3 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h3><p>将应用直接以pod形式部署很少见，主因是：pod无法提供弹性伸缩，且节点故障时k8s无法将其调度到幸存节点上，缺少自愈能力。鉴于此，应用常使用“镜像Rc部署Delopyment”部署，且在k8s新版本中，官方推荐用Deployment替代rc部署无状态应用</p><blockquote><p>执行kubectl delete pod <pod_name>删除Pod后，可发现deployment将自动重建pod，其将确保拥有.spec.replicas个pod数量，即意味着，当pod异常时，deployment具备自愈特性。</pod_name></p></blockquote><blockquote><p>当需伸缩或扩展应用时，若以Pod形式部署，则需删除或创建Pod，而若使用Deployment部署，则我们仅需调整.spec.replicas，而后K8S镜像控制器将自动调整Pod数量</p></blockquote><h2 id="k8s常用命令"><a href="#k8s常用命令" class="headerlink" title="k8s常用命令"></a>k8s常用命令</h2><p>k8s的命令行工具是<code>kubectl</code></p><pre><code>kubectl get pods -o wide|json|yaml      不同格式输出pods信息kubectl get all --all-namespaces        查看所有服务kubectl run db --image redis            创建一个名为db的服务，镜像为rediskubectl delete deployment db            删除dbkubectl exec db [命令,例如ls /etc]       在容器中运行命令kubectl exec -it db sh                  以终端打开容器kubectl create -f pod/a.yml             以pod/a.yml的编排文件创建kubectl describe pod db                 查看服务的详细信息kubectl describe -f pod/a.yml           查看某个服务编排文件的详细信息</code></pre><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> Docker </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> docker </tag>
+            
+            <tag> kubernetes </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
