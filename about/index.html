@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="关于, 博客,PHP,React">
+    <meta name="keywords" content="关于, 博客,PHP,React,MySQL,Postgresql">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -306,7 +306,7 @@
                 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
                 <script>
                     var typed = new Typed("#subtitle", {
-                        strings: ['从来没有真正的绝境, 只有心灵的迷途','Never really desperate, only the lost of the soul'],
+                        strings: ['尺有所短；寸有所长。物有所不足；智有所不明。','骐骥一跃，不能十步；驽马十驾，功在不舍；锲而舍之，朽木不折；锲而不舍，金石可镂。'],
                         startDelay: 300,
                         typeSpeed: 100,
                         loop: true,
@@ -562,7 +562,7 @@
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"PHP","value":6},{"name":"Docker","value":2},{"name":"Web开发知识帖子","value":1},{"name":"Laravel","value":3},{"name":"数据库","value":8},{"name":"前端技术栈","value":2},{"name":"Postgresql","value":1},{"name":"服务器","value":2},{"name":"MySQL","value":6},{"name":"Git","value":1},{"name":"PHP - Laravel","value":1},{"name":"Redis","value":1},{"name":"React","value":2},{"name":"TomCat","value":1},{"name":"Nginx","value":1}],
+                data: [{"name":"Docker","value":2},{"name":"PHP","value":6},{"name":"Web开发知识帖子","value":1},{"name":"Laravel","value":3},{"name":"数据库","value":8},{"name":"前端技术栈","value":2},{"name":"服务器","value":2},{"name":"Postgresql","value":1},{"name":"Git","value":1},{"name":"MySQL","value":6},{"name":"PHP - Laravel","value":1},{"name":"Redis","value":1},{"name":"React","value":2},{"name":"TomCat","value":1},{"name":"Nginx","value":1}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -761,12 +761,6 @@
         <div class="tag-chips center-align">
             
             
-            <a href="/tags/Laravel/">
-                <span class="chip center-align waves-effect waves-light chip-default">Laravel</span>
-            </a>
-            
-            
-            
             <a href="/tags/docker/">
                 <span class="chip center-align waves-effect waves-light chip-default">docker</span>
             </a>
@@ -779,17 +773,23 @@
             
             
             
-            <a href="/tags/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
-                <span class="chip center-align waves-effect waves-light chip-default">对称加密</span>
+            <a href="/tags/Laravel/">
+                <span class="chip center-align waves-effect waves-light chip-default">Laravel</span>
             </a>
-            
-            
             
             
             
             <a href="/tags/JWT/">
                 <span class="chip center-align waves-effect waves-light chip-default">JWT</span>
             </a>
+            
+            
+            
+            <a href="/tags/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
+                <span class="chip center-align waves-effect waves-light chip-default">对称加密</span>
+            </a>
+            
+            
             
             
             
@@ -843,6 +843,18 @@
             
             
             
+            <a href="/tags/Git/">
+                <span class="chip center-align waves-effect waves-light chip-default">Git</span>
+            </a>
+            
+            
+            
+            <a href="/tags/%E5%9B%A2%E9%98%9F%E5%8D%8F%E4%BD%9C/">
+                <span class="chip center-align waves-effect waves-light chip-default">团队协作</span>
+            </a>
+            
+            
+            
             <a href="/tags/Nginx/">
                 <span class="chip center-align waves-effect waves-light chip-default">Nginx</span>
             </a>
@@ -857,18 +869,6 @@
             
             <a href="/tags/IOC/">
                 <span class="chip center-align waves-effect waves-light chip-default">IOC</span>
-            </a>
-            
-            
-            
-            <a href="/tags/Git/">
-                <span class="chip center-align waves-effect waves-light chip-default">Git</span>
-            </a>
-            
-            
-            
-            <a href="/tags/%E5%9B%A2%E9%98%9F%E5%8D%8F%E4%BD%9C/">
-                <span class="chip center-align waves-effect waves-light chip-default">团队协作</span>
             </a>
             
             
@@ -1140,6 +1140,13 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
+    <script type="text/javascript">
+        //只在桌面版网页启用特效
+        var windowWidth = $(window).width();
+        if (windowWidth > 768) {
+            document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+        }
+    </script>
 </body>
 
 </html>

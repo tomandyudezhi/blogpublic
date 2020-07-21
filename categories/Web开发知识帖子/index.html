@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="分类: Web开发知识帖子, 博客,PHP,React">
+    <meta name="keywords" content="分类: Web开发知识帖子, 博客,PHP,React,MySQL,Postgresql">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -299,7 +299,7 @@
                 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
                 <script>
                     var typed = new Typed("#subtitle", {
-                        strings: ['从来没有真正的绝境, 只有心灵的迷途','Never really desperate, only the lost of the soul'],
+                        strings: ['尺有所短；寸有所长。物有所不足；智有所不明。','骐骥一跃，不能十步；驽马十驾，功在不舍；锲而舍之，朽木不折；锲而不舍，金石可镂。'],
                         startDelay: 300,
                         typeSpeed: 100,
                         loop: true,
@@ -338,20 +338,20 @@
                 
                 
                 
-                <a href="/categories/PHP/" title="PHP: 6">
+                <a href="/categories/Docker/" title="Docker: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #F9EBEA;">PHP
-                        <span class="tag-length">6</span>
+                            style="background-color: #F9EBEA;">Docker
+                        <span class="tag-length">2</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/Docker/" title="Docker: 2">
+                <a href="/categories/PHP/" title="PHP: 6">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #F5EEF8;">Docker
-                        <span class="tag-length">2</span>
+                            style="background-color: #F5EEF8;">PHP
+                        <span class="tag-length">6</span>
                     </span>
                 </a>
                 
@@ -392,29 +392,20 @@
                 </a>
                 
                 
-                <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/Postgresql/" title="Postgresql: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #82E0AA;">Postgresql
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
                 <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="服务器: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #D7BDE2;">服务器
+                            style="background-color: #82E0AA;">服务器
                         <span class="tag-length">2</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/" title="MySQL: 6">
+                <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/Postgresql/" title="Postgresql: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #A3E4D7;">MySQL
-                        <span class="tag-length">6</span>
+                            style="background-color: #D7BDE2;">Postgresql
+                        <span class="tag-length">1</span>
                     </span>
                 </a>
                 
@@ -422,8 +413,17 @@
                 <a href="/categories/Git/" title="Git: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #85C1E9;">Git
+                            style="background-color: #A3E4D7;">Git
                         <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/" title="MySQL: 6">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #85C1E9;">MySQL
+                        <span class="tag-length">6</span>
                     </span>
                 </a>
                 
@@ -745,6 +745,13 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
+    <script type="text/javascript">
+        //只在桌面版网页启用特效
+        var windowWidth = $(window).width();
+        if (windowWidth > 768) {
+            document.write('<script type="text/javascript" src="/js/sakura.js"><\/script>');
+        }
+    </script>
 </body>
 
 </html>
