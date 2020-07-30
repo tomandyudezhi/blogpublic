@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="索引失效的场景以及原因, 博客,PHP,React,MySQL,Postgresql">
+    <meta name="keywords" content="消息队列之RabbitMQ(一) 介绍、核心概念、交换器类型, 博客,PHP,React,MySQL,Postgresql">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>索引失效的场景以及原因 | 我若为侠</title>
+    <title>消息队列之RabbitMQ(一) 介绍、核心概念、交换器类型 | 我若为侠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -286,12 +286,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/img/post-bg-github-cup.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/img/post-bg-unix-linux.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">索引失效的场景以及原因</h1>
+                    <h1 class="description center-align post-title">消息队列之RabbitMQ(一) 介绍、核心概念、交换器类型</h1>
                 </div>
             </div>
         </div>
@@ -408,16 +408,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/MySQL/">
-                                <span class="chip bg-color">MySQL</span>
+                            <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">
+                                <span class="chip bg-color">消息队列</span>
                             </a>
                         
-                            <a href="/tags/%E7%B4%A2%E5%BC%95/">
-                                <span class="chip bg-color">索引</span>
-                            </a>
-                        
-                            <a href="/tags/SQL%E4%BC%98%E5%8C%96/">
-                                <span class="chip bg-color">SQL优化</span>
+                            <a href="/tags/RabbitMQ/">
+                                <span class="chip bg-color">RabbitMQ</span>
                             </a>
                         
                     </div>
@@ -441,7 +437,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-06-10
+                    2020-07-30
                 </div>
                 
 
@@ -450,14 +446,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    729
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    4 分
                 </div>
                 
 
@@ -472,15 +468,32 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="索引失效的场景以及原因"><a href="#索引失效的场景以及原因" class="headerlink" title="索引失效的场景以及原因"></a>索引失效的场景以及原因</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在日常sql优化的过程中，往往会发现一些索引失效的问题，例如预期中该sql应该使用索引，但使用Explain命令后发现并未使用，因此做下记录，记录下索引失效的场景以及原因</p>
-<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><h3 id="数据量小的时候，索引可能会失效"><a href="#数据量小的时候，索引可能会失效" class="headerlink" title="数据量小的时候，索引可能会失效"></a>数据量小的时候，索引可能会失效</h3><p>在数据量小的时候，如果MySQL优化器觉得使用索引耗费的时间比全表扫描慢，就会不使用索引而走全表扫描，此时索引失效了。</p>
-<h3 id="在复合索引的情况下，不满足最左匹配原则，索引会失效"><a href="#在复合索引的情况下，不满足最左匹配原则，索引会失效" class="headerlink" title="在复合索引的情况下，不满足最左匹配原则，索引会失效"></a>在复合索引的情况下，不满足最左匹配原则，索引会失效</h3><p>复合索引的情况下，非聚集索引的结构是以最左字段为基础构建的，因此在不满足最左匹配的原则下，mysql不会去使用该索引而会使用全表扫描的方式查找，此时索引失效了</p>
-<h3 id="在复合索引的情况下，满足最左匹配原则，但是使用了范围匹配，会导致索引部分失效"><a href="#在复合索引的情况下，满足最左匹配原则，但是使用了范围匹配，会导致索引部分失效" class="headerlink" title="在复合索引的情况下，满足最左匹配原则，但是使用了范围匹配，会导致索引部分失效"></a>在复合索引的情况下，满足最左匹配原则，但是使用了范围匹配，会导致索引部分失效</h3><p>例如创建了index(a,b,c)复合索引，如果在满足最左匹配的情况下，使用该where子句 <code>where a = 1 and b&gt;3 and c = 2</code>,该情况下，a,b字段都使用了索引，但是c并未使用索引，因为复合索引是基于a字段构建的(a,b,c)为每个节点记录的值，该值在a相等的情况下,b是有序的,因此在b使用范围查询时还是查询的索引，但是之后的C就是无序的了，因此索引会失效,这也是为什么在复合索引创建时，我们要把范围匹配的字段往后放的原因</p>
-<h3 id="对索引使用内置函数-索引会失效"><a href="#对索引使用内置函数-索引会失效" class="headerlink" title="对索引使用内置函数,索引会失效"></a>对索引使用内置函数,索引会失效</h3><p>在对索引使用内置函数后，会导致mysql不会使用索引，因为索引是基于函数处理前的值构建。</p>
-<h3 id="在使用like的时候，索引可能会失效"><a href="#在使用like的时候，索引可能会失效" class="headerlink" title="在使用like的时候，索引可能会失效"></a>在使用like的时候，索引可能会失效</h3><p>字符串类型的字段构建索引时也是类似的顺序，以第一个字符开始构建,类似复合索引的构建顺序。</p>
-<p>在这种情况下，<code>Like "str%"</code> 是会使用索引的，因为按照前缀去匹配。</p>
-<p>但是 <code>like '%str'</code>这种情况就会导致索引失效</p>
-<h3 id="在使用or时，-索引可能会失效"><a href="#在使用or时，-索引可能会失效" class="headerlink" title="在使用or时， 索引可能会失效"></a>在使用or时， 索引可能会失效</h3><p>出于mysql优化器的优化策略。在使用or的情况下可能导致查询的成本高于一次全表扫描，就会导致索引失效。此时可以针对or使用的所有字段建立索引来优化</p>
+                <h1 id="消息队列之RabbitMQ-一-介绍、核心概念、交换器类型"><a href="#消息队列之RabbitMQ-一-介绍、核心概念、交换器类型" class="headerlink" title="消息队列之RabbitMQ(一) 介绍、核心概念、交换器类型"></a>消息队列之RabbitMQ(一) 介绍、核心概念、交换器类型</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>博主在介绍 <code>RabbitMQ</code> 之前有必要说说消息队列是什么？</p>
+<p>消息是指在应用间传送的数据。消息可以非常简单，比如只包含文本字符串，也可以很复杂，可能包含嵌入对象。</p>
+<p>消息队列是一种应用间的通信方式，消息发送后可以立即返回，由消息系统来确保消息的可靠传递。消息发布者（生产者）只管把消息发布到MQ中而不用管谁来取，消息使用者（消费者）只管从MQ中取消息而不管消息是谁发布的。这样发布者和使用者都不用知道对方的存在，这样就形成了应用间的解耦。</p>
+<p>目前主流的消息队列是 <code>RabbitMQ</code> 、 <code>Kafka</code> 。当然 <code>Redis</code>也能当做轻量级的消息队列。</p>
+<h3 id="消息队列典型的应用场景"><a href="#消息队列典型的应用场景" class="headerlink" title="消息队列典型的应用场景"></a>消息队列典型的应用场景</h3><ul>
+<li>异步处理： 把消息放入消息中间件中，等到需要的时候再去使用。</li>
+<li>流量削峰： 例如秒杀活动，在短时间内访问量急剧增加，使用消息队列，当消息队列满了后就拒绝响应，这样就使得系统达到一定并发后不会因为超负载而崩溃。</li>
+<li>日志处理:  在分布式系统中，每个节点应用都会产生日志，一旦集群规模庞大。日志系统也将面临大并发的尴尬局面。因此可以在日志收集后推送到队列里，再由日志系统去消费存储。</li>
+<li>应用解耦:  假设某个服务A需要给许多个服务(B，C，D)发送消息，当服务B不需要发送消息了，服务A需要修改代码重新部署，新加入一个服务E需要服务A的消息时，也需要修改代码重新部署。这样对于整个系统而言，他的拓展性是十分不足的，但是使用MQ发布订阅模式后，服务A作为生产者，而其他的应用只需作为消费者去消费队列里的消息，这样就会使得应用之间解耦。大大的提高了系统的拓展性。</li>
+</ul>
+<h2 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h2><p><code>RabbitMQ</code> 是一个开源的消息代理的队列服务器，用来通过普通协议在完全不同的应用之间共享数据。<br><code>RabbitMQ</code> 是使用Erlang语言来编写，并且 <code>RabbitMQ</code> 是基于AMQP协议。Erlang于洋在数据交互方面性能优秀，有着和原生Socket一样的延迟，这也是 <code>RabbitMQ</code> 高性能的原因所在。</p>
+<h2 id="AMQP协议"><a href="#AMQP协议" class="headerlink" title="AMQP协议"></a>AMQP协议</h2><p>AMQP协议是具有现代特征的二进制协议。是一个提供统一消息服务的应用层标准高级消息队列协议，是应用层协议的一个开放标准，为面向消息的中间件设计。</p>
+<h2 id="常用交换器"><a href="#常用交换器" class="headerlink" title="常用交换器"></a>常用交换器</h2><p>交换器，接受消息，按照路由规则将消息路由到一个或者多个队列。如果路由不到，或者返回给生产者，或者直接丢弃。</p>
+<p><code>RabbitMQ</code> 常用的交换器类型由direct、topic、fanout、headers四种。</p>
+<ol>
+<li><p>Direct交换器：该类型的交换器将所有发送到该交换器的消息被转发到RoutingKey指定的队列中，也就是路由到BindKey和RoutingKey完全匹配的队列中</p>
+</li>
+<li><p>Topic交换器：该类型的交换器将所有发送到Topic Exchange的消息被转发到所有RoutingKey指定的Topic队列上面。交换器会将Routingkey和某Topic进行模糊匹配，其中<code>""</code>用来匹配一个词，<code>"#"</code>用于匹配一个或者多个词。例如<code>"com.#""</code>能匹配到<code>"com.rabbitmq.oa"</code>和<code>"com.rabbitmq"</code>而<code>"login."</code>只能匹配到<code>"com.rabbitmq"</code></p>
+</li>
+<li><p>Fanout交换器: 该类型不处理RoutingKey，会把所有发送到交换器的消息路由到所有绑定的队列中。优点是转发消息最快，性能最好。</p>
+</li>
+<li><p>Headers交换器： 该类型交换器不依赖路由规则来路由消息，而是根据消息内容中的headers属性进行匹配。headers类型交换器性能差，在实际中并不常用。</p>
+</li>
+</ol>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>上面是博主总结的RabbitMQ的基本原理和需要掌握的基础知识，后面将会介绍如何安装以及使用入门。</p>
+<p>参考资料:<a href="https://www.cnblogs.com/sgh1023/p/11217017.html" target="_blank" rel="noopener">RabbitMQ（一）：RabbitMQ快速入门</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -524,7 +537,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://tomandyudezhi.gitee.io/2020/06/10/2020-06-2020-06-10-suo-yin-shi-xiao-de-chang-jing-yi-ji-yuan-yin/">https://tomandyudezhi.gitee.io/2020/06/10/2020-06-2020-06-10-suo-yin-shi-xiao-de-chang-jing-yi-ji-yuan-yin/</a>
+                    <a href="https://tomandyudezhi.gitee.io/2020/07/30/2020-07-2020-07-30-xiao-xi-dui-lie-zhi-rabbitmq-yi-jie-shao-he-xin-gai-nian-jiao-huan-qi-lei-xing/">https://tomandyudezhi.gitee.io/2020/07/30/2020-07-2020-07-30-xiao-xi-dui-lie-zhi-rabbitmq-yi-jie-shao-he-xin-gai-nian-jiao-huan-qi-lei-xing/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -562,16 +575,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/MySQL/">
-                                    <span class="chip bg-color">MySQL</span>
+                                <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">
+                                    <span class="chip bg-color">消息队列</span>
                                 </a>
                             
-                                <a href="/tags/%E7%B4%A2%E5%BC%95/">
-                                    <span class="chip bg-color">索引</span>
-                                </a>
-                            
-                                <a href="/tags/SQL%E4%BC%98%E5%8C%96/">
-                                    <span class="chip bg-color">SQL优化</span>
+                                <a href="/tags/RabbitMQ/">
+                                    <span class="chip bg-color">RabbitMQ</span>
                                 </a>
                             
                         </div>
@@ -613,30 +622,31 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/06/13/2020-06-2020-06-13-mysql-btree-shen-ru-liao-jie/">
+                <a href="/2020/07/30/2020-07-2020-07-30-xiao-xi-dui-lie-zhi-rabbitmq-yi-jie-shao-he-xin-gai-nian-jiao-huan-qi-lei-xing/">
                     <div class="card-image">
                         
-                        <img src="/img/post-bg-geometry.jpg" class="responsive-img" alt="MySQL BTree深入了解">
+                        <img src="/img/post-bg-unix-linux.jpg" class="responsive-img" alt="消息队列之RabbitMQ(一) 介绍、核心概念、交换器类型">
                         
-                        <span class="card-title">MySQL BTree深入了解</span>
+                        <span class="card-title">消息队列之RabbitMQ(一) 介绍、核心概念、交换器类型</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Mysql BTree深入了解背景在了解完数据库的BTree后，在看某篇博客的时候被里面的几个问题吸引了，博客里也有问题的解答，感觉挺有意思的，因此做下记录以及自己个人的理解
-参考资料:数据库索引类型及其原理
-数据表为什么会使用主键?事实上
+                            消息队列之RabbitMQ(一) 介绍、核心概念、交换器类型背景博主在介绍 RabbitMQ 之前有必要说说消息队列是什么？
+消息是指在应用间传送的数据。消息可以非常简单，比如只包含文本字符串，也可以很复杂，可能包含嵌入对象。
+消息队列是一
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-06-13
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-30
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -649,19 +659,16 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/MySQL/">
-                        <span class="chip bg-color">MySQL</span>
+                    <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">
+                        <span class="chip bg-color">消息队列</span>
                     </a>
                     
-                    <a href="/tags/%E7%B4%A2%E5%BC%95/">
-                        <span class="chip bg-color">索引</span>
-                    </a>
-                    
-                    <a href="/tags/SQL%E4%BC%98%E5%8C%96/">
-                        <span class="chip bg-color">SQL优化</span>
+                    <a href="/tags/RabbitMQ/">
+                        <span class="chip bg-color">RabbitMQ</span>
                     </a>
                     
                 </div>
@@ -675,23 +682,26 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/22/2020-05-2020-05-21-shi-xian-postgresql-ji-yu-wal-ri-zhi-de-shu-ju-hui-fu/">
+                <a href="/2020/07/13/2020-07-2020-07-13-docker-xue-xi-bi-ji-yi-shi-me-shi-docker/">
                     <div class="card-image">
                         
-                        <img src="/img/post-bg-e2e-ux.jpg" class="responsive-img" alt="实现Postgresql10基于wal日志的数据恢复">
+                        <img src="/img/post-bg-rwd.jpg" class="responsive-img" alt="Docker学习笔记(一)-什么是Docker?">
                         
-                        <span class="card-title">实现Postgresql10基于wal日志的数据恢复</span>
+                        <span class="card-title">Docker学习笔记(一)-什么是Docker?</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            实现Postgresql10基于wal日志的数据恢复介绍之前讲过百度里的一些帖子和资源是比较古老的，在后面的发展一些流程或者函数发生变化，因此在使用过程中会有一些问题。而在之前的业务中有用到基于postgresql的wal日志恢复，但百度上
+                            docker简介docker是什么?
+Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从Apache2.0协议开源。
+
+Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Li
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-22
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-13
                             </span>
                         <span class="publish-author">
                             
@@ -708,8 +718,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Postgresql/">
-                        <span class="chip bg-color">Postgresql</span>
+                    <a href="/tags/Docker/">
+                        <span class="chip bg-color">Docker</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+                        <span class="chip bg-color">微服务</span>
                     </a>
                     
                 </div>
