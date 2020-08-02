@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>MySQL中联合查询的一些优化感悟</title>
+      <link href="/2020/08/02/2020-08-2020-08-02-mysql-zhong-lian-he-cha-xun-de-yi-xie-you-hua-gan-wu/"/>
+      <url>/2020/08/02/2020-08-2020-08-02-mysql-zhong-lian-he-cha-xun-de-yi-xie-you-hua-gan-wu/</url>
+      
+        <content type="html"><![CDATA[<h1 id="MySQL中联合查询的一些优化感悟"><a href="#MySQL中联合查询的一些优化感悟" class="headerlink" title="MySQL中联合查询的一些优化感悟"></a>MySQL中联合查询的一些优化感悟</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>今天博主在left join的SQL语句优化中发现了一个奇怪的现象，随后在网上查阅了相关资料，现在复盘并记录下来。</p><h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>现在有 <code>data_users</code> 以及 <code>data_posts</code> 两张表。</p><p><code>data_users</code> 表中有主键索引<code>id</code>。 <code>data_posts</code> 表中索引 <code>uid</code>，uid是外键。</p><p>现在有如下SQL语句:</p><pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> data_users <span class="token keyword">LEFT</span> <span class="token keyword">JOIN</span> data_posts <span class="token keyword">on</span> data_users<span class="token punctuation">.</span>id <span class="token operator">=</span> data_posts<span class="token punctuation">.</span>uid<span class="token punctuation">;</span></code></pre><p><img src="https://s1.ax1x.com/2020/08/02/aYYm1x.jpg" alt="sql结果"></p><p>可以看到上面结果，左表是没有命中索引的，所以进行了全表扫描。右表因为 <code>uid</code> 建立了索引，最后命中了索引，但是这样的效率其实比较低的，特别是在两张表数据量规模大的时候，他所扫描的基本是是左表的总行数和右表的查询结果的笛卡尔积。</p><p>接下来我们改下sql语句。</p><pre class=" language-$xslt"><code class="language-$xslt">select * from data_users JOIN data_posts on data_users.id = data_posts.uid;</code></pre><p><img src="https://s1.ax1x.com/2020/08/02/aYtvQ0.jpg" alt="sql结果2"></p><p>可以看到上面结果都命中了索引，这样效率得到了大大的提升。</p><p>那么除了这种改动之外，我对第一个sql语句中做另外的改变，得到第二个优化后的语句。</p><pre class=" language-$xslt"><code class="language-$xslt">select * from data_users LEFT JOIN data_posts on data_users.id = data_posts.uid where data_users.id = 1;</code></pre><p><img src="https://s1.ax1x.com/2020/08/02/aYN0Yj.jpg" alt="sql结果3"></p><p>可以看到上面的查询结果也全都命中了索引，那么这其中的原理究竟为何呢？</p><h2 id="MySQL中join的原理"><a href="#MySQL中join的原理" class="headerlink" title="MySQL中join的原理"></a>MySQL中join的原理</h2><p>在网上查询了mysql实现join的原理，原来 <code>MySQL</code> 内部采用了一种叫做 <code>nested loop join</code>的算法，该算法就是通过驱动表的结果集作为循环基础数据，然后一条一条的通过该结果集中的数据作为过滤条件到下一个表中查询数据，然后合并结果。如果还有第三个参与了join，则再通过前两个表的结果集作为循环基础数据，再一次通过循环查询条件到第三个表中查询数据，如此往复，基本上Mysql采取容易理解的算法来实现join。所以驱动表的选择非常重要，驱动表的数据量小可以显著降低扫描的行数。</p><p>那么为什么一版情况下join的效率要高于left join很多呢，其实一般情况下参与联合查询的两张表都会一大一小，如果是join，在没有其他过滤条件的情况下，会选择用小表作为驱动表，但是left join一般因为本身的特性决定了会用大表做驱动表，这样下来效率就差了不少。</p><h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>在了解join的基本原理后，在我们使用join后，mysql会使用 <code>data_posts</code>的结果集作为驱动表，而该结果集已经命中了索引，因此效率得到了显著的提升。</p><p>而第二个优化后的sql语句，因为加了where子句，虽然因为left join的特性，选择了大表 <code>data_users</code>作为驱动表，但本身经过过滤后，数量大大减少且命中了索引。因此该语句的效率也得到了显著的提升。</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 服务端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> 查询优化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>消息队列之RabbitMQ(一) 介绍、核心概念、交换器类型</title>
       <link href="/2020/07/30/2020-07-2020-07-30-xiao-xi-dui-lie-zhi-rabbitmq-yi-jie-shao-he-xin-gai-nian-jiao-huan-qi-lei-xing/"/>
       <url>/2020/07/30/2020-07-2020-07-30-xiao-xi-dui-lie-zhi-rabbitmq-yi-jie-shao-he-xin-gai-nian-jiao-huan-qi-lei-xing/</url>
@@ -76,9 +103,9 @@
       
         <tags>
             
-            <tag> Laravel </tag>
-            
             <tag> PHP </tag>
+            
+            <tag> Laravel </tag>
             
         </tags>
       
