@@ -446,14 +446,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    55
+                    641
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -469,6 +469,83 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="JIT"><a href="#JIT" class="headerlink" title="JIT"></a>JIT</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p><img src="/img/php-jit.webp" alt="jit编译原理图"></p>
+<h3 id="Zend-Opcache流程"><a href="#Zend-Opcache流程" class="headerlink" title="Zend Opcache流程"></a>Zend Opcache流程</h3><ol>
+<li>检查opcodes是否缓存</li>
+<li>zend compiler编译器进行编译生成opcodes</li>
+<li>optimizer优化器生成优化后的opcodes</li>
+<li>把优化后的opcodes放入opcodes cache缓存</li>
+<li>经过zend vm虚拟机生成opcodes handlers处理程序</li>
+<li>送入x86 cpu架构进行执行</li>
+</ol>
+<h3 id="JIT编译流程"><a href="#JIT编译流程" class="headerlink" title="JIT编译流程"></a>JIT编译流程</h3><ol>
+<li>检查opcodes是否缓存</li>
+<li>zend compiler编译器进行编译生成opcodes</li>
+<li>optimizer优化器生成优化后的opcodes</li>
+<li>把优化后的opcodes放入opcodes cache缓存</li>
+<li>jit编译器把optimized opcodes再次编译成汇编机器码machine codes</li>
+<li>进入zend vm虚拟前先检查是否开启jit引擎</li>
+<li>如果已经开启了jit引擎则直接读取机器码中的jit buffer代码片段</li>
+<li>送入x86 cpu架构进行执行</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><code>JIT</code> 是基于 <code>Opcache</code> 之上的增强，是在 <code>Opcache</code> 优化后的基础上，结合 <code>Runtime</code> 的信息再次优化，直接生成机器码</p>
+<h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><h3 id="开启功能"><a href="#开启功能" class="headerlink" title="开启功能"></a>开启功能</h3><pre class=" language-php"><code class="language-php"><span class="token shell-comment comment">#php.ini</span>
+opcache<span class="token punctuation">.</span>jit<span class="token operator">=</span><span class="token number">1205</span>
+opcache<span class="token punctuation">.</span>jit_buffer_size<span class="token operator">=</span><span class="token constant">64M</span></code></pre>
+<h3 id="opcache-jit参数说明"><a href="#opcache-jit参数说明" class="headerlink" title="opcache.jit参数说明"></a>opcache.jit参数说明</h3><h4 id="简单标记"><a href="#简单标记" class="headerlink" title="简单标记"></a>简单标记</h4><p>1.disable</p>
+<blockquote>
+<p>在启动时完全禁用JIT功能，并且在运行时无法启用</p>
+</blockquote>
+<p>2.off</p>
+<blockquote>
+<p>禁用，但是可以在运行时启用JIT</p>
+</blockquote>
+<p>3.on</p>
+<blockquote>
+<p>启用tracing模式</p>
+</blockquote>
+<p>4.tracing</p>
+<blockquote>
+<p>数值配置的别名1254</p>
+</blockquote>
+<p>5.function</p>
+<blockquote>
+<p>数值配置的别名1205</p>
+</blockquote>
+<h4 id="数值"><a href="#数值" class="headerlink" title="数值"></a>数值</h4><p>1205每一位都是一个设置，从左至右开始依次介绍</p>
+<ol>
+<li><p>是否在生成机器码的时候使用AVX指令, 需要CPU支持</p>
+<blockquote>
+<p>0.不使用、1.使用</p>
+</blockquote>
+</li>
+<li><p>寄存器分配策略</p>
+<blockquote>
+<p>0.不使用寄存器分配</p>
+<p>1.局部(block)域分配</p>
+<p>2.全局(function)域分配</p>
+</blockquote>
+</li>
+<li><p>JIT触发策略</p>
+<blockquote>
+<p>0: PHP脚本载入的时候就JIT</p>
+<p>1: 当函数第一次被执行时JIT</p>
+<p>2: 在一次运行后，JIT调用次数最多的百分之(opcache.prof_threshold * 100)的函数</p>
+<p>3: 当函数/方法执行超过N(N和opcache.jit_hot_func相关)次以后JIT</p>
+<p>4: 当函数方法的注释中含有@jit的时候对它进行JIT</p>
+<p>5: 当一个Trace执行超过N次（和opcache.jit_hot_loop, jit_hot_return等有关)以后JIT</p>
+</blockquote>
+</li>
+<li><p>JIT优化策略，数值越大优化力度越大</p>
+<blockquote>
+<p>0: 不JIT</p>
+<p>1: 做opline之间的跳转部分的JIT</p>
+<p>2: 内敛opcode handler调用</p>
+<p>3: 基于类型推断做函数级别的JIT</p>
+<p>4: 基于类型推断，过程调用图做函数级别JIT</p>
+<p>5: 基于类型推断，过程调用图做脚本级别的JIT</p>
+</blockquote>
+</li>
+</ol>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -614,10 +691,11 @@
                     <div class="summary block-with-text">
                         
                             JIT原理
-
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { 
+Zend Opcache流程
+检查opcodes是否缓存
+zend compiler编译器进行编译生成opcodes
+optimizer优化器生成优化后的opcodes
+把优化后的opcodes放入opcodes cache缓存
                         
                     </div>
                     <div class="publish-info">
@@ -941,7 +1019,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">24k</span>&nbsp;字
+                class="white-color">24.6k</span>&nbsp;字
             
             
             
