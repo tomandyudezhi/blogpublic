@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="实现Postgresql10基于wal日志的数据恢复, 博客,PHP,React,MySQL,Postgresql">
+    <meta name="keywords" content="Supervisor的快速入门, 博客,PHP,React,MySQL,Postgresql">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>实现Postgresql10基于wal日志的数据恢复 | 我若为侠</title>
+    <title>Supervisor的快速入门 | 我若为侠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -286,12 +286,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/img/post-bg-e2e-ux.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/img/post-bg-491996-1204148')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">实现Postgresql10基于wal日志的数据恢复</h1>
+                    <h1 class="description center-align post-title">Supervisor的快速入门</h1>
                 </div>
             </div>
         </div>
@@ -408,8 +408,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Postgresql/">
-                                <span class="chip bg-color">Postgresql</span>
+                            <a href="/tags/Supervisor/">
+                                <span class="chip bg-color">Supervisor</span>
                             </a>
                         
                     </div>
@@ -433,7 +433,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-22
+                    2024-04-25
                 </div>
                 
 
@@ -442,14 +442,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    961
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    4 分
                 </div>
                 
 
@@ -464,45 +464,65 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="实现Postgresql10基于wal日志的数据恢复"><a href="#实现Postgresql10基于wal日志的数据恢复" class="headerlink" title="实现Postgresql10基于wal日志的数据恢复"></a>实现Postgresql10基于wal日志的数据恢复</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>之前讲过百度里的一些帖子和资源是比较古老的，在后面的发展一些流程或者函数发生变化，因此在使用过程中会有一些问题。而在之前的业务中有用到基于postgresql的wal日志恢复，但百度上的帖子都是基于postgresql10以下的。而postgresql10则针对内部函数有进行优化，部分函数名发生了改变，因此记录下。</p>
-<h2 id="wal日志"><a href="#wal日志" class="headerlink" title="wal日志"></a>wal日志</h2><p>wal日志就是预写式日志，是日志的标准实现方式，简单而言就是将对数据库的变动记录到日志 中，而后在将具体的新数据刷新到磁盘。PostgreSQL将该日志维护在数据文件夹下的子文件夹pg_xlog中。当数据库崩溃后，可以通过“重放”日志中的“动作”，将数据库恢复。也就是说，只要拥有一个基础备份和完整的日志文件，理论上可以将数据库库恢复到任意基础备份以来的任意时刻点。不仅如此，如果在另一个实例上将这些日志不停的“重放”，那么就拥有了一个完整的在线备份，也就是“复制”。</p>
-<p>pg_xlog下日志文件不会无限制增多，也就是说并不用担心日志的增多使得磁盘空间捉襟见肘。默认每个日志文件为16M大小，即当增长到16M时，就会切换到别的文件，并复用之前的文件 。因此，为了保证有个完整的日志链，必须将写满的文件复制保存到一个特定的文件 夹。对于最后一个还未满16M的日志文件，可以手动触发一次切换。</p>
-<h2 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h2><p>修改配置文件开启wal日志</p>
-<pre><code>vim /etc/postgresql/10/main/postgresql.conf
-wal_level = replica
+                <h1 id="Supervisor的快速入门"><a href="#Supervisor的快速入门" class="headerlink" title="Supervisor的快速入门"></a>Supervisor的快速入门</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在我们的生产环境中，有些任务是不能停止的，否则业务就会收到影响，比如：python业务，redis队列等。那么如何保证这些服务的高可用呢？</p>
+<p>那就需要使用守护进程了，比方说我们的进程运行挂掉之后自动恢复的功能，这些都能利用守护进程来实现。这之中使用比较常见的就是 <code>Supervisor</code>了，所以接下来介绍如何快速入门</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><code>Supervisor</code> 是一个客户端/服务器系统，允许用户在类 <code>UNIX</code> 操作系统上控制多个进程。</p>
+<p><code>Supervisor</code> 是用 <code>Python</code> 开发的一套通用的进程管理程序，能将一个普通的命令行进程变为后台daemon，并监控进程状态，异常退出时能自动重启。</p>
+<p>它是通过 <code>fork/exec</code> 的方式把这些被管理的进程当作 <code>Supervisor</code> 的子进程来启动，这样只要在 <code>Supervisor</code> 的配置文件中，把要管理的进程的可执行文件的路径写进去即可。也实现当子进程挂掉的时候，父进程可以准确获取子进程挂掉的信息的，可以选择是否自己启动和报警。</p>
+<p><code>Supervisor</code> 还提供了一个功能，可以为 <code>supervisord</code> 或者每个子进程，设置一个非 <code>root</code> 的 <code>user</code> ，这个 <code>user</code> 就可以管理它对应的进程。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li><p><code>Ubuntu</code> 通过 <code>apt-get</code> 安装</p>
+<pre class=" language-shell"><code class="language-shell">sudo apt-get install supervisor</code></pre>
+</li>
+<li><p><code>Centos</code> 通过 <code>yun</code> 来安装</p>
+<pre class=" language-shell"><code class="language-shell">yum install supervisor</code></pre>
+</li>
+<li><p><code>pip</code> 安装</p>
+<pre class=" language-shell"><code class="language-shell">pip install supervisor</code></pre>
+</li>
+</ul>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p><code>Supervisor</code> 基础配置可以在 <code>/etc/supervisor/supervisord.conf</code> 进行配置</p>
+<p>任务配置通常存放在 <code>/etc/supervisor/conf.d</code> 目录，在该目录下，可以创建多个配置文件指示 <code>Supervisor</code> 如何监视进程</p>
+<h3 id="Supervisor-配置说明"><a href="#Supervisor-配置说明" class="headerlink" title="Supervisor 配置说明"></a>Supervisor 配置说明</h3><pre class=" language-php"><code class="language-php"><span class="token punctuation">[</span>unix_http_server<span class="token punctuation">]</span>
+file<span class="token operator">=</span><span class="token operator">/</span>tmp<span class="token operator">/</span>supervisor<span class="token punctuation">.</span>sock   <span class="token punctuation">;</span><span class="token constant">UNIX</span> socket 文件，supervisorctl 会使用
+<span class="token punctuation">;</span>chmod<span class="token operator">=</span><span class="token number">0700</span>                 <span class="token punctuation">;</span>socket文件的mode，默认是<span class="token number">0700</span>
+<span class="token punctuation">;</span>chown<span class="token operator">=</span>nobody<span class="token punctuation">:</span>nogroup       <span class="token punctuation">;</span>socket文件的owner，格式：uid<span class="token punctuation">:</span>gid
 
-archive_mode = on
+<span class="token punctuation">;</span><span class="token punctuation">[</span>inet_http_server<span class="token punctuation">]</span>         <span class="token punctuation">;</span><span class="token constant">HTTP</span>服务器，提供web管理界面
+<span class="token punctuation">;</span>port<span class="token operator">=</span><span class="token number">127.0</span><span class="token punctuation">.</span><span class="token number">0.1</span><span class="token punctuation">:</span><span class="token number">9001</span>        <span class="token punctuation">;</span>Web管理后台运行的<span class="token constant">IP</span>和端口，如果开放到公网，需要注意安全性
+<span class="token punctuation">;</span>username<span class="token operator">=</span>user              <span class="token punctuation">;</span>登录管理后台的用户名
+<span class="token punctuation">;</span>password<span class="token operator">=</span><span class="token number">123</span>               <span class="token punctuation">;</span>登录管理后台的密码
 
-archive_command = ' test ! -f /var/lib/postgresql/archive/%f &amp;&amp; cp %p /var/lib/postgresql/archive/%f'`</code></pre><blockquote>
-<p>archive_command是归档命令</p>
-</blockquote>
-<p>然后创建归档目录</p>
-<pre><code>cd /usr/lib/postgres
-su postgres
-mkdir archive</code></pre><blockquote>
-<p>切记，是切换到postgres用户再去创建，因为pgsql是以postgres用户去操控的</p>
-</blockquote>
-<p>然后重启服务</p>
-<pre><code>/usr/lib/postgresql/10/bin/pg_ctl restart -D /var/lib/postgresql/10/main/ -o "-c config_file=/etc/postgresql/10/main/postgresql.conf"</code></pre><p>然后创建数据库，数据表啥的填充数据啥的，<br>接着创建基础备份</p>
-<pre><code>psql -c "SELECT pg_start_backup('base', true)"
-cd /var/lib/postgresql/10/
-tar -cvf main.tar main
-psql -c "SELECT pg_stop_backup()"</code></pre><blockquote>
-<p>正常情况下，main文件夹以及wal日志文件夹archive都要备份，因为wal日志会记录你后面的操作</p>
-</blockquote>
-<p>这时候创建几张新表，关闭数据库，模拟数据库宕机，此时，数据库test中应该有3张表，其中1张表在基础备份前，也就是恢复完数据文件即可找回，而另2张表则需恢复相应的日志文件。模拟恢复到testPITR2创建时刻点。</p>
-<blockquote>
-<p>notice:在postgresql10版本开始手动触发归档命令由pg_switch_xlog()变为pg_switch_wal(),<br>最好手动设置下环境变量PGDATA</p>
-</blockquote>
-<p>然后<strong>关闭服务器，删除main文件夹，然后重新解压main.tar</strong></p>
-<p>进入main文件夹，生成recovery.conf文件，该文件生成目录在PGDATA目录里，目录地址可以在postgresql.conf文件里找到</p>
-<pre><code>vim recovery.conf</code></pre><p>写入以下参数</p>
-<pre><code>restore_command = 'cp /var/lib/postgresql/archive/%f %p'
+<span class="token punctuation">[</span>supervisord<span class="token punctuation">]</span>
+logfile<span class="token operator">=</span><span class="token operator">/</span>tmp<span class="token operator">/</span>supervisord<span class="token punctuation">.</span>log <span class="token punctuation">;</span>日志文件，默认是 <span class="token variable">$CWD</span><span class="token operator">/</span>supervisord<span class="token punctuation">.</span>log
+logfile_maxbytes<span class="token operator">=</span><span class="token constant">50MB</span>        <span class="token punctuation">;</span>日志文件大小，超出会rotate，默认 <span class="token constant">50MB</span>，如果设成<span class="token number">0</span>，表示不限制大小
+logfile_backups<span class="token operator">=</span><span class="token number">10</span>           <span class="token punctuation">;</span>日志文件保留备份数量默认<span class="token number">10</span>，设为<span class="token number">0</span>表示不备份
+loglevel<span class="token operator">=</span>info                <span class="token punctuation">;</span>日志级别，默认info，其它<span class="token punctuation">:</span> debug<span class="token punctuation">,</span>warn<span class="token punctuation">,</span>trace
+pidfile<span class="token operator">=</span><span class="token operator">/</span>tmp<span class="token operator">/</span>supervisord<span class="token punctuation">.</span>pid <span class="token punctuation">;</span>pid 文件
+nodaemon<span class="token operator">=</span><span class="token boolean">false</span>               <span class="token punctuation">;</span>是否在前台启动，默认是<span class="token boolean">false</span>，即以 daemon 的方式启动
+minfds<span class="token operator">=</span><span class="token number">1024</span>                  <span class="token punctuation">;</span>可以打开的文件描述符的最小值，默认 <span class="token number">1024</span>
+minprocs<span class="token operator">=</span><span class="token number">200</span>                 <span class="token punctuation">;</span>可以打开的进程数的最小值，默认 <span class="token number">200</span>
 
-recovery_target_time = '2016-01-18 10:02:15'</code></pre><blockquote>
-<p>wal日志可以基于时间点回复，或者事务id，但是事务id查询起来特别麻烦，所以最好基于时间点回复，</p>
-</blockquote>
-<p>可以参考的网站:<a href="https://www.cnblogs.com/cxy486/p/5140262.html" target="_blank" rel="noopener">https://www.cnblogs.com/cxy486/p/5140262.html</a> </p>
+<span class="token punctuation">[</span>supervisorctl<span class="token punctuation">]</span>
+serverurl<span class="token operator">=</span>unix<span class="token punctuation">:</span><span class="token comment" spellcheck="true">///tmp/supervisor.sock ;通过UNIX socket连接supervisord，路径与unix_http_server部分的file一致</span>
+<span class="token punctuation">;</span>serverurl<span class="token operator">=</span>http<span class="token punctuation">:</span><span class="token comment" spellcheck="true">//127.0.0.1:9001 ; 通过HTTP的方式连接supervisord</span>
+
+<span class="token punctuation">;</span>包含其它配置文件 
+<span class="token punctuation">[</span><span class="token keyword">include</span><span class="token punctuation">]</span>
+files <span class="token operator">=</span> <span class="token operator">/</span>etc<span class="token operator">/</span>supervisor<span class="token operator">/</span>conf<span class="token punctuation">.</span>d<span class="token operator">/</span><span class="token operator">*</span><span class="token punctuation">.</span>conf    <span class="token punctuation">;</span>这里也就是包含了我们的任务配置</code></pre>
+<h3 id="任务配置说明"><a href="#任务配置说明" class="headerlink" title="任务配置说明"></a>任务配置说明</h3><pre><code>[program:nginx] #  设置进程的名称，使用 supervisorctl 来管理进程时需要使用该进程名 我这里就叫做nginx了!
+command=/usr/sbin/php artisan queue:work --sleep=3;' # 需要执行的命令
+directory=/etc/nginx # 命令执行的目录或者说执行 command 之前，先切换到工作目录 可以理解为在执行命令前会切换到这个目录 在我这基本没啥用
+autostart=true #是否自动启动
+autorestart=true #程序意外退出是否自动重启
+redirect_stderr=true # 如果为true，则stderr的日志会被写入stdout日志文件中  理解为重定向输出的日志
+priority=10 # 启动优先级
+stdout_logfile=/data/logs/supervisord/nginx.log # 子进程的stdout的日志路径 输出日志文件
+stderr_logfile=/data/logs/supervisord/nginx.err.log # 错误日志文件 当redirect_stderr=true。这个就不用</code></pre><h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><pre class=" language-shell"><code class="language-shell">supervisorctl reread # 重新读取配置
+supervisorctl update # 更新配置
+supervisorctl restart  # 重启
+supervisorctl status # 查看守护进程状态
+</code></pre>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -546,7 +566,7 @@ recovery_target_time = '2016-01-18 10:02:15'</code></pre><blockquote>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://tomandyudezhi.github.io/2020/05/22/2020-05-2020-05-21-shi-xian-postgresql-ji-yu-wal-ri-zhi-de-shu-ju-hui-fu/">https://tomandyudezhi.github.io/2020/05/22/2020-05-2020-05-21-shi-xian-postgresql-ji-yu-wal-ri-zhi-de-shu-ju-hui-fu/</a>
+                    <a href="https://tomandyudezhi.github.io/2024/04/25/2024-04-2024-04-25-supervisor-de-kuai-su-ru-men/">https://tomandyudezhi.github.io/2024/04/25/2024-04-2024-04-25-supervisor-de-kuai-su-ru-men/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -584,8 +604,8 @@ recovery_target_time = '2016-01-18 10:02:15'</code></pre><blockquote>
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Postgresql/">
-                                    <span class="chip bg-color">Postgresql</span>
+                                <a href="/tags/Supervisor/">
+                                    <span class="chip bg-color">Supervisor</span>
                                 </a>
                             
                         </div>
@@ -627,29 +647,81 @@ recovery_target_time = '2016-01-18 10:02:15'</code></pre><blockquote>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/06/10/2020-06-2020-06-10-suo-yin-shi-xiao-de-chang-jing-yi-ji-yuan-yin/">
+                <a href="/2024/04/25/2024-04-2024-04-25-supervisor-de-kuai-su-ru-men/">
                     <div class="card-image">
                         
-                        <img src="/img/post-bg-github-cup.jpg" class="responsive-img" alt="索引失效的场景以及原因">
+                        <img src="/img/post-bg-491996-1204148" class="responsive-img" alt="Supervisor的快速入门">
                         
-                        <span class="card-title">索引失效的场景以及原因</span>
+                        <span class="card-title">Supervisor的快速入门</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            索引失效的场景以及原因背景在日常sql优化的过程中，往往会发现一些索引失效的问题，例如预期中该sql应该使用索引，但使用Explain命令后发现并未使用，因此做下记录，记录下索引失效的场景以及原因
-场景数据量小的时候，索引可能会失效在数据量
+                            Supervisor的快速入门背景在我们的生产环境中，有些任务是不能停止的，否则业务就会收到影响，比如：python业务，redis队列等。那么如何保证这些服务的高可用呢？
+那就需要使用守护进程了，比方说我们的进程运行挂掉之后自动恢复的功能
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-06-10
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-04-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%8A%80%E6%9C%AF/" class="post-category">
+                                    服务端技术
+                                </a>
+                            
+                            
                         </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Supervisor/">
+                        <span class="chip bg-color">Supervisor</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/04/22/2024-04-2024-04-22-nginx-ri-zhi-tong-ji-fen-xi-chang-yong-ming-ling/">
+                    <div class="card-image">
+                        
+                        <img src="/img/post-bg-360591" class="responsive-img" alt="Nginx日志统计分析常用命令">
+                        
+                        <span class="card-title">Nginx日志统计分析常用命令</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            1.Nginx访问日志中 按照ip请求次数统计命令（必备）cat access.log |awk '{print $1}'|sort -nr |uniq -c |sort -nr |more
+   2761 183.185.117.4
+  
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-04-22
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -665,69 +737,8 @@ recovery_target_time = '2016-01-18 10:02:15'</code></pre><blockquote>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/MySQL/">
-                        <span class="chip bg-color">MySQL</span>
-                    </a>
-                    
-                    <a href="/tags/%E7%B4%A2%E5%BC%95/">
-                        <span class="chip bg-color">索引</span>
-                    </a>
-                    
-                    <a href="/tags/SQL%E4%BC%98%E5%8C%96/">
-                        <span class="chip bg-color">SQL优化</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/05/20/2020-05-2020-05-20-shi-xian-php-he-javascript-de-tripledes-jia-mi-jie-mi-er/">
-                    <div class="card-image">
-                        
-                        <img src="/img/post-bg-debug.png" class="responsive-img" alt="实现PHP和JavaScript的TripleDES加密解密(三)">
-                        
-                        <span class="card-title">实现PHP和JavaScript的TripleDES加密解密(三)</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            实现PHP和JavaScript的TripleDES加密解密(三)介绍这章节讲下在加密过程中遇到的一些坑。
-内容因为前端页面请求的时候会将一个32位16进制字符串转为 CryptoJs 类库里独有的数据结构 WordArray 去参与加密，
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-20
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/PHP/" class="post-category">
-                                    PHP
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
-                        <span class="chip bg-color">对称加密</span>
-                    </a>
-                    
-                    <a href="/tags/PHP/">
-                        <span class="chip bg-color">PHP</span>
+                    <a href="/tags/Nginx/">
+                        <span class="chip bg-color">Nginx</span>
                     </a>
                     
                 </div>
