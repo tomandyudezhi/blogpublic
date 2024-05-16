@@ -4,6 +4,60 @@
   
     
     <entry>
+      <title>初窥SOLID设计原则</title>
+      <link href="/2024/04/28/2024-04-2024-04-28-chu-kui-solid-she-ji-yuan-ze/"/>
+      <url>/2024/04/28/2024-04-2024-04-28-chu-kui-solid-she-ji-yuan-ze/</url>
+      
+        <content type="html"><![CDATA[<h1 id="初窥SOLID设计原则"><a href="#初窥SOLID设计原则" class="headerlink" title="初窥SOLID设计原则"></a>初窥SOLID设计原则</h1><h2 id="为什么要使用设计原则"><a href="#为什么要使用设计原则" class="headerlink" title="为什么要使用设计原则"></a>为什么要使用设计原则</h2><p>在软件开发中，为了提高软件系统的可维护性和可复用性，增加软件的可拓展性和灵活性，我们要尽量根据设计原则来开发程序，从而提高软件开发效率，节约软件开发成本和维护成本。</p><h2 id="单一职责原则（SRP）"><a href="#单一职责原则（SRP）" class="headerlink" title="单一职责原则（SRP）"></a>单一职责原则（SRP）</h2><p>简单的来说就是一个类/接口/方法只负责一项职责</p><h2 id="开闭原则（OCP）"><a href="#开闭原则（OCP）" class="headerlink" title="开闭原则（OCP）"></a>开闭原则（OCP）</h2><p>软件实体应当对扩展开放，对修改关闭。简单来说就是<strong>尽量实现在新增功能的时候不修改已经写好的代码</strong></p><blockquote><p>个人理解：在根据业务设计模型对象时，可以不设计的那么完美，只按照需求设计对应的属性或方法即可，如新增需求的话，只需要继承原有对象，并实现需求，从而实现一个更细致化的模型</p></blockquote><h2 id="里式替换原则（LSP）"><a href="#里式替换原则（LSP）" class="headerlink" title="里式替换原则（LSP）"></a>里式替换原则（LSP）</h2><p>子类可以拓展父类的功能，但不能改变父类原有的功能，也就是说<strong>子类继承父类时，除添加新的方法完成新增功能时，尽量不要重写父类的方法</strong></p><h2 id="接口隔离原则（ISP）"><a href="#接口隔离原则（ISP）" class="headerlink" title="接口隔离原则（ISP）"></a>接口隔离原则（ISP）</h2><p><strong>要为各个类建立他们需要的专用接口，而不要试图去建立一个很庞大的接口供所有依赖它的类去调用</strong></p><p>单一职责原则主要是约束类，它针对的是程序中的实现和细节。接口隔离原则主要约束接口，主要针对抽象和程序整体框架的构建</p><h2 id="依赖倒置原则（DIP）"><a href="#依赖倒置原则（DIP）" class="headerlink" title="依赖倒置原则（DIP）"></a>依赖倒置原则（DIP）</h2><p>高层模块不应该依赖低层模块，两者都应该依赖其抽象，抽象不应该依赖细节，细节应该依赖抽象。总而言之就是<strong>要面向接口编程，不要面向实现编程</strong></p><h2 id="迪米特法则"><a href="#迪米特法则" class="headerlink" title="迪米特法则"></a>迪米特法则</h2><p><strong>如果两个软件实体无须直接通信，那么就不应当发生直接的相互调用</strong>,可以通过第三方转发该调用。目的是为了降低类之间的耦合度，提高模块的相对独立性。</p><h2 id="合成复用原则"><a href="#合成复用原则" class="headerlink" title="合成复用原则"></a>合成复用原则</h2><p>在代码复用时，<strong>要尽量先试用组合或者聚合等关联关系来实现，其次才考虑使用继承关系来实现</strong></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 服务端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 设计模式 </tag>
+            
+            <tag> 面向对象设计 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>23种设计模式</title>
+      <link href="/2024/04/27/2024-04-2024-04-27-23-chong-she-ji-mo-shi/"/>
+      <url>/2024/04/27/2024-04-2024-04-27-23-chong-she-ji-mo-shi/</url>
+      
+        <content type="html"><![CDATA[<h1 id="23种设计模式"><a href="#23种设计模式" class="headerlink" title="23种设计模式"></a>23种设计模式</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>设计模式是一套被反复使用、多数人知晓的、经过分类编目、代码设计经验的总结，也是解决某类问题的最佳实践。</p><p>它描述了在软件设计过程中的一些不断重复发生的问题，以及该问题的解决方案。也就是说，他说解决特定问题的一系列套路，是前辈们的代码设计经验的总结，具有一定的普遍性，可以反复使用。</p><h2 id="必要性"><a href="#必要性" class="headerlink" title="必要性"></a>必要性</h2><p>设计模式的本质是面向对象设计原则的实际运用，是对类的封装性、继承性和多态性以及类的关联关系和组合关系的充分理解。</p><p>正确的使用设计模式具有下面优点</p><ul><li>可以提高我们的思维能力、编程能力和设计能力。</li><li>使程序设计更加标准化、代码更加工程化、使软件开发效率大大提高，从而缩短软件的开发周期。</li><li>使设计的代码可复用性高、可读性强、可维护性强。</li></ul><h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><ul><li><strong>创建型模式</strong></li></ul><p>用于描述“怎样创建对象”，它的主要特点是“将对象的创建和使用分离”。GoF书中提供了 <code>单例</code>、<code>原型</code>、 <code>工厂方法</code>、<code>抽象工厂</code>、<code>建造者</code>等4种创建型模式</p><ul><li><strong>结构型模式</strong></li></ul><p>用于描述“如何将类或对象按某种布局组成更大的结构”，GoF书中提供了 <code>代理</code>、<code>适配器</code>、<code>桥接</code>、<code>装饰</code>、<code>外观</code>、<code>享元</code>、<code>组合</code>等7种结构型模式</p><ul><li><strong>行为型模式</strong></li></ul><p>用于描述“类或对象之间怎么样相互协作共同完成单个对象无法单独完成的任务，以及怎样分配职责”，GoF书中提供了<code>模版方法</code>、<code>策略</code>、<code>命令</code>、<code>职责链</code>、<code>状态</code>、<code>观察者</code>、<code>中介者</code>、<code>迭代器</code>、<code>访问者</code>、<code>备忘录</code>、<code>解释器</code>等11种行为型模式</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 服务端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 设计模式 </tag>
+            
+            <tag> 面向对象设计 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Supervisor的快速入门</title>
       <link href="/2024/04/25/2024-04-2024-04-25-supervisor-de-kuai-su-ru-men/"/>
       <url>/2024/04/25/2024-04-2024-04-25-supervisor-de-kuai-su-ru-men/</url>
