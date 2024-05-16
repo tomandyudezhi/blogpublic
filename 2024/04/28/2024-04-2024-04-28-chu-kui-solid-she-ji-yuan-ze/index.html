@@ -446,14 +446,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    653
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    3 分
                 </div>
                 
 
@@ -470,16 +470,29 @@
             <div id="articleContent">
                 <h1 id="初窥SOLID设计原则"><a href="#初窥SOLID设计原则" class="headerlink" title="初窥SOLID设计原则"></a>初窥SOLID设计原则</h1><h2 id="为什么要使用设计原则"><a href="#为什么要使用设计原则" class="headerlink" title="为什么要使用设计原则"></a>为什么要使用设计原则</h2><p>在软件开发中，为了提高软件系统的可维护性和可复用性，增加软件的可拓展性和灵活性，我们要尽量根据设计原则来开发程序，从而提高软件开发效率，节约软件开发成本和维护成本。</p>
 <h2 id="单一职责原则（SRP）"><a href="#单一职责原则（SRP）" class="headerlink" title="单一职责原则（SRP）"></a>单一职责原则（SRP）</h2><p>简单的来说就是一个类/接口/方法只负责一项职责</p>
-<h2 id="开闭原则（OCP）"><a href="#开闭原则（OCP）" class="headerlink" title="开闭原则（OCP）"></a>开闭原则（OCP）</h2><p>软件实体应当对扩展开放，对修改关闭。简单来说就是<strong>尽量实现在新增功能的时候不修改已经写好的代码</strong></p>
+<h2 id="开闭原则（OCP）"><a href="#开闭原则（OCP）" class="headerlink" title="开闭原则（OCP）"></a>开闭原则（OCP）</h2><p>软件实体应当对扩展开放，对修改关闭。简单来说就是<strong>尽量实现在新增功能的时候不修改已经写好的代码,实现一个热插拔的效果，类似于USB一样</strong></p>
 <blockquote>
 <p>个人理解：在根据业务设计模型对象时，可以不设计的那么完美，只按照需求设计对应的属性或方法即可，如新增需求的话，只需要继承原有对象，并实现需求，从而实现一个更细致化的模型</p>
 </blockquote>
-<h2 id="里式替换原则（LSP）"><a href="#里式替换原则（LSP）" class="headerlink" title="里式替换原则（LSP）"></a>里式替换原则（LSP）</h2><p>子类可以拓展父类的功能，但不能改变父类原有的功能，也就是说<strong>子类继承父类时，除添加新的方法完成新增功能时，尽量不要重写父类的方法</strong></p>
-<h2 id="接口隔离原则（ISP）"><a href="#接口隔离原则（ISP）" class="headerlink" title="接口隔离原则（ISP）"></a>接口隔离原则（ISP）</h2><p><strong>要为各个类建立他们需要的专用接口，而不要试图去建立一个很庞大的接口供所有依赖它的类去调用</strong></p>
+<h2 id="里式替换原则（LSP）"><a href="#里式替换原则（LSP）" class="headerlink" title="里式替换原则（LSP）"></a>里式替换原则（LSP）</h2><p>任何基类可以出现的地方，子类一定可以出现，通俗来讲：子类可以拓展父类的功能，但不能改变父类原有的功能，也就是说<strong>子类继承父类时，除添加新的方法完成新增功能时，尽量不要重写父类的方法</strong></p>
+<h2 id="接口隔离原则（ISP）"><a href="#接口隔离原则（ISP）" class="headerlink" title="接口隔离原则（ISP）"></a>接口隔离原则（ISP）</h2><p>客户端不应该被迫依赖于它不使用的方法，一个类对另一个类的依赖应该建立在最小的接口上，也就是说<strong>要为各个类建立他们需要的专用接口，而不要试图去建立一个很庞大的接口供所有依赖它的类去调用</strong></p>
 <p>单一职责原则主要是约束类，它针对的是程序中的实现和细节。接口隔离原则主要约束接口，主要针对抽象和程序整体框架的构建</p>
 <h2 id="依赖倒置原则（DIP）"><a href="#依赖倒置原则（DIP）" class="headerlink" title="依赖倒置原则（DIP）"></a>依赖倒置原则（DIP）</h2><p>高层模块不应该依赖低层模块，两者都应该依赖其抽象，抽象不应该依赖细节，细节应该依赖抽象。总而言之就是<strong>要面向接口编程，不要面向实现编程</strong></p>
 <h2 id="迪米特法则"><a href="#迪米特法则" class="headerlink" title="迪米特法则"></a>迪米特法则</h2><p><strong>如果两个软件实体无须直接通信，那么就不应当发生直接的相互调用</strong>,可以通过第三方转发该调用。目的是为了降低类之间的耦合度，提高模块的相对独立性。</p>
 <h2 id="合成复用原则"><a href="#合成复用原则" class="headerlink" title="合成复用原则"></a>合成复用原则</h2><p>在代码复用时，<strong>要尽量先试用组合或者聚合等关联关系来实现，其次才考虑使用继承关系来实现</strong></p>
+<p>通常类的复用分为继承复用和合成复用两种</p>
+<p>继承复用虽然有简单和易实现的优点，但它也存在以下缺点：</p>
+<ol>
+<li>继承复用破坏了类的封装性，因为继承会将父类的实现细节暴露给子类，父类对子类是透明的，所以这种复用又称为白箱复用</li>
+<li>子类与父类的耦合度高，父类的实现有任何改变都会导致子类的实现发生变化，这不利于类的扩展与维护</li>
+<li>它限制了复用的灵活性，从父类继承过来的实现是静态的，在编译时就已经定义，所以在运行时不可能发生变化</li>
+</ol>
+<p>采用组合或聚合复用时，可以将已有对象纳入新对象中，使之成为新对象的一部分，新对象可以调用已有对象的功能，它有以下优点</p>
+<ol>
+<li>它维持了类的封装性，因为成分对象的内部细节是新对象看不见的，所以这种复用又称为黑箱复用</li>
+<li>对象间的耦合度低，可以在类的成员位置声明抽象</li>
+<li>复用的灵活度高，这种复用可以在运动时动态进行，新对象可以动态的引入与成分对象相同的对象</li>
+</ol>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -950,7 +963,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">27.9k</span>&nbsp;字
+                class="white-color">28.3k</span>&nbsp;字
             
             
             
