@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="23种设计模式-责任链模式, 博客,PHP,React,MySQL,Postgresql">
+    <meta name="keywords" content="23种设计模式-中介者模式, 博客,PHP,React,MySQL,Postgresql">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>23种设计模式-责任链模式 | 我若为侠</title>
+    <title>23种设计模式-中介者模式 | 我若为侠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -286,12 +286,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/img/post-bg-25223697.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/img/post-bg-3018953-24738079.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">23种设计模式-责任链模式</h1>
+                    <h1 class="description center-align post-title">23种设计模式-中介者模式</h1>
                 </div>
             </div>
         </div>
@@ -437,7 +437,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-05-17
+                    2024-05-22
                 </div>
                 
 
@@ -446,14 +446,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    632
+                    376
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    1 分
                 </div>
                 
 
@@ -468,22 +468,17 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="23种设计模式-责任链模式"><a href="#23种设计模式-责任链模式" class="headerlink" title="23种设计模式-责任链模式"></a>23种设计模式-责任链模式</h1><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>责任链模式又名职责链模式，为了避免请求发送者与多个请求处理者耦合在一起，将所有的请求的处理者通过前一对象记住其下一个对象的引用而连成一条链。当有请求发生时，可将请求沿着这条链传递，直到有对象处理它位置。</p>
-<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>责任链模式包含以下角色：</p>
+                <h1 id="23种设计模式-中介者模式"><a href="#23种设计模式-中介者模式" class="headerlink" title="23种设计模式-中介者模式"></a>23种设计模式-中介者模式</h1><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>又叫调停模式，定义一个中介角色来封装一系列对象之间的交互，使原有对象之间的耦合松散，且可以独立地改变它们之间的交互。</p>
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>中介者模式包含以下角色：</p>
 <ul>
-<li>抽象处理者（Handler）角色：定义一个处理请求的接口，包含抽象处理方法和一个后继连接。</li>
-<li>具体处理者（Concrete Handler）角色：实现抽象处理者的处理方法，判断能否处理本次请求，如果可以处理则处理，否则将该请求转给它的后继者。</li>
-<li>客户类（Client）角色：创建处理链，并向链头的具体处理者对象提交请求，它不关心处理细节和请求的传递过程。</li>
+<li>抽象中介者（Mediator）角色：他是中介者的接口，提供了同事对象注册与转发同事对象信息的抽象方法。</li>
+<li>具体中介者（Concrete Mediator）角色：实现中介者接口，定义一个 List 来管理同事对象，协调各个同事角色之间的交互关系，因此它依赖于同事角色。</li>
+<li>抽象同事（Colleague）角色：定义同事类的接口，保存中介者对象，提供同事对象交互的抽象方法，实现所有相互影响的同事类的公共功能。</li>
+<li>具体同事角色：是抽象同事类的实现者，当需要与其他同事对象交互时，由中介者对象负责后续的交互。</li>
 </ul>
-<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
-<li>降低了对象之间的耦合度</li>
-<li>增强了系统的可扩展性</li>
-<li>增强了给对象指派职责的灵活性。当工作流程发生变化，可以动态地改变链内的成员或者修改它们的次序，也可动态增加或删除责任。</li>
-<li>责任链简化了对象之间的连接。一个对象只需保持一个指向其后继者的引用，不需要保持其他处理者的引用，这避免了ifelse地狱。</li>
-<li>责任分担。每个类只需要处理自己该处理的工作，不能处理的传递给下一个对象完成，明确各类的责任范围，符合类的单一职责原则。<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4></li>
-<li>不能保证每个请求一定被处理。由于一个请求没有明确的接收者，所以不能保证它一定会被处理，该请求可能一直传到链的末端都得不到处理。</li>
-<li>对比较长的职责链，请求的处理可能涉及多个处理对象，系统性能将受到一定影响。</li>
-<li>责任链建立的合理性要靠客户端来保证，增加了客户端的复杂性，可能会由于责任链的错误设置而导致系统出错。</li>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>系统中对象之间存在复杂的引用关系，系统结构混乱且难以理解。</li>
+<li>当想创建一个运行于多个类之间的对象，又不想生成新的子类时。</li>
 </ul>
 <script>
         document.querySelectorAll('.github-emoji')
@@ -528,7 +523,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://tomandyudezhi.github.io/2024/05/17/2024-04-2024-05-20-23-chong-she-ji-mo-shi-ze-ren-lian-mo-shi/">https://tomandyudezhi.github.io/2024/05/17/2024-04-2024-05-20-23-chong-she-ji-mo-shi-ze-ren-lian-mo-shi/</a>
+                    <a href="https://tomandyudezhi.github.io/2024/05/22/2024-04-2024-05-22-23-chong-she-ji-mo-shi-zhong-jie-zhe-mo-shi/">https://tomandyudezhi.github.io/2024/05/22/2024-04-2024-05-22-23-chong-she-ji-mo-shi-zhong-jie-zhe-mo-shi/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -618,24 +613,26 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2024/05/17/2024-04-2024-05-20-23-chong-she-ji-mo-shi-ze-ren-lian-mo-shi/">
+                <a href="/2024/05/22/2024-04-2024-05-22-23-chong-she-ji-mo-shi-zhong-jie-zhe-mo-shi/">
                     <div class="card-image">
                         
-                        <img src="/img/post-bg-25223697.jpg" class="responsive-img" alt="23种设计模式-责任链模式">
+                        <img src="/img/post-bg-3018953-24738079.jpg" class="responsive-img" alt="23种设计模式-中介者模式">
                         
-                        <span class="card-title">23种设计模式-责任链模式</span>
+                        <span class="card-title">23种设计模式-中介者模式</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            23种设计模式-责任链模式概述责任链模式又名职责链模式，为了避免请求发送者与多个请求处理者耦合在一起，将所有的请求的处理者通过前一对象记住其下一个对象的引用而连成一条链。当有请求发生时，可将请求沿着这条链传递，直到有对象处理它位置。
-结构责
+                            23种设计模式-中介者模式概述又叫调停模式，定义一个中介角色来封装一系列对象之间的交互，使原有对象之间的耦合松散，且可以独立地改变它们之间的交互。
+结构中介者模式包含以下角色：
+
+抽象中介者（Mediator）角色：他是中介者的接口，提供了
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-22
                             </span>
                         <span class="publish-author">
                             
@@ -672,26 +669,23 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/05/17/2024-04-2024-05-20-23-chong-she-ji-mo-shi-ming-ling-mo-shi/">
+                <a href="/2024/05/22/2024-04-2024-05-22-23-chong-she-ji-mo-shi-guan-cha-zhe-mo-shi/">
                     <div class="card-image">
                         
-                        <img src="/img/post-bg-58267-24902948.jpg" class="responsive-img" alt="23种设计模式-命令模式">
+                        <img src="/img/post-bg-58267-24902943.jpg" class="responsive-img" alt="23种设计模式-观察者模式">
                         
-                        <span class="card-title">23种设计模式-命令模式</span>
+                        <span class="card-title">23种设计模式-观察者模式</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            23种设计模式-命令模式概述将一个请求封装为一个对象，使发出请求的责任和执行请求的责任分割开。这样两者之间通过命令对象进行沟通，这样方便将命令对象进行存储、传递、调用、增加与管理。
-结构命令模式包含以下角色：
-
-抽象命令类（Command）
+                            23种设计模式-观察者模式概述观察者模式又被称为 发布-订阅(Publish/Subscribe)模式，它定义了一种一对多的依赖关系，让多个观察者对象同时监听某一主题对象。这个主题对象在状态变化时，会通知所有的观察者对象，使他们能够自动更新
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-22
                             </span>
                         <span class="publish-author">
                             
@@ -957,7 +951,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">35.5k</span>&nbsp;字
+                class="white-color">37k</span>&nbsp;字
             
             
             

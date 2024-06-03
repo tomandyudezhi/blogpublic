@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="23种设计模式-命令模式, 博客,PHP,React,MySQL,Postgresql">
+    <meta name="keywords" content="23种设计模式-观察者模式, 博客,PHP,React,MySQL,Postgresql">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>23种设计模式-命令模式 | 我若为侠</title>
+    <title>23种设计模式-观察者模式 | 我若为侠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -286,12 +286,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/img/post-bg-58267-24902948.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/img/post-bg-58267-24902943.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">23种设计模式-命令模式</h1>
+                    <h1 class="description center-align post-title">23种设计模式-观察者模式</h1>
                 </div>
             </div>
         </div>
@@ -437,7 +437,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-05-17
+                    2024-05-22
                 </div>
                 
 
@@ -446,14 +446,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    543
+                    673
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -468,25 +468,98 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="23种设计模式-命令模式"><a href="#23种设计模式-命令模式" class="headerlink" title="23种设计模式-命令模式"></a>23种设计模式-命令模式</h1><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>将一个请求封装为一个对象，使发出请求的责任和执行请求的责任分割开。这样两者之间通过命令对象进行沟通，这样方便将命令对象进行存储、传递、调用、增加与管理。</p>
-<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>命令模式包含以下角色：</p>
+                <h1 id="23种设计模式-观察者模式"><a href="#23种设计模式-观察者模式" class="headerlink" title="23种设计模式-观察者模式"></a>23种设计模式-观察者模式</h1><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>观察者模式又被称为 <code>发布-订阅</code>(Publish/Subscribe)模式，它定义了一种一对多的依赖关系，让多个观察者对象同时监听某一主题对象。这个主题对象在状态变化时，会通知所有的观察者对象，使他们能够自动更新自己。</p>
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>观察者模式有以下角色：</p>
 <ul>
-<li>抽象命令类（Command）角色：定义命令的接口，声明执行的方法。</li>
-<li>具体命令（Concrete Command）角色：具体的命令，实现命令接口。通常会持有接收者，并调用接收者的功能来完成命令要执行的操作。</li>
-<li>实现者/接收者（Receiver）角色：真正执行命令的对象。任何类都可能成为一个接收者，只要它能够实现命令要求实现的相应功能。</li>
-<li>调用者/请求者（Invoker）角色：要求命令对象执行请求，通常会持有命令对象，可以持有很多命令对象。这个是客户端真正出发命令并要求命令执行相应操作的地方。</li>
+<li>抽象主题（Subject）：抽象主题角色把所有观察者对象保存在一个集合里，每个主题都可以有任意数量的观察者，抽象主题提供一个接口，可以增加和删除观察者对象。</li>
+<li>具体主题（Concrete Subject）：该角色将有关状态存入具体观察者对象，在具体主题的内部状态发生改变时，给所有注册过的观察者发送通知。</li>
+<li>抽象观察者（Observer）：是观察者的抽象类，它定义了一个更新接口，使得在得到主题更改通知时更新自己。</li>
+<li>具体观察者（Concrete Observer）：实现抽象观察者定义的更新接口，以便在得到主题更改通知时更新自身的状态。</li>
 </ul>
-<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
-<li>降低系统的耦合度。命令模式能将调用操作的对象与实现该操作的对象解耦。</li>
-<li>增加或删除命令非常方便。采用命令模式增加与删除命令不会影响其他类。</li>
-<li>可以实现宏命令。命令模式可以与组合模式结合，将多个命令装配成一个组合命令，即宏命令。<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4></li>
-<li>使用命令模式可能会导致某些系统又过多的具体命令类。</li>
-<li>系统结构更加复杂。</li>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><pre class=" language-php"><code class="language-php"><span class="token comment" spellcheck="true">/**
+ * 抽象观察者
+ */</span>
+<span class="token keyword">interface</span> <span class="token class-name">Observer</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">handle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+ * 抽象主题
+ */</span>
+<span class="token keyword">interface</span> <span class="token class-name">Subject</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">addObserver</span><span class="token punctuation">(</span>Observer <span class="token variable">$observer</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">delObserver</span><span class="token punctuation">(</span>Observer <span class="token variable">$observer</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">notifyObserver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Event</span> <span class="token keyword">implements</span> <span class="token class-name">Subject</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">protected</span> <span class="token variable">$observers</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">addObserver</span><span class="token punctuation">(</span>Observer <span class="token variable">$observer</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">observers</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token variable">$observer</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">delObserver</span><span class="token punctuation">(</span>Observer <span class="token variable">$observer</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">observers</span> <span class="token keyword">as</span> <span class="token variable">$k</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token variable">$v</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$v</span> <span class="token operator">===</span> <span class="token variable">$observer</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">unset</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">observers</span><span class="token punctuation">[</span><span class="token variable">$k</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">notifyObserver</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">observers</span> <span class="token keyword">as</span> <span class="token variable">$observer</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token variable">$observer</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">handle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+ * 具体观察者
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Listener</span> <span class="token keyword">implements</span> <span class="token class-name">Observer</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">handle</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token string">'监听事件了'</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+ * 具体主题
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Job</span> <span class="token keyword">extends</span> <span class="token class-name">Event</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">notifyObserver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 测试</span>
+<span class="token variable">$subject</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Job</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$subject</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">addObserver</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Listener</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$subject</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><ul>
+<li>优点<ul>
+<li>降低了目标与观察者之间的耦合关系，两者之间是抽象耦合关系。</li>
+<li>被观察者发送通知，所有注册的观察者都会收到信息，实现了广播机制</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>如果观察者非常多的话，那么所有观察者收到被观察者发送的通知会耗时长</li>
+<li>如果被观察者有循环依赖的话，那么被观察者发送通知会使观察者循环调用，会导致系统崩溃</li>
+</ul>
+</li>
 </ul>
 <h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
-<li>系统需要将请求调用者和请求接收者解耦，使得调用者和接收者不直接交互。</li>
-<li>系统需要在不同的时间指定请求、将请求排队和执行请求。</li>
-<li>系统需要支持命令的撤销和恢复操作。</li>
+<li>对象间存在一对多关系，一个对象的状态发生改变会影响其他对象。</li>
+<li>当一个抽象模型有两个方面，其中一个方面依赖另一个方面时。</li>
 </ul>
 <script>
         document.querySelectorAll('.github-emoji')
@@ -531,7 +604,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://tomandyudezhi.github.io/2024/05/17/2024-04-2024-05-20-23-chong-she-ji-mo-shi-ming-ling-mo-shi/">https://tomandyudezhi.github.io/2024/05/17/2024-04-2024-05-20-23-chong-she-ji-mo-shi-ming-ling-mo-shi/</a>
+                    <a href="https://tomandyudezhi.github.io/2024/05/22/2024-04-2024-05-22-23-chong-she-ji-mo-shi-guan-cha-zhe-mo-shi/">https://tomandyudezhi.github.io/2024/05/22/2024-04-2024-05-22-23-chong-she-ji-mo-shi-guan-cha-zhe-mo-shi/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -620,24 +693,26 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/05/17/2024-04-2024-05-20-23-chong-she-ji-mo-shi-ze-ren-lian-mo-shi/">
+                <a href="/2024/05/22/2024-04-2024-05-22-23-chong-she-ji-mo-shi-zhong-jie-zhe-mo-shi/">
                     <div class="card-image">
                         
-                        <img src="/img/post-bg-25223697.jpg" class="responsive-img" alt="23种设计模式-责任链模式">
+                        <img src="/img/post-bg-3018953-24738079.jpg" class="responsive-img" alt="23种设计模式-中介者模式">
                         
-                        <span class="card-title">23种设计模式-责任链模式</span>
+                        <span class="card-title">23种设计模式-中介者模式</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            23种设计模式-责任链模式概述责任链模式又名职责链模式，为了避免请求发送者与多个请求处理者耦合在一起，将所有的请求的处理者通过前一对象记住其下一个对象的引用而连成一条链。当有请求发生时，可将请求沿着这条链传递，直到有对象处理它位置。
-结构责
+                            23种设计模式-中介者模式概述又叫调停模式，定义一个中介角色来封装一系列对象之间的交互，使原有对象之间的耦合松散，且可以独立地改变它们之间的交互。
+结构中介者模式包含以下角色：
+
+抽象中介者（Mediator）角色：他是中介者的接口，提供了
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-05-17
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-05-22
                         </span>
                         <span class="publish-author">
                             
@@ -673,23 +748,26 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/05/17/2024-04-2024-05-17-23-chong-she-ji-mo-shi-ce-lue-mo-shi/">
+                <a href="/2024/05/21/2024-04-2024-05-21-23-chong-she-ji-mo-shi-zhuang-tai-mo-shi/">
                     <div class="card-image">
                         
-                        <img src="/img/post-bg-11035469.jpg" class="responsive-img" alt="23种设计模式-策略模式">
+                        <img src="/img/post-bg-58267-24902950.jpg" class="responsive-img" alt="23种设计模式-状态模式">
                         
-                        <span class="card-title">23种设计模式-策略模式</span>
+                        <span class="card-title">23种设计模式-状态模式</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            23种设计模式-策略模式概述策略模式定义了一系列算法，并将每个算法封装起来，使它们可以相互替换，且算法的变化不会影响使用算法的客户。策略模式属于对象行为模式，它通过对算法进行封装，把使用算法的责任和算法的实现分割开来，并委派给不同的对象对这
+                            23种设计模式-状态模式概述对有状态的对象，把复杂的判断逻辑提取到不同的状态对象中，允许状态对象在其内部状态发生改变时改变其行为
+结构状态模式包含以下角色：
+
+环境（Context）角色：也称上下文，它定义了客户程序需要的接口，维护一个当前
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-21
                             </span>
                         <span class="publish-author">
                             
@@ -955,7 +1033,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">35.5k</span>&nbsp;字
+                class="white-color">37k</span>&nbsp;字
             
             
             
