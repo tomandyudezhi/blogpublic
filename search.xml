@@ -4,6 +4,87 @@
   
     
     <entry>
+      <title>从PHPUnit开始编写单元测试</title>
+      <link href="/2024/06/03/2024-06-2024-06-03-cong-phpunit-kai-shi-bian-xie-dan-yuan-ce-shi/"/>
+      <url>/2024/06/03/2024-06-2024-06-03-cong-phpunit-kai-shi-bian-xie-dan-yuan-ce-shi/</url>
+      
+        <content type="html"><![CDATA[<h1 id="从PHPUnit开始编写单元测试"><a href="#从PHPUnit开始编写单元测试" class="headerlink" title="从PHPUnit开始编写单元测试"></a>从PHPUnit开始编写单元测试</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在项目中为什么要做测试呢？</p><p>即时是很小规模的项目开发也需要数小时的辛苦编程。在开发过程中，应用代码中或多或少都会存在一些大大小小的问题，开发者往往会尝试在开发过程中解决这些问题，以便顺利上线。</p><p>但问题是在未经完整测试的情况下，没有一种方式可以确保最终上线代码没有任何问题，此外也没有办法确保修复老问题的代码不会引起新问题。</p><p>为了解决上述问题，我们才需要在开发过程中引入测试流程，并将其作为日常开发流程中不可或缺的一部分，从而确保代码质量。</p><p>在现代软件开发流程中，测试驱动开发、持续交付、持续集成这些概念都将测试作为开发流程的一部分，要求我们在软件开发的一开始，就要设计好相关的测试方法，从而让代码更加易于扩展、迭代和维护。</p><h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><p>常见的测试主要包括单元测试和功能测试</p><h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><p>单元测试是一种通过编写测试代码来确认函数、类和方法是否以我们预期的方式来工作，单元测试会贯穿整个项目的开发周期。通过检查各个函数和方法的输入输出，就可以保证代码内部的逻辑已经正确执行。</p><h3 id="功能测试"><a href="#功能测试" class="headerlink" title="功能测试"></a>功能测试</h3><p>功能测试是通过使用工具来生成自动化的测试用例，然后再真实的系统上运行，而不是单元测试中简单的验证单个模块的正确性。这些工具会使用有代表性的真实数据来模拟真实用户的行为从而验证系统的正确性。</p><h3 id="PHPUnit简介和安装配置"><a href="#PHPUnit简介和安装配置" class="headerlink" title="PHPUnit简介和安装配置"></a>PHPUnit简介和安装配置</h3><p>在 <code>PHP</code> 中，最著名的单元测试框架就是 <code>PHPUnit</code> 了，下面将以 <code>PHPUnit</code> 为例，介绍如何在项目中进行单元测试</p><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>如果在 <code>Laravel</code> 项目中，<code>PHPUnit</code>已经默认集成了，如果是在其他项目中使用，可以通过composer进行安装</p><pre class=" language-shell"><code class="language-shell">composer require --dev phpunit/phpunit ^7</code></pre><blockquote><p>由于不会在线上环境进行测试，所以使用 <code>--dev</code> 表示仅在本地安装</p></blockquote><h3 id="编写一个测试用例"><a href="#编写一个测试用例" class="headerlink" title="编写一个测试用例"></a>编写一个测试用例</h3><h4 id="单元测试的基本约定"><a href="#单元测试的基本约定" class="headerlink" title="单元测试的基本约定"></a>单元测试的基本约定</h4><ul><li><strong>测试文件名需要以 <code>Test</code> 作为后缀，比如要测试 <code>Activity.php</code> 文件，则对应的测试文件名为 <code>ActivityTest.php</code>。</strong></li><li><strong>测试方法名需要以 <code>test</code> 作为前缀，比如需要测试的方法为 <code>getInfo</code> ，则对应的测试方法名为 <code>testGetInfo</code>,此外可以通过 <code>@test</code>注解来声明一个测试方法。</strong></li><li><strong>所有测试方法必须是 <code>public</code>。</strong></li><li><strong>所有的测试类都继承自 <code>PHPUnit\Framework\TestCase</code>。</strong></li></ul><h4 id="编写简单测试用例"><a href="#编写简单测试用例" class="headerlink" title="编写简单测试用例"></a>编写简单测试用例</h4><p>首先，来创建一个简单的测试用例，将其命名为 <code>ActivityTest.php</code>，这仅仅是为了写测试用例而写，不是对任何业务代码做测试。</p><p><img src="/img/example-1717915092162.jpg" alt="简单测试用例"></p><p>然后我们就可以运行 <code>vendor/bin/phpunit</code> 命令来对刚刚的代码进行测试</p><p><img src="/img/example-1717915374428.jpg" alt="测试命令"></p><p>通过编排文件 <code>phpunit.xml</code>, <code>PHPUnit</code> 会去 <code>tests/Unit</code>目录中查找测试用例进行测试，测试通过则显示绿色的高亮文本，测试不通过则显示红色的警告文本。</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 服务端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 单元测试 </tag>
+            
+            <tag> PHPUnit </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>23种设计模式-备忘录模式</title>
+      <link href="/2024/05/25/2024-05-2024-05-25-23-chong-she-ji-mo-shi-bei-wang-lu-mo-shi/"/>
+      <url>/2024/05/25/2024-05-2024-05-25-23-chong-she-ji-mo-shi-bei-wang-lu-mo-shi/</url>
+      
+        <content type="html"><![CDATA[<h1 id="23种设计模式-备忘录模式"><a href="#23种设计模式-备忘录模式" class="headerlink" title="23种设计模式-备忘录模式"></a>23种设计模式-备忘录模式</h1><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>又称快照模式，在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，以便以后当需要时能将该对象恢复到原先保存的状态</p><h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>备忘录模式有以下角色：</p><ul><li>发起人（Originator）角色：记录当前时刻的内部状态信息，提供创建备忘录和恢复备忘录数据的功能，实现其他业务功能，它可以访问备忘录的所有信息。</li><li>备忘录（Memento）角色：负责存储发起人的内部状态，在需要的时候提供这些内部状态给发起人。</li><li>管理者（Caretaker）角色：对备忘录进行管理，提供保存与获取备忘录的功能，但其不能对备忘录的内容进行访问与修改。</li></ul><h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul><li>提供了一种可以恢复状态的机制。当用户需要时能够比较方便地将数据恢复到某个历史的状态。</li><li>实现了内部状态的封装。除了创建它的发起人之外，其他对象都不能够访问这些状态信息。</li><li>简化了发起人类。发起人不需要管理和保存其内部状态的各个备份，所有状态信息都保存在备忘录中，并由管理者进行管理，这符合了单一职责原则。<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4></li><li>资源消耗大，如果要保存内部状态信息过多或者特别频繁，将会占用比较大的内存资源。</li></ul><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul><li>需要保存与恢复数据的场景，如玩游戏时的中间结果的存档功能。</li><li>需要提供一个可回滚操作的场景。</li></ul><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 服务端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 设计模式 </tag>
+            
+            <tag> 面向对象设计 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>23种设计模式-访问者模式</title>
+      <link href="/2024/05/24/2024-05-2024-05-24-23-chong-she-ji-mo-shi-fang-wen-zhe-mo-shi/"/>
+      <url>/2024/05/24/2024-05-2024-05-24-23-chong-she-ji-mo-shi-fang-wen-zhe-mo-shi/</url>
+      
+        <content type="html"><![CDATA[<h1 id="23种设计模式-访问者模式"><a href="#23种设计模式-访问者模式" class="headerlink" title="23种设计模式-访问者模式"></a>23种设计模式-访问者模式</h1><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>封装一些作用于某种数据结构中的各元素的操作，它可以在不改变这个数据结构的前提下定义作用于这些元素的新的操作。</p><h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>访问者模式有以下角色：</p><ul><li>抽象访问者（Visitor）角色：定义了对每一个元素访问的行为，它的参数就是可以访问的元素，它的方法个数理论上来讲与元素类个数一样，从这点不难看出，访问者模式要求元素类的个数不能改变。</li><li>具体访问者角色：给出对每一个元素类访问时所产生的具体行为。</li><li>抽象元素（Element）角色：定义了一个接受访问者的方法，其意义是指，每一个元素都要可以被访问者访问。</li><li>具体元素角色：提供接收访问方法的具体实现，而这个具体的实现，通常情况下是使用访问者提供的访问该元素类的方法。</li><li>对象结构（Object Structure）角色：定义所提到的对象结构，对象结构是一个抽象表述，具体点可以理解为一个具有容器性质或者复合对象特性的类，它会含有一组元素，并且可以迭代这些元素，供访问者访问。</li></ul><h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul><li>扩展性好，在不修改对象结构的元素的情况下，为对象结构中的元素添加新的功能。</li><li>复用性好，通过访问者来定义整个对象结构通用的功能，从而提高复用程度。</li><li>分离无关行为，通过访问者来分离无关的行为，把相关的行为封装在一起，构成一个访问者，这样每一个访问者的功能都比较单一。</li></ul><h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul><li>对象结构变化很困难，在访问者模式中，每增加一个新的元素类，都要在每一个具体访问者类中增加相应的具体操作，这违背了开闭原则。</li><li>违反了依赖倒置原则，访问者模式依赖了具体类，而不是接口或者抽象类。</li></ul><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul><li>对象结构相对稳定，但其操作算法经常变化的程序。</li><li>对象结构中的对象需要提供多种不同且不相关的操作，而且要避免让这些操作的变化影响对象的结构。</li></ul><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 服务端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 设计模式 </tag>
+            
+            <tag> 面向对象设计 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>23种设计模式-迭代器模式</title>
       <link href="/2024/05/23/2024-05-2024-05-23-23-chong-she-ji-mo-shi-die-dai-qi-mo-shi/"/>
       <url>/2024/05/23/2024-05-2024-05-23-23-chong-she-ji-mo-shi-die-dai-qi-mo-shi/</url>
