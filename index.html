@@ -704,6 +704,161 @@
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
+                    <a href="/2024/06/11/2024-06-2024-06-11-redis-de-san-chong-ji-qun-fang-shi-ji-yuan-li/">
+                        <div class="card-image">
+                            
+                            <img src="/img/post-bg-23534042.jpg" class="responsive-img" alt="Redis的三种集群方式及原理">
+                            
+                            <span class="card-title">Redis的三种集群方式及原理</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                Redis的三种集群方式及原理主从复制原理
+从服务器连接主服务器，发送SYNC命令
+主服务器接收到SYNC命令后，开始执行BGSAVE命令生成RDB文件，并使用缓冲区记录此后执行的所有写命令
+主服务器BGSAVE执行完后，向所有从服务器发送
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-11
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%8A%80%E6%9C%AF/" class="post-category">
+                                    服务端技术
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Redis/">
+                            <span class="chip bg-color">Redis</span>
+                        </a>
+                        
+                        <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">
+                            <span class="chip bg-color">分布式系统</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2024/06/10/2024-06-2024-06-10-redis-ji-qun-da-jian/">
+                        <div class="card-image">
+                            
+                            <img src="/img/post-bg-23941163.jpg" class="responsive-img" alt="Redis集群搭建">
+                            
+                            <span class="card-title">Redis集群搭建</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                Redis集群搭建介绍上一篇博客介绍了主从复制的配置，接下来介绍如何使用 redis-trib.rb 搭建一个 Redis集群。
+redis-trib.rb是一款由 Redis 官方提供的集群管理工具，能够大量减少集群搭建的时间。除此之外，
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-10
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%8A%80%E6%9C%AF/" class="post-category">
+                                    服务端技术
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Redis/">
+                            <span class="chip bg-color">Redis</span>
+                        </a>
+                        
+                        <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">
+                            <span class="chip bg-color">分布式系统</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2024/06/10/2024-06-2024-06-10-redis-zhu-cong-fu-zhi-pei-zhi/">
+                        <div class="card-image">
+                            
+                            <img src="/img/post-bg-24017874.jpg" class="responsive-img" alt="Redis主从复制配置">
+                            
+                            <span class="card-title">Redis主从复制配置</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                Redis主从复制配置背景当我们的应用出现高流量高并发的情况下，通常会使用缓存来提高系统的吞吐量，如果当流量超过了缓存的性能瓶颈后，我们需要对缓存进行水平扩容来提高他的并发能力，那么这就需要搭建Redis主从集群，实现读写分离。
+使用Red
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-10
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%8A%80%E6%9C%AF/" class="post-category">
+                                    服务端技术
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Redis/">
+                            <span class="chip bg-color">Redis</span>
+                        </a>
+                        
+                        <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">
+                            <span class="chip bg-color">分布式系统</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
                     <a href="/2024/06/04/2024-06-2024-06-04-php-fpm-diao-you/">
                         <div class="card-image">
                             
@@ -862,166 +1017,6 @@ ISAPI运行方式（Win
                 </div>
             </div>
             
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2024/05/24/2024-05-2024-05-24-23-chong-she-ji-mo-shi-fang-wen-zhe-mo-shi/">
-                        <div class="card-image">
-                            
-                            <img src="/img/post-bg-24449067.jpg" class="responsive-img" alt="23种设计模式-访问者模式">
-                            
-                            <span class="card-title">23种设计模式-访问者模式</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                23种设计模式-访问者模式概述封装一些作用于某种数据结构中的各元素的操作，它可以在不改变这个数据结构的前提下定义作用于这些元素的新的操作。
-结构访问者模式有以下角色：
-
-抽象访问者（Visitor）角色：定义了对每一个元素访问的行为，它的参
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-24
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%8A%80%E6%9C%AF/" class="post-category">
-                                    服务端技术
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-                            <span class="chip bg-color">设计模式</span>
-                        </a>
-                        
-                        <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1/">
-                            <span class="chip bg-color">面向对象设计</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2024/05/23/2024-05-2024-05-23-23-chong-she-ji-mo-shi-die-dai-qi-mo-shi/">
-                        <div class="card-image">
-                            
-                            <img src="/img/post-bg-24408910.jpg" class="responsive-img" alt="23种设计模式-迭代器模式">
-                            
-                            <span class="card-title">23种设计模式-迭代器模式</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                23种设计模式-迭代器模式概述提供一个对象来顺序访问聚合对象中的一系列数据，而不暴露聚合对象的内部表示。
-结构迭代器模式包含以下角色：
-
-抽象聚合（Aggregate）角色：定义存储、添加、删除聚合元素以及创建迭代器对象的接口。
-具体聚合角
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-23
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%8A%80%E6%9C%AF/" class="post-category">
-                                    服务端技术
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-                            <span class="chip bg-color">设计模式</span>
-                        </a>
-                        
-                        <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1/">
-                            <span class="chip bg-color">面向对象设计</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2024/05/22/2024-05-2024-05-22-23-chong-she-ji-mo-shi-zhong-jie-zhe-mo-shi/">
-                        <div class="card-image">
-                            
-                            <img src="/img/post-bg-3018953-24738079.jpg" class="responsive-img" alt="23种设计模式-中介者模式">
-                            
-                            <span class="card-title">23种设计模式-中介者模式</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                23种设计模式-中介者模式概述又叫调停模式，定义一个中介角色来封装一系列对象之间的交互，使原有对象之间的耦合松散，且可以独立地改变它们之间的交互。
-结构中介者模式包含以下角色：
-
-抽象中介者（Mediator）角色：他是中介者的接口，提供了
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-22
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%8A%80%E6%9C%AF/" class="post-category">
-                                    服务端技术
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-                            <span class="chip bg-color">设计模式</span>
-                        </a>
-                        
-                        <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1/">
-                            <span class="chip bg-color">面向对象设计</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
         </div>
     </article>
 
@@ -1120,7 +1115,7 @@ ISAPI运行方式（Win
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">40.4k</span>&nbsp;字
+                class="white-color">43.7k</span>&nbsp;字
             
             
             

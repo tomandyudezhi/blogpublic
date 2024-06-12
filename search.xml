@@ -4,6 +4,87 @@
   
     
     <entry>
+      <title>Redis的三种集群方式及原理</title>
+      <link href="/2024/06/11/2024-06-2024-06-11-redis-de-san-chong-ji-qun-fang-shi-ji-yuan-li/"/>
+      <url>/2024/06/11/2024-06-2024-06-11-redis-de-san-chong-ji-qun-fang-shi-ji-yuan-li/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Redis的三种集群方式及原理"><a href="#Redis的三种集群方式及原理" class="headerlink" title="Redis的三种集群方式及原理"></a>Redis的三种集群方式及原理</h1><h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><ol><li>从服务器连接主服务器，发送SYNC命令</li><li>主服务器接收到SYNC命令后，开始执行BGSAVE命令生成RDB文件，并使用缓冲区记录此后执行的所有写命令</li><li>主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令</li><li>从服务器收到快照文件后丢弃所有旧数据，载入收到的快照</li><li>主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令</li><li>从服务器完成对快照的载入，开始接受命令请求，并执行来自主服务器缓冲区的写命令（<strong>从服务器初始化完成</strong>）</li><li>主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令（<strong>从服务器初始化完成后的操作</strong>）<br>初始化完成之后，主从服务器之间会保持缓冲区写命令的同步</li></ol><h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul><li>支持主从复制，主机会自动将数据同步到从机，可以进行读写分离</li><li>为了分载Master的读操作压力，Slave服务器可以为客户端提供只读操作的服务，写服务必须由Master来完成</li><li>Slave同样可以接受其他Slaves的连接和同步请求，这样可以有效的分载Master的同步压力</li><li>Master Server是以非阻塞的方式为Slaves提供服务。所以在Master-Slave同步期间，客户端可以提交查询或修改请求</li><li>Slave Server同样是以非阻塞的方式完成数据同步。在同步期间，如果有客户端提交查询请求，则返回同步前的数据</li></ul><h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul><li>Redis不具备自动容错和恢复功能，主机从机的宕机都会导致前端部分的读写请求失败，需要等待机器重启或者手动切换前端的IP才能恢复</li><li>主机宕机，宕机前有部分数据未能及时同步到从机，切换IP后会引入数据不一致的问题，降低了系统的可用性</li><li>Redis较难支持在线扩容，在集群容量达到上限时，在线扩容会变得复杂</li></ul><h2 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h2><p>当主服务器中断服务后，可以将一个从服务器升级为主服务器，以便继续提供服务，但是这个过程需要人工手动来操作。为此Redis2.8中提供了哨兵工具来实现自动化的系统监控和故障恢复功能。</p><p>哨兵的作用就是监控Redis系统的运行状况。它的功能有以下两个：</p><ol><li>监控主服务器和从服务器是否正常运行</li><li>主服务器出现故障时自动将从服务器转换为主服务器</li></ol><p><img src="/img/example-20201228183842332.png" alt="哨兵原理"></p><h3 id="哨兵的工作方式"><a href="#哨兵的工作方式" class="headerlink" title="哨兵的工作方式"></a>哨兵的工作方式</h3><ol><li>每个哨兵进程以每秒一次的频率向整个集群的Master、Slave以及其他哨兵进程发送一个Ping命令</li><li>如果一个示例距离最后一次有效回复Ping命令的时间超过 <code>down-after-milliseconds</code> 设置的值，则这个实例会被哨兵进程标记为主观下线（SDOWN）</li><li>如果一个Master被标记为主观下线（SDOWN），则正在监视这个Master的所有哨兵进程都要以每秒一次的频率确认Master进入了主观下线状态（SDOWN）</li><li>当有足够数量的哨兵进程(大于配置文件指定的值)在指定时间范围内确认Master进入了主观下线状态，则Master会被标记为客观下线（ODOWN）</li><li>在一般情况下，每个哨兵进程会以每10秒一次的频率向集群中的所有Master、Slave发送INFO命令</li><li>当Master被哨兵进程标记为客观下线时，哨兵进程向下线的Master的所有Slave发送Info命令的频率会从10s一次改为1s一次</li><li>若没有足够数量的哨兵进程同意Master下线，Master的客观下线状态就会被移除。若Master重新向哨兵进程发送Ping命令返回有效回复，Master的主观下线状态就会被移除</li></ol><h3 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h3><h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><ul><li>哨兵模式是基于主从模式的，所有主从的优点，哨兵模式都有</li><li>主从可以自动切换，系统更健壮，可用性更高<h4 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h4></li><li>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</li></ul><h2 id="Redis-Cluster集群"><a href="#Redis-Cluster集群" class="headerlink" title="Redis-Cluster集群"></a>Redis-Cluster集群</h2><p>Redis的哨兵模式基本已经可以实现高可用，读写分离。但是在这种模式下每台服务器都存储相同的数据，很浪费内存，所以在redis3.0上加入了Cluster模式，实现了redis的分布式存储，也就是说在每台redis节点上存储不同的内容</p><p>Redis-Cluster采用无中心结构，它的特点如下:</p><ul><li>所有的redis节点彼此互联（ping-pong机制），内部使用二进制协议优化传输速度和带宽</li><li>节点的fail是通过集群中超过半数的节点检测失效时才会生效</li><li>客户端与redis节点直连，不需要中间代理层，客户端不需要连接集群所有节点，连接集群中任何一个节点即可</li></ul><h3 id="工作方式"><a href="#工作方式" class="headerlink" title="工作方式"></a>工作方式</h3><p>在redis的每一个节点上，都有这么两个东西，一个是插槽（slot），它的取值范围是0-16383。还有一个就是Cluster，可以理解为是一个集群管理插件。当我们存取的key到达的时候，redis会根据crc16的算法得出一个结果，然后把结果对16383求余数，这样每个key都会对应一个编号在0-16383之间的哈希值，通过这个值找到对应插槽的节点，然后直接自动跳转到这个对应的节点上进行存取操作。<strong>一致性哈希算法解决分布式热点问题</strong></p><p>为了保证高可用，Redis-Cluster集群引入了主从模式，一个主节点对应一个或多个从节点，当主节点宕机的时候，就会启用从节点。当其他主节点ping一个主节点A时，如果半数以上的主节点与A通信超时，那么主节点A宕机。如果主节点A和他的从节点A1都宕机，那么该集群无法再提供服务。</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 服务端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Redis </tag>
+            
+            <tag> 分布式系统 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Redis集群搭建</title>
+      <link href="/2024/06/10/2024-06-2024-06-10-redis-ji-qun-da-jian/"/>
+      <url>/2024/06/10/2024-06-2024-06-10-redis-ji-qun-da-jian/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Redis集群搭建"><a href="#Redis集群搭建" class="headerlink" title="Redis集群搭建"></a>Redis集群搭建</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>上一篇博客介绍了主从复制的配置，接下来介绍如何使用 <code>redis-trib.rb</code> 搭建一个 <code>Redis</code>集群。</p><p><code>redis-trib.rb</code>是一款由 <code>Redis</code> 官方提供的集群管理工具，能够大量减少集群搭建的时间。除此之外，还能够简化集群的检查、槽迁徙、负载均衡等常见的运维操作。</p><p>在新版Redis中，redis-trib.rb工具的功能都被集成在了redis-cli里。</p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>我们使用 <code>redis-trib.rb</code> 前需要安装ruby环境</p><ol><li><p>使用yum安装ruby</p><pre class=" language-shell"><code class="language-shell">yum install -y rubygems</code></pre></li><li><p>默认的ruby包管理工具镜像源在国外，将国外源删除添加国内源</p><pre class=" language-shell"><code class="language-shell">gem sources --remove https://rubygems.org/gem sources -a http://mirrors.aliyun.com/rubygems/gem update --system</code></pre></li><li><p>使用ruby的包管理工具下载依赖包</p><pre class=" language-shell"><code class="language-shell">gem install redis</code></pre></li></ol><h2 id="集群准备"><a href="#集群准备" class="headerlink" title="集群准备"></a>集群准备</h2><p>因为集群最少需要6个节点，所以我们准备配置6份不同配置文件和工作目录的redis</p><pre class=" language-shell"><code class="language-shell">mkdir 7001 7002 7003 7004 7005 7006</code></pre><p>准备集群配置文件</p><pre class=" language-shell"><code class="language-shell">$ vim /home/test/redis-cluster/7001/redis.cnf# 守护进行模式启动daemonize yes# 设置数据库数量，默认数据库为0databases 16# 绑定地址，需要修改bind 192.168.0.120# 绑定端口，需要修改port 6379# pid文件存储位置，文件名需要修改pidfile /home/test/redis-cluster/7001/pid/redis_6379.pid# log文件存储位置，文件名需要修改logfile /home/test/redis-cluster/7001/logs/redis_6379.log# RDB快照备份文件名，文件名需要修改dbfilename redis_6379.rdb# 本地数据库存储目录，需要修改dir /home/test/redis-cluster/7001/# 集群相关配置# 是否以集群模式启动cluster-enabled yes# 集群节点回应最长时间，超过该时间被认为下线cluster-node-timeout 15000# 生成的集群节点配置文件名，文件名需要修改cluster-config-file nodes_6379.conf</code></pre><h2 id="启动集群"><a href="#启动集群" class="headerlink" title="启动集群"></a>启动集群</h2><p>后台启动所有的redis服务</p><pre class=" language-shell"><code class="language-shell">$ nohup redis-server /home/test/redis-cluster/7001/redis.conf &$ nohup redis-server /home/test/redis-cluster/7002/redis.conf &$ nohup redis-server /home/test/redis-cluster/7003/redis.conf &$ nohup redis-server /home/test/redis-cluster/7004/redis.conf &$ nohup redis-server /home/test/redis-cluster/7005/redis.conf &$ nohup redis-server /home/test/redis-cluster/7006/redis.conf &</code></pre><h2 id="自动化"><a href="#自动化" class="headerlink" title="自动化"></a>自动化</h2><p>现在我们还有两个步骤没有做</p><ol><li>对集群进行分槽工作</li><li>构建主从关系</li></ol><p>通过 <code>redis-trib.rb</code> 工具，这个步骤将会变得异常简单，只需要执行下面命令</p><pre class=" language-shell"><code class="language-shell"># 旧版Redis这里以脚本名开头 redis-trib.rb 跟上后面参数即可$ redis-cli --cluster create 192.168.0.120:6379 192.168.0.140:6380 192.168.0.130:6379 192.168.0.120:6380 192.168.0.140:6379 192.168.0.130:6380 --cluster-replicas 1</code></pre><blockquote><p>–cluster-replicas：指定的副本数，其实这一条命令的语法规则是如果副本数为1，第一个ip:port与它后面的1个ip:port建立1主1从关系，如果副本数是2，第一个ip:port与它后面的2个ip:port建立1主2从关系，以此类推。</p></blockquote><p>执行完这条命令后，输入yes，会看到以下信息：</p><pre class=" language-shell"><code class="language-shell"># 主从相关>>> Performing hash slots allocation on 6 nodes...Master[0] -> Slots 0 - 5460Master[1] -> Slots 5461 - 10922Master[2] -> Slots 10923 - 16383Adding replica 192.168.0.140:6379 to 192.168.0.120:6379Adding replica 192.168.0.130:6380 to 192.168.0.140:6380Adding replica 192.168.0.120:6380 to 192.168.0.130:6379M: c71b52f728ab58fedb6e05a525ce00b453fd2f6b 192.168.0.120:6379   slots:[0-5460] (5461 slots) masterM: 6a627cedaa4576b1580806ae0094be59c32fa391 192.168.0.140:6380   slots:[5461-10922] (5462 slots) masterM: 282358c2fb0c7c16ec60f2c4043b52a0eb91e19f 192.168.0.130:6379   slots:[10923-16383] (5461 slots) masterS: d645d06708e1eddb126a6c3c4e38810c188d0906 192.168.0.120:6380   replicates 282358c2fb0c7c16ec60f2c4043b52a0eb91e19fS: 7a7392cb66bea30da401d2cb9768a42bbdefc5db 192.168.0.140:6379   replicates c71b52f728ab58fedb6e05a525ce00b453fd2f6bS: ff53e43f9404981a51d4e744de38004a5c22b090 192.168.0.130:6380   replicates 6a627cedaa4576b1580806ae0094be59c32fa391# 询问是否保存配置？输入yesCan I set the above configuration? (type 'yes' to accept): yes>>> Nodes configuration updated>>> Assign a different config epoch to each node>>> Sending CLUSTER MEET messages to join the clusterWaiting for the cluster to join.# 分槽相关，全部自动进行，无需手动操作>>> Performing Cluster Check (using node 192.168.0.120:6379)M: c71b52f728ab58fedb6e05a525ce00b453fd2f6b 192.168.0.120:6379   slots:[0-5460] (5461 slots) master   1 additional replica(s)M: 282358c2fb0c7c16ec60f2c4043b52a0eb91e19f 192.168.0.130:6379   slots:[10923-16383] (5461 slots) master   1 additional replica(s)M: 6a627cedaa4576b1580806ae0094be59c32fa391 192.168.0.140:6380   slots:[5461-10922] (5462 slots) master   1 additional replica(s)S: d645d06708e1eddb126a6c3c4e38810c188d0906 192.168.0.120:6380   slots: (0 slots) slave   replicates 282358c2fb0c7c16ec60f2c4043b52a0eb91e19fS: 7a7392cb66bea30da401d2cb9768a42bbdefc5db 192.168.0.140:6379   slots: (0 slots) slave   replicates c71b52f728ab58fedb6e05a525ce00b453fd2f6bS: ff53e43f9404981a51d4e744de38004a5c22b090 192.168.0.130:6380   slots: (0 slots) slave   replicates 6a627cedaa4576b1580806ae0094be59c32fa391[OK] All nodes agree about slots configuration.>>> Check for open slots...>>> Check slots coverage...[OK] All 16384 slots covered.</code></pre><p><a href="https://www.cnblogs.com/Yunya-Cnblogs/p/14611220.html" target="_blank" rel="noopener">Redis 超详细自动管理Cluster集群工具上手 redis-trib.rb</a></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 服务端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Redis </tag>
+            
+            <tag> 分布式系统 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Redis主从复制配置</title>
+      <link href="/2024/06/10/2024-06-2024-06-10-redis-zhu-cong-fu-zhi-pei-zhi/"/>
+      <url>/2024/06/10/2024-06-2024-06-10-redis-zhu-cong-fu-zhi-pei-zhi/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Redis主从复制配置"><a href="#Redis主从复制配置" class="headerlink" title="Redis主从复制配置"></a>Redis主从复制配置</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>当我们的应用出现高流量高并发的情况下，通常会使用缓存来提高系统的吞吐量，如果当流量超过了缓存的性能瓶颈后，我们需要对缓存进行水平扩容来提高他的并发能力，那么这就需要搭建Redis主从集群，实现读写分离。</p><p>使用Redis主从集群后，就能提供系统的高可用性。</p><p>接下来介绍下主从复制的使用。</p><h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>要在同一个虚拟机里准备3个 <code>Redis</code> 实例，必须准备3份不同的配置文件和工作目录。</p><p><img src="/img/example-9740ef249e564093a5e84da42adf3b3a.png" alt="主从集群原理图"></p><p>现在我们来搭建一个三节点的集群，包括一个主节点(master)和两个从节点(slave)。</p><p>我在一个<code>Ubuntu</code>虚拟机里开启3个redis实例，模拟主从集群，信息如下:</p><ul><li>主节点 端口是<code>7001</code></li><li>从节点 端口是<code>7002</code>,<code>7003</code></li></ul><h3 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h3><h4 id="安装-redis-server"><a href="#安装-redis-server" class="headerlink" title="安装 redis-server"></a>安装 <code>redis-server</code></h4><pre class=" language-shell"><code class="language-shell">sudo apt-get update  sudo apt-get install redis-server</code></pre><h4 id="修改主库配置文件"><a href="#修改主库配置文件" class="headerlink" title="修改主库配置文件"></a>修改主库配置文件</h4><pre class=" language-ini"><code class="language-ini">vim /etc/redis/7001/redis.conf# bind 127.0.0.1 ::1   注释掉这个外链地址 允许外部连接</code></pre><h4 id="复制并修改从库配置文件"><a href="#复制并修改从库配置文件" class="headerlink" title="复制并修改从库配置文件"></a>复制并修改从库配置文件</h4><pre class=" language-ini"><code class="language-ini">vim /etc/redis/7002/redis.confvim /etc/redis/7003/redis.conf# slaveof 主库ip 主库端口号  把这行注释打开并填上主库的ip和端口号</code></pre><h4 id="重启并验证"><a href="#重启并验证" class="headerlink" title="重启并验证"></a>重启并验证</h4><p>配置完3个节点的配置文件后，重启redis，然后使用<code>redis-cli</code>连接主库，输入命令<code>info replication</code></p><p><img src="/img/example-5fb92ee6fdfc4f52aef2a2f727ceaf90.png" alt="命令"></p><p>命令打印出的从节点数量为2，即主从复制配置成功。</p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> 服务端技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Redis </tag>
+            
+            <tag> 分布式系统 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>PHP-FPM调优</title>
       <link href="/2024/06/04/2024-06-2024-06-04-php-fpm-diao-you/"/>
       <url>/2024/06/04/2024-06-2024-06-04-php-fpm-diao-you/</url>
