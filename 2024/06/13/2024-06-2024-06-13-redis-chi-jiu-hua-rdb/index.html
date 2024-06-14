@@ -631,30 +631,28 @@ save 60 10000</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/06/13/2024-06-2024-06-13-redis-chi-jiu-hua-rdb/">
+                <a href="/2024/06/14/2024-06-2024-06-14-redis-chi-jiu-hua-aof/">
                     <div class="card-image">
                         
-                        <img src="/img/post-bg-159590971-23354973.jpg" class="responsive-img" alt="Redis持久化RDB">
+                        <img src="/img/post-bg-512732280-23409055.jpg" class="responsive-img" alt="Redis持久化AOF">
                         
-                        <span class="card-title">Redis持久化RDB</span>
+                        <span class="card-title">Redis持久化AOF</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Redis持久化RDB背景Redis作为一个键值对内存数据库（NoSQL），数据都存储在内存中，在处理客户端请求时，所有操作都在内存当中进行。
-但是存储在内存中的数据，只要服务器关机（各种原因引起的），内存中的数据就会消失了，不仅服务器关机
+                            Redis持久化AOF介绍与RDB存储某个时刻的快照不同，AOF持久化方式会记录客户端对服务器的每一次写操作命令，并将这些写操作以Redis协议追加保存到以aof为后缀的文件，在Redis服务器重启时，会加载并运行aof文件的命令，以达到恢
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-13
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-06-14
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -667,7 +665,6 @@ save 60 10000</code></pre>
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -974,7 +971,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">45.6k</span>&nbsp;字
+                class="white-color">46.3k</span>&nbsp;字
             
             
             
